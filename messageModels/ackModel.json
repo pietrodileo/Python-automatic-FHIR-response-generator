@@ -1,0 +1,40 @@
+{
+    "resourceType": "Bundle",
+    "id": "8a352d3a-643e-11ee-b205-02001700b287",
+    "type": "message",
+    "timestamp": "2023-10-06T11:50:26Z",
+    "entry": [
+        {
+            "fullUrl": "MessageHeader/8a35321c-643e-11ee-b205-02001700b287",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "8a35321c-643e-11ee-b205-02001700b287",
+                "meta": {
+                    "profile": [
+                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
+                    ],
+                    "versionId": "1",
+                    "LastUpdate": "2023-10-06T11:50:26Z"
+                },
+                "eventCoding": {
+                    "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
+                    "code": "O21 ACK",
+                    "display": "ACK"
+                },
+                "destination": {
+                    "name": "1",
+                    "endpoint": "334dfdde-1ca4-4e0e-b45b-18b19977a72e.mock.pstmn.io"
+                },
+                "source": {
+                    "name": "OMR",
+                    "software": "Nome software applicativo",
+                    "endpoint": "localhost:52773/fhir/retilab/Omr"
+                },
+                "response": {
+                    "identifier": "278addb2-7248-4023-8167-e7b9144b6a56",
+                    "code": "ok"
+                }
+            }
+        }
+    ]
+}

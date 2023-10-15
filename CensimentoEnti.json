@@ -1,0 +1,50 @@
+[
+    {
+        "L1": "0000",
+        "L2": "0000",
+        "NomeLaboratorio": "Laboratorio di prova",
+        "NomeStruttura": "Struttura di prova",
+        "CodiceApplicativo": "0",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "309672",
+        "L2": "1234",
+        "NomeLaboratorio": "Comet Lab",
+        "NomeStruttura": "Postman Space Hospital",
+        "CodiceApplicativo": "1",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "309672",
+        "L2": "0912",
+        "NomeLaboratorio": "Nova Lab",
+        "NomeStruttura": "Postman Space Hospital",
+        "CodiceApplicativo": "2",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "462801",
+        "L2": "1996",
+        "NomeLaboratorio": "Orbit Lab",
+        "NomeStruttura": "Postman Galaxy Hospital",
+        "CodiceApplicativo": "3",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "462801",
+        "L2": "5678",
+        "NomeLaboratorio": "Nebula Lab",
+        "NomeStruttura": "Postman Galaxy Hospital",
+        "CodiceApplicativo": "4",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "810102",
+        "L2": "2014",
+        "NomeLaboratorio": "Asteroid Lab",
+        "NomeStruttura": "Postman Cosmo Hospital",
+        "CodiceApplicativo": "5",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    }
+]
