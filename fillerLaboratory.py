@@ -25,7 +25,7 @@ class FillerLaboratory:
                 # Create a MessageHeader object
                 messageHeader = MessageHeader("O21 OML", "Accettazione prestazione")
                 # Extract information from the resource and assign it to the object
-                fillerLab = messageHeader.ExtractMessageHeaderInfo(resource)
+                fillerLab = messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 1)
                 # Add the resource to the list of headers
                 resourcesList.append(messageHeader)
 
@@ -39,13 +39,14 @@ class FillerLaboratory:
                 # Create a ServiceRequest object
                 serviceRequest = ServiceRequest(fullUrl=fullUrl, resourceContent=resource)
 
-                # If at least one service request is being accepted, 
-                # create the resources OrganizationL1 and OrganizationL2 
+                # If at least one service request is being accepted,
+                # create the resources OrganizationL1 and OrganizationL2
                 # of the filler laboratory and link them in the service request
                 if not organizationResourcesWereCreated:
                     orgL1 = OrganizationL1(fillerLab['L1'])
-                    performerReference = orgL1.fullUrl
-                    orgL2 = OrganizationL2(fillerLab['L2'], performerReference)  
+                    orgL1FillerReference = orgL1.fullUrl
+                    orgL2 = OrganizationL2(fillerLab['L2'], orgL1FillerReference)
+                    performerReference = orgL2.fullUrl
                     organizationResourcesWereCreated = True
                 # Link performer in the service request
                 serviceRequest.AddPerformer(performerReference)
@@ -53,7 +54,7 @@ class FillerLaboratory:
 
             elif resourceType == "Specimen":
                 # Add the labels to the Specimen resources
-                if serviceRequestReferenceList: 
+                if serviceRequestReferenceList:
                     specimen = Specimen(fullUrl=fullUrl, resourceContent=resource)
                     specimen.AddLabels()
                     resourcesList.append(specimen)
@@ -93,23 +94,22 @@ class FillerLaboratory:
         # Process incoming message
         for entry in data['entry']:
             resource = entry['resource']
-            fullUrl = entry['fullUrl']
+            #fullUrl = entry['fullUrl']
             resourceType = resource['resourceType']
 
             if resourceType == "MessageHeader":
                 # Create a MessageHeader object
                 messageHeader = MessageHeader("O21 ACK", "ACK")
                 # Extract information from the resource and assign it to the object
-                fillerLab = messageHeader.ExtractMessageHeaderInfo(resource)
+                messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 0)
                 # Add the resource to the list of headers
                 resourcesList.append(messageHeader)
 
             else:
                 continue
-            
+
         # Create a Bundle object with the headers
         bundle = Bundle(resourcesList)
 
         # Convert the object to a JSON string and return it
         return json.loads(bundle.to_json())  # Convert to dict for compatibility with Flask jsonify
-
