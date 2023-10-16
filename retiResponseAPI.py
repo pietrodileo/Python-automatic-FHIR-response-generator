@@ -27,6 +27,7 @@ def process_request(data, processing_function):
         return handle_error(f"Error processing request: {str(e)}")
 
 @app.route('/', methods=['GET','POST'])
+# '/' URL is bound with hello_world() function
 def hello_world():
     if request.method == 'GET':
         # Handle GET request
@@ -57,5 +58,8 @@ def handle_forward_request():
     request_data = request.json
     return process_request(request_data, filler_lab.fillerSendsPositiveACK)
 
+#main driver function
 if __name__ == '__main__':
+    # run() method of Flask class runs the application 
+    # on the local development server
     app.run()
