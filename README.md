@@ -21,49 +21,51 @@ This project implements a FHIR (Fast Healthcare Interoperability Resources) API 
 - [Endpoints](#endpoints)
 - [Testing](#testing)
 
-## Bundle
+## FHIR Resources
+
+### Bundle
 
 ### `bundle.py`
 
 The `Bundle` class represents a FHIR Bundle, a collection of resources.
 
-## FillerLaboratory
+### FillerLaboratory
 
 ### `fillerLaboratory.py`
 
 The `FillerLaboratory` class contains methods for processing incoming FHIR messages, generating appropriate responses, and managing laboratory-related resources.
 
-## GenericFHIRresource
+### GenericFHIRresource
 
 ### `genericFHIRresource.py`
 
 The `GenericFHIRresource` class provides a basic structure for creating FHIR resources.
 
-## MessageHeader
+### MessageHeader
 
 ### `messageHeader.py`
 
 The `MessageHeader` class represents a FHIR MessageHeader resource and includes methods for extracting information from the resource.
 
-## Organization
+### Organization
 
 ### `organization.py`
 
 The `Organization` class represents a FHIR Organization resource. It includes two subclasses, `OrganizationL1` and `OrganizationL2`, for specific types of organizations.
 
-## ServiceRequest
+### ServiceRequest
 
 ### `serviceRequest.py`
 
 The `ServiceRequest` class represents a FHIR ServiceRequest resource. It includes methods for updating the resource with a unique identifier.
 
-## Specimen
+### Specimen
 
 ### `specimen.py`
 
 The `Specimen` class represents a FHIR Specimen resource. It includes methods for updating the resource with labels.
 
-## Task
+### Task
 
 ### `task.py`
 
