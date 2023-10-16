@@ -108,7 +108,7 @@ The main application file `retiResponseAPI.py` sets up a Flask web server with e
 
 - **GET `/`**
   - Returns a simple greeting message for a GET request.
-- POST `/`
+- **POST** `/`
   - Returns a simple greeting message for a POST and also the body of the request.
 - **POST `/SendNewRequestToES`**
   - Handles new FHIR requests, processes them using the `FillerLaboratory`, and returns an appropriate response.
