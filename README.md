@@ -8,19 +8,19 @@ This project implements a FHIR (Fast Healthcare Interoperability Resources) API 
 
 ## Table of Contents
 
-* [FHIR Resources](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#fhir-resources)
-  * [Bundle](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#bundle)
-  * [GenericFHIRresource](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#genericfhirresource)
-  * [MessageHeader](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#messageheader)
-  * [Organization](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#organization)
-  * [ServiceRequest](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#servicerequest)
-  * [Specimen](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#specimen)
-  * [Task](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#task)
-* [Requirements](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#requirements)
-* [Usage](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#usage)
-* [Deploying on Render](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#deploying-on-render)
-* [Endpoints](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#endpoints)
-* [Testing](https://chat.openai.com/c/2d04b5dd-a7af-4494-a1d5-24abe465fe83#testing)
+* **FHIR Resources**
+  * Bundle
+  * GenericFHIRresource
+  * MessageHeader
+  * Organization
+  * ServiceRequest
+  * Specimen
+  * Task
+* **Requirements**
+* **Usage**
+* **Deploying on Render**
+* **Endpoints**
+* **Testing**
 
 ## FHIR Resources
 
