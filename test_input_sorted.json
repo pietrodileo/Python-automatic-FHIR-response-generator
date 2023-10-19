@@ -1,11 +1,4 @@
 {
-    "property1": "Hello from Flask!",
-    "property2": "If you're seeing this message, the application is running correctly",
-    "received_data": "You can find them below",
-    "resourceType": "Bundle",
-    "id": "5421946c-6421-11ee-9776-02001700b287",
-    "type": "message",
-    "timestamp": "2022-11-16T15:00:51+01:00",
     "entry": [
         {
             "fullUrl": "MessageHeader/18480fe1453c62c",
@@ -544,5 +537,12 @@
                 }
             }
         }
-    ]
+    ],
+    "id": "5421946c-6421-11ee-9776-02001700b287",
+    "property1": "Hello from Flask!",
+    "property2": "If you're seeing this message, the application is running correctly",
+    "received_data": "You can find them below",
+    "resourceType": "Bundle",
+    "timestamp": "2022-11-16T15:00:51+01:00",
+    "type": "message"
 }

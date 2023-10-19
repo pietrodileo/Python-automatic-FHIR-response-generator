@@ -1,14 +1,10 @@
 {
-    "resourceType": "Bundle",
-    "id": "b10f0b3a-1f18-45b9-a88c-30821eacc17d",
-    "type": "message",
-    "timestamp": "2023-10-19T12:02:34.636Z",
     "entry": [
         {
-            "fullUrl": "MessageHeader/2e9b2a83-3af8-4f21-bd9b-e887eab841e6",
+            "fullUrl": "MessageHeader/7977a89a-6e63-11ee-ba6c-02001700b287",
             "resource": {
                 "resourceType": "MessageHeader",
-                "id": "2e9b2a83-3af8-4f21-bd9b-e887eab841e6",
+                "id": "7977a89a-6e63-11ee-ba6c-02001700b287",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
@@ -18,50 +14,23 @@
                 "eventCoding": {
                     "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
                     "code": "O21 OML",
-                    "display": "Accettazione prestazione"
+                    "display": "Ordine di laboratorio"
                 },
                 "destination": {
-                    "name": "OMR",
-                    "software": "Reti di laboratori",
-                    "endpoint": "localhost:52773/fhir/retilab/Omr"
+                    "name": "1",
+                    "endpoint": "https://pietrodileo.pythonanywhere.com",
+                    "software": "Postman Space Hospital - Comet Lab"
                 },
                 "source": {
-                    "name": "1",
-                    "software": "Postman Space Hospital - Comet Lab",
-                    "endpoint": "pietrodileo.pythonanywhere.com"
-                },
-                "response": {
-                    "identifier": "7977a89a-6e63-11ee-ba6c-02001700b287",
-                    "code": "ok"
+                    "name": "OMR",
+                    "software": "Order Manager Regionale",
+                    "endpoint": "localhost:52773/fhir/retilab/Omr"
                 },
                 "focus": [
                     {
-                        "reference": "Task/f099f71f-8ddb-4786-9890-9ae4ebf6999f"
+                        "reference": "Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb"
                     }
                 ]
-            }
-        },
-        {
-            "fullUrl": "Task/f099f71f-8ddb-4786-9890-9ae4ebf6999f",
-            "resource": {
-                "resourceType": "Task",
-                "id": "f099f71f-8ddb-4786-9890-9ae4ebf6999f",
-                "meta": {
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabTaskStatoRichiesta"
-                    ],
-                    "versionId": "1"
-                },
-                "basedOn": [
-                    {
-                        "reference": "ServiceRequest/e2bdf00d-2235-4465-8b9c-944e337efd47"
-                    }
-                ],
-                "status": "accepted",
-                "intent": "order",
-                "encounter": {
-                    "reference": "Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb"
-                }
             }
         },
         {
@@ -122,7 +91,7 @@
                     },
                     {
                         "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/DettaglioOperatoreRiceveOrdine",
-                        "valueString": "Si Ã¨ provveduto alla raccolta dei campioni biologoci del paziente"
+                        "valueString": "Si \u00c3\u00a8 provveduto alla raccolta dei campioni biologoci del paziente"
                     },
                     {
                         "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/NotePazientePrestazione",
@@ -223,10 +192,6 @@
                     {
                         "system": "https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
                         "value": "796b674c-6e63-11ee-adf3-02001700b287"
-                    },
-                    {
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/FillerOrderNumber",
-                        "value": "61c4b116-0082-4639-ac58-398e1e5464ed"
                     }
                 ],
                 "requisition": {
@@ -290,11 +255,6 @@
                         "reference": "Specimen/4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
                         "display": "Campione da analizzare"
                     }
-                ],
-                "performer": [
-                    {
-                        "reference": "Organization/6e7e9013-32a4-49e6-af09-dd3c23896ca2"
-                    }
                 ]
             }
         },
@@ -354,89 +314,7 @@
                             }
                         ]
                     }
-                },
-                "extension": [
-                    {
-                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenIstruzioniEtichette",
-                        "extension": [
-                            {
-                                "url": "identificativoNumeroEtichetta",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "numeroRigaEtichetta",
-                                "valueInteger": "TBD"
-                            },
-                            {
-                                "url": "codiceEtichetta",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "categoriaEtichetta",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "contenutoTipoRigaEtichetta",
-                                "valueCodeableConcept": {
-                                    "coding": [
-                                        {
-                                            "system": "TBD",
-                                            "code": "TBD",
-                                            "display": "TBD"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "url": "indicazioniFormattazione",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "numeroCopie",
-                                "valueInteger": "TBD"
-                            },
-                            {
-                                "url": "ampiezzaBarcode",
-                                "valueQuantity": {
-                                    "value": 3,
-                                    "unit": "ch"
-                                }
-                            },
-                            {
-                                "url": "altezzaBarcode",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "dimensioneEffettivaBarcode",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "tipoBarcode",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "fillerPattern",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "fillerSide",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "bordaturaBarcode",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "codiceCampione",
-                                "valueString": "TBD"
-                            },
-                            {
-                                "url": "descrizioneEtichetta",
-                                "valueString": "TBD"
-                            }
-                        ]
-                    }
-                ]
+                }
             }
         },
         {
@@ -630,47 +508,14 @@
                     }
                 ]
             }
-        },
-        {
-            "fullUrl": "Organization/df4c995e-de12-4050-9ed3-01ad5f50bfc6",
-            "resource": {
-                "resourceType": "Organization",
-                "id": "df4c995e-de12-4050-9ed3-01ad5f50bfc6",
-                "meta": {
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
-                        "value": "309672"
-                    }
-                ],
-                "name": "Denominazione dell'ente L1"
-            }
-        },
-        {
-            "fullUrl": "Organization/6e7e9013-32a4-49e6-af09-dd3c23896ca2",
-            "resource": {
-                "resourceType": "Organization",
-                "id": "6e7e9013-32a4-49e6-af09-dd3c23896ca2",
-                "meta": {
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio",
-                        "value": "1234"
-                    }
-                ],
-                "partOf": {
-                    "reference": "Organization/df4c995e-de12-4050-9ed3-01ad5f50bfc6"
-                },
-                "name": "Denominazione dell'ente L2"
-            }
         }
-    ]
+    ],
+    "id": "7977a886-6e63-11ee-ba6c-02001700b287",
+    "property1": "Hello from Flask!",
+    "property2": "If you're seeing this message, the application is running correctly",
+    "received_data": "You can find them below",
+    "resourceType": "Bundle",
+    "richiesta": "New Request",
+    "timestamp": "2023-10-19T09:39:28.187Z",
+    "type": "message"
 }

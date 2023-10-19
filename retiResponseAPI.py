@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from fillerLaboratory import FillerLaboratory
+import json
 
 # Create a new Flask application
 app = Flask(__name__)
@@ -26,36 +27,65 @@ def process_request(data, processing_function):
     except Exception as e:
         return handle_error(f"Error processing request: {str(e)}")
 
-@app.route('/', methods=['GET','POST'])
-# '/' URL is bound with hello_world() function
+@app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    if request.method == 'GET':
-        # Handle GET request
-        response = {
-            "property1": "Hello from Flask!",
-            "property2": "This is a GET request."
-        }
-    elif request.method == 'POST':
-        # Handle POST request
-        data = request.json
-        response = {
-            "property1": "Hello from Flask!",
-            "property2": "If you're seeing this message, the application is running correctly",
-            "received_data": data
-        }
-    else:
-        response = {"error": "Invalid request method"}
+    try:
+        if request.method == 'GET':
+            # Handle GET request
+            response = {
+                "property1": "Hello from Flask!",
+                "property2": "This is a GET request."
+            }
+            return jsonify(response)
+        elif request.method == 'POST':
+            # Get the raw JSON data from the request
+            request_data_raw = request.data.decode('latin-1')
 
-    return jsonify(response)
+            # Prettify the incoming POST bodies for improved readability and to avoid potential errors
+            prettified_data = json.dumps(json.loads(request_data_raw), indent=4)
+
+            # Extract the data from the prettified JSON
+            request_data = json.loads(prettified_data)
+            # Handle POST request
+            #data = request.json
+            response = {
+                "property1": "Hello from Flask!",
+                "property2": "If you're seeing this message, the application is running correctly",
+                **request_data  # Using the unpacking operator
+            }
+            return jsonify(response)
+        else:
+            # Handle unsupported methods
+            return handle_error("Method not allowed. Only GET and POST are supported.", 405) 
+
+    except ValueError as ve:
+        return handle_error(f"Invalid JSON format: {str(ve)}", 400)
+
+    except Exception as e:
+        return handle_error(f"Error processing request: {str(e)}", 500)
 
 @app.route('/SendNewRequestToES', methods=['POST'])
 def handle_new_request():
-    request_data = request.json
+    # Get the raw JSON data from the request
+    request_data_raw = request.data.decode('latin-1')
+
+    # Prettify the incoming POST bodies for improved readability and to avoid potential errors
+    prettified_data = json.dumps(json.loads(request_data_raw), indent=4)
+
+    # Extract the data from the prettified JSON
+    request_data = json.loads(prettified_data)
     return process_request(request_data, filler_lab.fillerLabAcceptsAllRequest)
 
 @app.route('/ERreceivesForward', methods=['POST'])
 def handle_forward_request():
-    request_data = request.json
+    # Get the raw JSON data from the request
+    request_data_raw = request.data.decode('latin-1')
+
+    # Prettify the incoming POST bodies for improved readability and to avoid potential errors
+    prettified_data = json.dumps(json.loads(request_data_raw), indent=4)
+
+    # Extract the data from the prettified JSON
+    request_data = json.loads(prettified_data)
     return process_request(request_data, filler_lab.fillerSendsPositiveACK)
 
 #main driver function
