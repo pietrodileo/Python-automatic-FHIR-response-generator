@@ -17,11 +17,9 @@ class Task(GenericFHIRresource):
                 ],
                 "versionId": "1"
             },
-            "basedOn": [
-                {
-                    "reference": serviceRequestReference
-                }
-            ],
+            "focus": {
+                "reference": serviceRequestReference
+            },
             "status": taskStatus,
             "intent": "order",
             "encounter": {
