@@ -22,8 +22,8 @@ class Task(GenericFHIRresource):
             },
             "status": taskStatus,
             "intent": "order",
-            "encounter": {
-                "reference": encounterReference
-            }
+            #"encounter": {
+            #    "reference": encounterReference
+            #}
         }
                 
