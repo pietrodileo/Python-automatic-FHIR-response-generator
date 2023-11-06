@@ -42,6 +42,7 @@ class FillerLaboratory:
                 # If at least one service request is being accepted,
                 # create the resources OrganizationL1 and OrganizationL2
                 # of the filler laboratory and link them in the service request
+                # The organization's resources will only be created if they have not been added before
                 if not organizationResourcesWereCreated:
                     orgL1 = OrganizationL1(fillerLab['L1'])
                     orgL1FillerReference = orgL1.fullUrl
@@ -63,7 +64,7 @@ class FillerLaboratory:
                 # Add other resources
                 resourcesList.append(GenericFHIRresource(fullUrl=fullUrl, resourceContent=resource))
 
-        # Generate Task resources (only here I can ensure that both serviceRequestFullUrls and encounterReference were found)
+        # Generate Task resources (only at this line I can be sure that both serviceRequestFullUrls and encounterReference were found)
         taskStatus = "accepted"
         for serviceRequestFullUrl in serviceRequestReferenceList:
             task = Task(taskStatus, serviceRequestFullUrl, encounterReference)
