@@ -34,7 +34,8 @@ def hello_world():
             # Handle GET request
             response = {
                 "property1": "Hello from Flask!",
-                "property2": "This is a GET request."
+                "property2": "This is a GET request",
+                "property3": "If you're seeing this message, the application is running correctly."
             }
             return jsonify(response)
         elif request.method == 'POST':
@@ -50,7 +51,8 @@ def hello_world():
             #data = request.json
             response = {
                 "property1": "Hello from Flask!",
-                "property2": "If you're seeing this message, the application is running correctly",
+                "property2": "This is a POST request",
+                "property3": "If you're seeing this message, the application is running correctly",
                 **request_data  # Using the unpacking operator
             }
             return jsonify(response)
