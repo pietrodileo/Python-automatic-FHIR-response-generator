@@ -5,7 +5,7 @@ from fillerLaboratory import FillerLaboratory
 filler_lab = FillerLaboratory()
 
 # Load JSON data from the file
-with open('test_input2.json', 'r') as file:
+with open('test_input.json', 'r') as file:
     request_data = json.load(file)
 
 # Process the data using the logic from FillerLaboratory

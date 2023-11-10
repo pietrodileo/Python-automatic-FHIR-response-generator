@@ -21,8 +21,8 @@
                 },
                 "eventCoding": {
                     "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
-                    "code": "O21",
-                    "display": "OML_O21"
+                    "code": "OML_O21",
+                    "display": "OML^O21^OML_O21"
                 },
                 "destination": {
                     "name": "1",
