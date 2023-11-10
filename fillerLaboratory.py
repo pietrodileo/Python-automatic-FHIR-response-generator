@@ -22,8 +22,18 @@ class FillerLaboratory:
             resourceType = resource['resourceType']
 
             if resourceType == "MessageHeader":
+                # Extract request message code
+                requestMessageCode = resource['eventCoding']["code"]
+                requestCodeNumber = requestMessageCode[-3:]
+                
+                # Create a message code for the response
+                responseCodeNumber = f"{requestCodeNumber[0]}{int(requestCodeNumber[1:])+1}"
+                responseCode = "ORL"
+                newMessageCode = f"{responseCode}_{responseCodeNumber}"
+                newDisplayCode = f"{responseCode}^{responseCodeNumber}^{responseCode}_{responseCodeNumber}"
+
                 # Create a MessageHeader object
-                messageHeader = MessageHeader("OML_O21", "OML^O21^OML_O21")
+                messageHeader = MessageHeader(newMessageCode, newDisplayCode)
                 # Extract information from the resource and assign it to the object
                 fillerLab = messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 1)
                 # Add the resource to the list of headers
@@ -99,8 +109,18 @@ class FillerLaboratory:
             resourceType = resource['resourceType']
 
             if resourceType == "MessageHeader":
+                # Extract request message code
+                requestMessageCode = resource['eventCoding']["code"]
+                requestCodeNumber = requestMessageCode[-3:]
+                
+                # Create a message code for the response
+                responseCode = "ACK"
+                newMessageCode = f"{responseCode}_{requestCodeNumber}"
+                newDisplayCode = f"{responseCode}^{requestCodeNumber}^{responseCode}_{requestCodeNumber}"
+
                 # Create a MessageHeader object
-                messageHeader = MessageHeader("ACK_O21", "ACK^O21^ACK_O21")
+                messageHeader = MessageHeader(newMessageCode, newDisplayCode)
+
                 # Extract information from the resource and assign it to the object
                 messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 0)
                 # Add the resource to the list of headers
