@@ -23,7 +23,7 @@ class FillerLaboratory:
 
             if resourceType == "MessageHeader":
                 # Create a MessageHeader object
-                messageHeader = MessageHeader("O21 OML", "Accettazione prestazione")
+                messageHeader = MessageHeader("OML_O21", "OML^O21^OML_O21")
                 # Extract information from the resource and assign it to the object
                 fillerLab = messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 1)
                 # Add the resource to the list of headers
@@ -100,7 +100,7 @@ class FillerLaboratory:
 
             if resourceType == "MessageHeader":
                 # Create a MessageHeader object
-                messageHeader = MessageHeader("O21 ACK", "ACK")
+                messageHeader = MessageHeader("ACK_O21", "ACK^O21^ACK_O21")
                 # Extract information from the resource and assign it to the object
                 messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 0)
                 # Add the resource to the list of headers
