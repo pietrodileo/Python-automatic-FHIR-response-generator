@@ -1,548 +1,404 @@
 {
-    "property1": "Hello from Flask!",
-    "property2": "If you're seeing this message, the application is running correctly",
-    "received_data": "You can find them below",
-    "resourceType": "Bundle",
-    "id": "5421946c-6421-11ee-9776-02001700b287",
-    "type": "message",
-    "timestamp": "2022-11-16T15:00:51+01:00",
-    "entry": [
-        {
-            "fullUrl": "MessageHeader/18480fe1453c62c",
-            "resource": {
-                "resourceType": "MessageHeader",
-                "id": "18480fe1453c62c",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
-                    ],
-                    "lastUpdated": "2022-11-16T15:00:51+01:00"
-                },
-                "eventCoding": {
-                    "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
-                    "code": "OML_O21",
-                    "display": "OML^O21^OML_O21"
-                },
-                "destination": {
-                    "name": "1",
-                    "endpoint": "endpointOMR-endpointNPRI"
-                },
-                "source": {
-                    "name": "2",
-                    "endpoint": "endpointNPRI-endpointOMR"
-                },
-                "focus": [
-                    {
-                        "reference": "Encounter/5421db5c-6421-11ee-9776-02001700b287"
-                    }
-                ]
+    "richiesta":"Check-in",
+    "resourceType":"Bundle",
+    "id":"03f8863e-5d2d-49a9-af43-1d3e1da205c8",
+    "type":"message",
+    "timestamp":"2023-11-13T09:17:43.093Z",
+    "entry":[
+      {
+        "fullUrl":"MessageHeader/76095371-fd53-4853-83f1-db22c70b5853",
+        "resource":{
+          "resourceType":"MessageHeader",
+          "id":"76095371-fd53-4853-83f1-db22c70b5853",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
+            ],
+            "versionId":"1"
+          },
+          "eventCoding":{
+            "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
+            "code":"OML_O21",
+            "display":"OML^O21^OML_O21"
+          },
+          "destination":{
+            "name":"2",
+            "endpoint":"https://pietrodileo.pythonanywhere.com",
+            "software":"Postman Space Hospital - Nova Lab"
+          },
+          "source":{
+            "name":"OMR",
+            "software":"Reti di Laboratorio",
+            "endpoint":"localhost:52773/fhir/retilab/Omr"
+          },
+          "focus":[
+            {
+              "reference":"Task/c1d60f86-ffe1-44e8-a3bc-be73e50951f9"
             }
-        },
-        {
-            "fullUrl": "Encounter/5421db5c-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Encounter",
-                "id": "5421db5c-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterInformazioniRichiestaLab"
-                    ]
-                },
-                "status": "planned",
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "code": "VN",
-                                    "system": "https://fhir.siss.regione.lombardia.it/CodeSystem/numeroRicovero"
-                                }
-                            ]
-                        },
-                        "value": "",
-                        "assigner": {
-                            "reference": "Organization/5421d42c-6421-11ee-9776-02001700b287",
-                            "display": "Laboratorio Richiedente"
-                        }
-                    }
-                ],
-                "class": {
-                    "code": "IMP",
-                    "display": "inpatient encounter",
-                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
-                },
-                "serviceProvider": {
-                    "reference": "Organization/5421d42c-6421-11ee-9776-02001700b287",
-                    "display": "Laboratorio richiedente"
-                },
-                "subject": {
-                    "reference": "Patient/54219c46-6421-11ee-9776-02001700b287"
-                },
-                "basedOn": [
-                    {
-                        "reference": "ServiceRequest/5421e16a-6421-11ee-9776-02001700b287"
-                    }
-                ]
-            }
-        },
-        {
-            "fullUrl": "Patient/54219c46-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Patient",
-                "id": "54219c46-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPatientCittadino"
-                    ]
-                },
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
-                        "valueAddress": {
-                            "city": "TORINO",
-                            "state": "TO",
-                            "extension": [
-                                {
-                                    "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                                    "valueString": "001272"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "identifier": [
-                    {
-                        "value": "PRDCTT00L02L219G",
-                        "system": "https://fhir.siss.regione.lombardia.it/Valueset/CodiceFiscale",
-                        "type": {
-                            "coding": [
-                                {
-                                    "display": "Codice fiscale",
-                                    "code": "NN",
-                                    "system": "https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "value": "999FJ645",
-                        "system": "https://fhir.siss.regione.lombardia.it/Valueset/TesseraSanitaria",
-                        "type": {
-                            "coding": [
-                                {
-                                    "display": "Tessera sanitaria",
-                                    "code": "SS",
-                                    "system": "https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "PRODSISS",
-                        "given": [
-                            "CENTOOTTANTATRE"
-                        ]
-                    }
-                ],
-                "address": [
-                    {
-                        "text": "V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24",
-                        "city": "MILANO",
-                        "state": "MI",
-                        "postalCode": "20158",
-                        "use": "home",
-                        "line": [
-                            {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
-                                        "valueString": "V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24"
-                                    }
-                                ]
-                            }
-                        ],
-                        "extension": [
-                            {
-                                "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                                "valueString": "015146"
-                            }
-                        ]
-                    },
-                    {
-                        "text": "V. C/O LOMBARDIA INFORMATICA VIA, MINZONI24",
-                        "city": "MILANO",
-                        "state": "MI",
-                        "postalCode": "20158",
-                        "use": "temp",
-                        "line": [
-                            {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineNumeroCivico",
-                                        "valueString": "MINZONI24"
-                                    },
-                                    {
-                                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
-                                        "valueString": "V. C/O LOMBARDIA INFORMATICA VIA"
-                                    }
-                                ]
-                            }
-                        ],
-                        "extension": [
-                            {
-                                "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                                "valueString": "015146"
-                            }
-                        ]
-                    },
-                    {
-                        "text": "V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24",
-                        "city": "MILANO",
-                        "state": "MI",
-                        "postalCode": "20158",
-                        "use": "home",
-                        "line": [
-                            {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
-                                        "valueString": "V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24"
-                                    }
-                                ]
-                            }
-                        ],
-                        "extension": [
-                            {
-                                "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                                "valueString": "015146"
-                            }
-                        ]
-                    },
-                    {
-                        "text": "V. C/O LOMBARDIA INFORMATICA VIA, MINZONI24",
-                        "city": "MILANO",
-                        "state": "MI",
-                        "postalCode": "20158",
-                        "use": "home",
-                        "line": [
-                            {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineNumeroCivico",
-                                        "valueString": "MINZONI24"
-                                    },
-                                    {
-                                        "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
-                                        "valueString": "V. C/O LOMBARDIA INFORMATICA VIA"
-                                    }
-                                ]
-                            }
-                        ],
-                        "extension": [
-                            {
-                                "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                                "valueString": "015146"
-                            }
-                        ]
-                    }
-                ],
-                "birthDate": "2000-07-02",
-                "gender": "male"
-            }
-        },
-        {
-            "fullUrl": "Organization/5421cd56-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Organization",
-                "id": "5421cd56-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "value": "309672",
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte"
-                    }
-                ]
-            }
-        },
-        {
-            "fullUrl": "Organization/5421d0d0-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Organization",
-                "id": "5421d0d0-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "value": "1234",
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio"
-                    }
-                ],
-                "partOf": {
-                    "reference": "Organization/5421cd56-6421-11ee-9776-02001700b287"
-                }
-            }
-        },
-        {
-            "fullUrl": "Organization/5421d42c-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Organization",
-                "id": "5421d42c-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL3"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "value": "0801",
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto"
-                    }
-                ],
-                "name": "CARDIOLOGIA",
-                "partOf": {
-                    "reference": "Organization/5421d0d0-6421-11ee-9776-02001700b287"
-                }
-            }
-        },
-        {
-            "fullUrl": "Specimen/5421e232-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Specimen",
-                "id": "5421e232-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampionePerRichiesta"
-                    ]
-                },
-                "type": {
-                    "coding": [
-                        {
-                            "code": "DATIC",
-                            "display": "DATIC"
-                        }
-                    ]
-                },
-                "subject": {
-                    "reference": "Patient/54219c46-6421-11ee-9776-02001700b287"
-                }
-            }
-        },
-        {
-            "fullUrl": "Specimen/5421e4ee-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Specimen",
-                "id": "5421e4ee-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampionePerRichiesta"
-                    ]
-                },
-                "type": {
-                    "coding": [
-                        {
-                            "code": "DATIC",
-                            "display": "DATIC"
-                        }
-                    ]
-                },
-                "subject": {
-                    "reference": "Patient/54219c46-6421-11ee-9776-02001700b287"
-                }
-            }
-        },
-        {
-            "fullUrl": "Specimen/5421e70a-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Specimen",
-                "id": "5421e70a-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampionePerRichiesta"
-                    ]
-                },
-                "type": {
-                    "coding": [
-                        {
-                            "code": "DATIC",
-                            "display": "DATIC"
-                        }
-                    ]
-                },
-                "subject": {
-                    "reference": "Patient/54219c46-6421-11ee-9776-02001700b287"
-                }
-            }
-        },
-        {
-            "fullUrl": "PractitionerRole/5421effc-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "PractitionerRole",
-                "id": "5421effc-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerRoleMedico"
-                    ]
-                },
-                "code": [
-                    {
-                        "coding": [
-                            {
-                                "system": "https://fhir.siss.regione.lombardia.it/ValueSet/QualificaMedico",
-                                "code": "2",
-                                "display": "Specialista"
-                            }
-                        ]
-                    }
-                ],
-                "practitioner": {
-                    "reference": "Practitioner/5421f1a0-6421-11ee-9776-02001700b287"
-                }
-            }
-        },
-        {
-            "fullUrl": "Practitioner/5421f1a0-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "Practitioner",
-                "id": "5421f1a0-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerMedico"
-                    ]
-                },
-                "identifier": [
-                    {
-                        "value": "NVESFN77E09H264L"
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "NEVA",
-                        "given": [
-                            "STEFANO"
-                        ]
-                    }
-                ]
-            }
-        },
-        {
-            "fullUrl": "ServiceRequest/5421e16a-6421-11ee-9776-02001700b287",
-            "resource": {
-                "resourceType": "ServiceRequest",
-                "id": "5421e16a-6421-11ee-9776-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabServiceRequestRichiestaEsamiLab"
-                    ]
-                },
-                "specimen": [
-                    {
-                        "reference": "Specimen/5421e232-6421-11ee-9776-02001700b287"
-                    },
-                    {
-                        "reference": "Specimen/5421e4ee-6421-11ee-9776-02001700b287"
-                    },
-                    {
-                        "reference": "Specimen/5421e70a-6421-11ee-9776-02001700b287"
-                    }
-                ],
-                "identifier": [
-                    {
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
-                        "value": "12345"
-                    }
-                ],
-                "requisition": {
-                    "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
-                    "value": "123456"
-                },
-                "status": "active",
-                "category": [
-                    {
-                        "coding": [
-                            {
-                                "system": "https://fhir.siss.regione.lombardia.it/Valueset/CategoriaOrdine",
-                                "code": "1",
-                                "display": "Richiesta"
-                            }
-                        ]
-                    }
-                ],
-                "priority": "urgent",
-                "quantityQuantity": {
-                    "value": 1
-                },
-                "intent": "order",
-                "authoredOn": "2022-11-16T14:59:37+01:00",
-                "code": {
-                    "coding": [
-                        {
-                            "display": "Emocromo completo",
-                            "code": "90622"
-                        }
-                    ]
-                },
-                "orderDetail": [
-                    {
-                        "coding": [
-                            {
-                                "code": "0002",
-                                "system": "https://fhir.siss.regione.lombardia.it/sid/identificativoInternoUnitaErogante"
-                            }
-                        ]
-                    },
-                    {
-                        "coding": [
-                            {
-                                "code": "0801",
-                                "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto"
-                            }
-                        ]
-                    },
-                    {
-                        "coding": [
-                            {
-                                "code": "03091300",
-                                "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio"
-                            }
-                        ]
-                    },
-                    {
-                        "coding": [
-                            {
-                                "code": "LAB",
-                                "system": "https://fhir.siss.regione.lombardia.it/sid/identificativoInternoSalaErogatrice"
-                            }
-                        ]
-                    }
-                ],
-                "subject": {
-                    "reference": "Patient/54219c46-6421-11ee-9776-02001700b287"
-                },
-                "requester": {
-                    "reference": "PractitionerRole/5421effc-6421-11ee-9776-02001700b287"
-                }
-            }
+          ]
         }
+      },
+      {
+        "fullUrl":"Task/c1d60f86-ffe1-44e8-a3bc-be73e50951f9",
+        "resource":{
+          "resourceType":"Task",
+          "id":"c1d60f86-ffe1-44e8-a3bc-be73e50951f9",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabTaskStatoRichiesta"
+            ],
+            "versionId":"1"
+          },
+          "focus":{
+            "reference":"ServiceRequest/e2bdf00d-2235-4465-8b9c-944e337efd47"
+          },
+          "status":"in-progress",
+          "intent":"order"
+        }
+      },
+      {
+        "fullUrl":"Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
+        "resource":{
+          "resourceType":"Encounter",
+          "id":"ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterInformazioniRichiestaLab"
+            ],
+            "versionId":"1"
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/numeroRicovero",
+              "type":{
+                "coding":[
+                  {
+                    "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/numeroRicovero",
+                    "code":"VN"
+                  }
+                ]
+              },
+              "value":"202300001",
+              "assigner":{
+                "reference":"Organization/37d47b20-fbe0-11ed-99f7-02001700b287",
+                "display":"Laboratorio richiedente"
+              }
+            }
+          ],
+          "status":"in-progress",
+          "class":{
+            "system":"http://terminology.hl7.org/CodeSystem/v3-ActCode",
+            "code":"IMP",
+            "display":"Impatient"
+          },
+          "subject":{
+            "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7"
+          },
+          "basedOn":[
+            {
+              "reference":"ServiceRequest/e2bdf00d-2235-4465-8b9c-944e337efd47"
+            }
+          ],
+          "extension":[
+            {
+              "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/Anamnesi",
+              "valueString":"Il paziente ha riferito di avere avuto episodi di vertigini negli ultimi mesi"
+            },
+            {
+              "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/DettaglioOperatoreRiceveOrdine",
+              "valueString":"Si è provveduto alla raccolta dei campioni biologoci del paziente"
+            },
+            {
+              "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/NotePazientePrestazione",
+              "valueString":"Sono stati prelevati campioni di sangue dal paziente per l'esecuzione degli esami di laboratorio prescritti."
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl":"ServiceRequest/e2bdf00d-2235-4465-8b9c-944e337efd47",
+        "resource":{
+          "resourceType":"ServiceRequest",
+          "id":"e2bdf00d-2235-4465-8b9c-944e337efd47",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabServiceRequestRichiestaEsamiLab"
+            ],
+            "versionId":"1"
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
+              "value":"Placer Order Number"
+            },
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/FillerOrderNumber",
+              "value":"2c78d480-00b3-412c-9633-a22451446759"
+            },
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
+              "value":"7c6bf956-8205-11ee-ae79-02001700b287"
+            }
+          ],
+          "requisition":{
+            "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
+            "value":"Placer Requisition Value"
+          },
+          "status":"active",
+          "intent":"order",
+          "priority":"asap",
+          "code":{
+            "coding":[
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+                "code":"90013",
+                "display":"Chetosteroidi nelle urine"
+              }
+            ]
+          },
+          "orderDetail":{
+            "coding":[
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/sid/identificativoInternoUnitaErogante",
+                "code":"0002"
+              },
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto",
+                "code":"0801"
+              },
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio",
+                "code":"03091300"
+              },
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/sid/identificativoInternoSalaErogatrice",
+                "code":"LAB"
+              }
+            ]
+          },
+          "quantityQuantity":{
+            "value":1
+          },
+          "subject":{
+            "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7",
+            "display":"Centoottantatre Prodsiss"
+          },
+          "encounter":{
+            "reference":"Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
+            "display":"Informazioni Richiesta Lab"
+          },
+          "authoredOn":"2022-11-16T14:59:37Z",
+          "performer":[
+            {
+              "reference":"Organization/30d4p103-fbe0-11ed-99f7-02001700b287"
+            }
+          ],
+          "reasonCode":[
+            {
+              "coding":[
+                {
+                  "system":"http://hl7.org/fhir/sid/icd-9",
+                  "code":"V173",
+                  "display":"Fam hx-ischem heart dis"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl":"Patient/6686199c-f386-4345-a178-5e98023575f7",
+        "resource":{
+          "resourceType":"Patient",
+          "id":"6686199c-f386-4345-a178-5e98023575f7",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPatientCittadino"
+            ]
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceFiscale",
+              "type":{
+                "coding":[
+                  {
+                    "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceFiscale",
+                    "code":"NN",
+                    "display":"Codice fiscale"
+                  }
+                ]
+              },
+              "value":"PRDCTT00L02L219G"
+            },
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/TesseraSanitaria",
+              "type":{
+                "coding":[
+                  {
+                    "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/TesseraSanitaria",
+                    "code":"SS",
+                    "display":"Tessera Sanitaria"
+                  }
+                ]
+              },
+              "value":"999FJ645"
+            }
+          ],
+          "name":[
+            {
+              "family":"Prodsiss",
+              "given":[
+                "Centoottantatre"
+              ]
+            }
+          ],
+          "gender":"male",
+          "birthDate":"2000-07-02",
+          "address":[
+            {
+              "use":"BDL",
+              "city":"TORINO",
+              "state":"TO",
+              "postalCode":"20158",
+              "extension":[
+                {
+                  "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
+                  "valueString":"001272"
+                }
+              ]
+            },
+            {
+              "use":"L",
+              "text":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI, 24",
+              "line":[
+                "V. C/O LOMBARDIA INFORMATICA VIA MINZONI",
+                {
+                  "extension":[
+                    {
+                      "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineNumeroCivico",
+                      "valueString":"24"
+                    }
+                  ]
+                }
+              ],
+              "city":"MILANO",
+              "state":"MI",
+              "postalCode":"20158",
+              "extension":[
+                {
+                  "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
+                  "valueString":"015146"
+                }
+              ]
+            },
+            {
+              "use":"H",
+              "text":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI, 24",
+              "line":[
+                "V. C/O LOMBARDIA INFORMATICA VIA MINZONI",
+                {
+                  "extension":[
+                    {
+                      "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineNumeroCivico",
+                      "valueString":"24"
+                    }
+                  ]
+                }
+              ],
+              "city":"MILANO",
+              "state":"MI",
+              "postalCode":"20158",
+              "extension":[
+                {
+                  "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
+                  "valueString":"015146"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "fullUrl":"Organization/7195779b-9c43-4074-a2d4-7e34e18b1ae4",
+        "resource":{
+          "resourceType":"Organization",
+          "id":"7195779b-9c43-4074-a2d4-7e34e18b1ae4",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
+            ]
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
+              "value":"Codice L1 Ente Richiedente"
+            }
+          ],
+          "name":"Denominazione dell'ente L1"
+        }
+      },
+      {
+        "fullUrl":"Organization/37d47b20-fbe0-11ed-99f7-02001700b287",
+        "resource":{
+          "resourceType":"Organization",
+          "id":"37d47b20-fbe0-11ed-99f7-02001700b287",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
+            ]
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio",
+              "value":"Codice L2 Ente Richiedente"
+            }
+          ],
+          "partOf":{
+            "reference":"Organization/7195779b-9c43-4074-a2d4-7e34e18b1ae4"
+          },
+          "name":"Descrizione del presidio L2"
+        }
+      },
+      {
+        "fullUrl":"Organization/34568719c-9c43-4074-a2d4-7e34e18b1ae4",
+        "resource":{
+          "resourceType":"Organization",
+          "id":"34568719c-9c43-4074-a2d4-7e34e18b1ae4",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
+            ]
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
+              "value":"309672"
+            }
+          ],
+          "name":"Denominazione dell'ente L1"
+        }
+      },
+      {
+        "fullUrl":"Organization/30d4p103-fbe0-11ed-99f7-02001700b287",
+        "resource":{
+          "resourceType":"Organization",
+          "id":"30d4p103-fbe0-11ed-99f7-02001700b287",
+          "meta":{
+            "profile":[
+              "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
+            ]
+          },
+          "identifier":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio",
+              "value":"1234"
+            }
+          ],
+          "partOf":{
+            "reference":"Organization/34568719c-9c43-4074-a2d4-7e34e18b1ae4"
+          },
+          "name":"Descrizione del presidio L2"
+        }
+      }
     ]
-}
+  }

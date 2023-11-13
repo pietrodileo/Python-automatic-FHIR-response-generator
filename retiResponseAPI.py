@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
 from fillerLaboratory import FillerLaboratory
+from placerLaboratory import PlacerLaboratory 
 import json
 
 # Create a new Flask application
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-# Create an instance of FillerLaboratory
+# Create an instance of FillerLaboratory and PlacerLaboratory
 filler_lab = FillerLaboratory()
+placer_lab = PlacerLaboratory()
 
 # Define the Error Handling procedure
 def handle_error(error_message, status_code=404):
@@ -88,7 +90,19 @@ def handle_forward_request():
 
     # Extract the data from the prettified JSON
     request_data = json.loads(prettified_data)
-    return process_request(request_data, filler_lab.fillerSendsPositiveACK)
+    return process_request(request_data, placer_lab.placerSendsPositiveACK)
+
+@app.route('/ERreceivesNotification', methods=['POST'])
+def handle_checkIn_notification():
+    # Get the raw JSON data from the request
+    request_data_raw = request.data.decode('latin-1')
+
+    # Prettify the incoming POST bodies for improved readability and to avoid potential errors
+    prettified_data = json.dumps(json.loads(request_data_raw), indent=4)
+
+    # Extract the data from the prettified JSON
+    request_data = json.loads(prettified_data)
+    return process_request(request_data, placer_lab.sendsCheckInConfirmation)
 
 #main driver function
 if __name__ == '__main__':

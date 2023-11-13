@@ -95,8 +95,7 @@ class FillerLaboratory:
         bundle = Bundle(resourcesList)
 
         # Convert the object to a JSON string and return it
-        return json.loads(bundle.to_json())  # Convert to dict for compatibility with Flask jsonify
-
+        return json.loads(bundle.to_json())   
 
     def fillerSendsPositiveACK(self, data):
         # Extract resources from the data
@@ -133,4 +132,4 @@ class FillerLaboratory:
         bundle = Bundle(resourcesList)
 
         # Convert the object to a JSON string and return it
-        return json.loads(bundle.to_json())  # Convert to dict for compatibility with Flask jsonify
+        return json.loads(bundle.to_json())  

@@ -1,15 +1,17 @@
 import json
 from fillerLaboratory import FillerLaboratory
+from placerLaboratory import PlacerLaboratory 
 
 # Create an instance of FillerLaboratory
 filler_lab = FillerLaboratory()
+placer_lab = PlacerLaboratory()
 
 # Load JSON data from the file
 with open('test_input.json', 'r') as file:
     request_data = json.load(file)
 
 # Process the data using the logic from FillerLaboratory
-result = filler_lab.fillerLabAcceptsAllRequest(request_data)
+result = placer_lab.sendsCheckInConfirmation(request_data)
 
 # Save the processed result as prettified JSON
 output_file = 'test_output.json'
