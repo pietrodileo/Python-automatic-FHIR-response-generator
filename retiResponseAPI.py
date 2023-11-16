@@ -128,6 +128,17 @@ def handle_checkIn_notification():
     request_data = json.loads(prettified_data)
     return process_request(request_data, placer_lab.sendsCheckInConfirmation)
 
+@app.route('/generateError', methods=['POST'])
+def generate_error():
+    # Return an HTTP error
+    response = {
+        "property1": "Hello from Flask!",
+        "property2": "If you're seeing this message, the application is running correctly.",
+        "property3": "An error was returned by purpose in order to test how this response is processed."
+    }
+    status_code = 500
+    return jsonify(response), status_code
+
 #main driver function
 if __name__ == '__main__':
     # run() method of Flask class runs the application 
