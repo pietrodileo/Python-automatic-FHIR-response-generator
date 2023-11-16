@@ -8,7 +8,7 @@ class Specimen(GenericFHIRresource):
         # Update the service request object with an existing resource
         self.resource = resourceContent
         
-    def AddLabels(self):
+    def addLabels(self):
         # Modify the identifier
         self.resource['extension'] = []
         self.resource['extension'].append(                

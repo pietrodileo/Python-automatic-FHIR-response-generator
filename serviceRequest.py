@@ -17,7 +17,7 @@ class ServiceRequest(GenericFHIRresource):
             }
         )
         
-    def AddPerformer(self, performerReference):
+    def addPerformer(self, performerReference):
         self.resource['performer'] =  [
             {
                 "reference": performerReference

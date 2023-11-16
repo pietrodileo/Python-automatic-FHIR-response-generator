@@ -92,6 +92,18 @@ def handle_new_request_reject_all():
     request_data = json.loads(prettified_data)
     return process_request(request_data, filler_lab.fillerLabRejectsAllRequest)
 
+@app.route('/ESAcceptsRandomRequests', methods=['POST'])
+def handle_new_request_accept_random():
+    # Get the raw JSON data from the request
+    request_data_raw = request.data.decode('latin-1')
+
+    # Prettify the incoming POST bodies for improved readability and to avoid potential errors
+    prettified_data = json.dumps(json.loads(request_data_raw), indent=4)
+
+    # Extract the data from the prettified JSON
+    request_data = json.loads(prettified_data)
+    return process_request(request_data, filler_lab.fillerLabAcceptsRandomRequests)
+
 @app.route('/ERreceivesForward', methods=['POST'])
 def handle_forward_request():
     # Get the raw JSON data from the request

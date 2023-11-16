@@ -1,4 +1,5 @@
 import json
+import random  # Import the random module
 from messageHeader import MessageHeader
 from bundle import Bundle
 from genericFHIRresource import GenericFHIRresource
@@ -8,220 +9,131 @@ from organization import OrganizationL1, OrganizationL2
 from specimen import Specimen
 
 class FillerLaboratory:
+    def __init__(self):
+        # Initialize instance variables
+        self.resourcesList = []
+        self.serviceRequestReferenceList = []
+        self.organizationResourcesWereCreated = False
+        self.encounterReference = None
+        self.fillerLab = None
+        self.orgL1 = None
+        self.orgL2 = None
+
+    def process_message(self, data):
+        # Reset instance variables for each new message
+        self.__init__()
+        
+        for entry in data['entry']:
+            resource = entry['resource']
+            full_url = entry['fullUrl']
+            resource_type = resource['resourceType']
+
+            # Process different resource types
+            if resource_type == "MessageHeader":
+                self.process_message_header(resource, full_url)
+
+            elif resource_type == "Encounter":
+                self.encounterReference = full_url
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+
+            elif resource_type == "ServiceRequest":
+                self.process_service_request(resource, full_url)
+
+            elif resource_type == "Specimen":
+                self.process_specimen(resource, full_url)
+
+            else:
+                # Generic FHIR resource
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+
+    def process_message_header(self, resource, full_url):
+        # Extract information from MessageHeader resource
+        request_message_code = resource['eventCoding']["code"]
+        request_code_number = request_message_code[-3:]
+        
+        response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
+        response_code = "ORL"
+        new_message_code = f"{response_code}^{response_code_number}"
+        new_display_code = f"{response_code}^{response_code_number}^{response_code}_{response_code_number}"
+        message_header = MessageHeader(new_message_code, new_display_code)
+        
+        # Extract filler lab information and add MessageHeader to resources list
+        self.fillerLab = message_header.ExtractMessageHeaderInfo(resource, initFocus=1)
+        self.resourcesList.append(message_header)
+
+    def process_service_request(self, resource, full_url):
+        # Process ServiceRequest resource
+        self.serviceRequestReferenceList.append(full_url)
+        service_request = ServiceRequest(fullUrl=full_url, resourceContent=resource)
+        
+        # Create and link OrganizationL1 and OrganizationL2 if not created before
+        if not self.organizationResourcesWereCreated:
+            self.orgL1 = OrganizationL1(self.fillerLab['L1'])
+            orgL1FillerReference = self.orgL1.fullUrl
+            self.orgL2 = OrganizationL2(self.fillerLab['L2'], orgL1FillerReference)
+            performerReference = self.orgL2.fullUrl
+            self.organizationResourcesWereCreated = True
+
+        # Link performer in the service request and add to resources list
+        service_request.addPerformer(performerReference)
+        self.resourcesList.append(service_request)
+
+    def process_specimen(self, resource, full_url):
+        # Process Specimen resource
+        if self.serviceRequestReferenceList:
+            specimen = Specimen(fullUrl=full_url, resourceContent=resource)
+            specimen.addLabels()
+            self.resourcesList.append(specimen)
+
+    def generate_task_resources(self, task_status):
+        # Generate Task resources for each accepted service request and add to resources list
+        for service_request_full_url in self.serviceRequestReferenceList:
+            task = Task(task_status, service_request_full_url, self.encounterReference)
+            
+            # Add a rejection note
+            if task_status == "rejected":
+                reje_note = "This is an example of rejection note"
+                task.addNotes(reje_note)
+            
+            task_reference = {"reference": task.fullUrl}
+            self.resourcesList[0].resource['focus'].append(task_reference)
+            self.resourcesList.insert(1, task)
+
+    def append_organization_resources(self):
+        # Append Organization resources at the end of the list if created
+        if self.organizationResourcesWereCreated:
+            self.resourcesList.append(self.orgL1)
+            self.resourcesList.append(self.orgL2)
+
+    def create_bundle_object(self):
+        # Create a Bundle object with the headers
+        bundle = Bundle(self.resourcesList)
+        return json.loads(bundle.to_json())
+
     def fillerLabAcceptsAllRequest(self, data):
-        # Extract resources from the data
-        resourcesList = []
-        serviceRequestReferenceList = []
-        organizationResourcesWereCreated = False
-        encounterReference = None
+        # Process the message, generate tasks, append organization resources, and create a bundle
+        self.process_message(data)
+        self.generate_task_resources("accepted")  # Set task_status to "accepted"
+        self.append_organization_resources()
+        return self.create_bundle_object()
 
-        # Process incoming message
-        for entry in data['entry']:
-            resource = entry['resource']
-            fullUrl = entry['fullUrl']
-            resourceType = resource['resourceType']
-
-            if resourceType == "MessageHeader":
-                # Extract request message code
-                requestMessageCode = resource['eventCoding']["code"]
-                requestCodeNumber = requestMessageCode[-3:]
-                
-                # Create a message code for the response
-                responseCodeNumber = f"{requestCodeNumber[0]}{int(requestCodeNumber[1:])+1}"
-                responseCode = "ORL"
-                newMessageCode = f"{responseCode}^{responseCodeNumber}"
-                newDisplayCode = f"{responseCode}^{responseCodeNumber}^{responseCode}_{responseCodeNumber}"
-
-                # Create a MessageHeader object
-                messageHeader = MessageHeader(newMessageCode, newDisplayCode)
-                # Extract information from the resource and assign it to the object
-                fillerLab = messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 1)
-                # Add the resource to the list of headers
-                resourcesList.append(messageHeader)
-
-            elif resourceType == "Encounter":
-                encounterReference = fullUrl
-                resourcesList.append(GenericFHIRresource(fullUrl=fullUrl, resourceContent=resource))
-
-            elif resourceType == "ServiceRequest":
-                # Add the reference to the list
-                serviceRequestReferenceList.append(fullUrl)
-                # Create a ServiceRequest object
-                serviceRequest = ServiceRequest(fullUrl=fullUrl, resourceContent=resource)
-
-                # If at least one service request is being accepted,
-                # create the resources OrganizationL1 and OrganizationL2
-                # of the filler laboratory and link them in the service request
-                # The organization's resources will only be created if they have not been added before
-                if not organizationResourcesWereCreated:
-                    orgL1 = OrganizationL1(fillerLab['L1'])
-                    orgL1FillerReference = orgL1.fullUrl
-                    orgL2 = OrganizationL2(fillerLab['L2'], orgL1FillerReference)
-                    performerReference = orgL2.fullUrl
-                    organizationResourcesWereCreated = True
-                # Link performer in the service request
-                serviceRequest.AddPerformer(performerReference)
-                resourcesList.append(serviceRequest)
-
-            elif resourceType == "Specimen":
-                # Add the labels to the Specimen resources
-                if serviceRequestReferenceList:
-                    specimen = Specimen(fullUrl=fullUrl, resourceContent=resource)
-                    specimen.AddLabels()
-                    resourcesList.append(specimen)
-
-            else:
-                # Add other resources
-                resourcesList.append(GenericFHIRresource(fullUrl=fullUrl, resourceContent=resource))
-
-        # Generate Task resources (only at this line I can be sure that both serviceRequestFullUrls and encounterReference were found)
-        taskStatus = "accepted"
-        for serviceRequestFullUrl in serviceRequestReferenceList:
-            task = Task(taskStatus, serviceRequestFullUrl, encounterReference)
-            # insert the Task Url inside the focus property of the Message Header
-            taskReference = {
-                "reference": task.fullUrl
-            }
-            resourcesList[0].resource['focus'].append(taskReference)
-            # Insert the Task resource after the MessageHeader
-            resourcesList.insert(1, task)
-
-        # Append Organization resources at the end of the list
-        if organizationResourcesWereCreated:
-            resourcesList.append(orgL1)
-            resourcesList.append(orgL2)
-
-        # Create a Bundle object with the headers
-        bundle = Bundle(resourcesList)
-
-        # Convert the object to a JSON string and return it
-        return json.loads(bundle.to_json())   
-    
     def fillerLabRejectsAllRequest(self, data):
-        # Extract resources from the data
-        resourcesList = []
-        serviceRequestReferenceList = []
-        organizationResourcesWereCreated = False
-        encounterReference = None
+        # Process the message, generate tasks, append organization resources, and create a bundle
+        self.process_message(data)
+        self.generate_task_resources("rejected")  # Set task_status to "rejected"
+        self.append_organization_resources()
+        return self.create_bundle_object()
 
-        # Process incoming message
-        for entry in data['entry']:
-            resource = entry['resource']
-            fullUrl = entry['fullUrl']
-            resourceType = resource['resourceType']
-
-            if resourceType == "MessageHeader":
-                # Extract request message code
-                requestMessageCode = resource['eventCoding']["code"]
-                requestCodeNumber = requestMessageCode[-3:]
-                
-                # Create a message code for the response
-                responseCodeNumber = f"{requestCodeNumber[0]}{int(requestCodeNumber[1:])+1}"
-                responseCode = "ORL"
-                newMessageCode = f"{responseCode}^{responseCodeNumber}"
-                newDisplayCode = f"{responseCode}^{responseCodeNumber}^{responseCode}_{responseCodeNumber}"
-
-                # Create a MessageHeader object
-                messageHeader = MessageHeader(newMessageCode, newDisplayCode)
-                # Extract information from the resource and assign it to the object
-                fillerLab = messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 1)
-                # Add the resource to the list of headers
-                resourcesList.append(messageHeader)
-
-            elif resourceType == "Encounter":
-                encounterReference = fullUrl
-                resourcesList.append(GenericFHIRresource(fullUrl=fullUrl, resourceContent=resource))
-
-            elif resourceType == "ServiceRequest":
-                # Add the reference to the list
-                serviceRequestReferenceList.append(fullUrl)
-                # Create a ServiceRequest object
-                serviceRequest = ServiceRequest(fullUrl=fullUrl, resourceContent=resource)
-
-                # If at least one service request is being accepted,
-                # create the resources OrganizationL1 and OrganizationL2
-                # of the filler laboratory and link them in the service request
-                # The organization's resources will only be created if they have not been added before
-                if not organizationResourcesWereCreated:
-                    orgL1 = OrganizationL1(fillerLab['L1'])
-                    orgL1FillerReference = orgL1.fullUrl
-                    orgL2 = OrganizationL2(fillerLab['L2'], orgL1FillerReference)
-                    performerReference = orgL2.fullUrl
-                    organizationResourcesWereCreated = True
-                # Link performer in the service request
-                serviceRequest.AddPerformer(performerReference)
-                resourcesList.append(serviceRequest)
-
-            elif resourceType == "Specimen":
-                # Add the labels to the Specimen resources
-                if serviceRequestReferenceList:
-                    specimen = Specimen(fullUrl=fullUrl, resourceContent=resource)
-                    specimen.AddLabels()
-                    resourcesList.append(specimen)
-
-            else:
-                # Add other resources
-                resourcesList.append(GenericFHIRresource(fullUrl=fullUrl, resourceContent=resource))
-
-        # Generate Task resources (only at this line I can be sure that both serviceRequestFullUrls and encounterReference were found)
-        taskStatus = "rejected"
-        for serviceRequestFullUrl in serviceRequestReferenceList:
-            task = Task(taskStatus, serviceRequestFullUrl, encounterReference)
-            # Add a rejection note to the Task resource
-            rejeNote = "This is an example to demonstrate using task for actioning a servicerequest and to illustrate how to populate many of the task elements - this is the parent task that will be broken into subtask to grab the specimen and a sendout lab test "
-            task.add_notes(rejeNote)
-            # insert the Task Url inside the focus property of the Message Header
-            taskReference = {
-                "reference": task.fullUrl
-            }
-            resourcesList[0].resource['focus'].append(taskReference)
-            # Insert the Task resource after the MessageHeader
-            resourcesList.insert(1, task)
-
-        # Append Organization resources at the end of the list
-        if organizationResourcesWereCreated:
-            resourcesList.append(orgL1)
-            resourcesList.append(orgL2)
-
-        # Create a Bundle object with the headers
-        bundle = Bundle(resourcesList)
-
-        # Convert the object to a JSON string and return it
-        return json.loads(bundle.to_json())   
+    def fillerLabAcceptsRandomRequests(self, data):
+        # Process the message, generate tasks with a randomly chosen task_status,
+        # append organization resources, and create a bundle
+        self.process_message(data)
+        random_status = random.choice(["accepted", "rejected"])  # Randomly choose between "accepted" and "rejected"
+        self.generate_task_resources(random_status)
+        self.append_organization_resources()
+        return self.create_bundle_object()
 
     def fillerSendsPositiveACK(self, data):
-        # Extract resources from the data
-        resourcesList = []
-
-        # Process incoming message
-        for entry in data['entry']:
-            resource = entry['resource']
-            #fullUrl = entry['fullUrl']
-            resourceType = resource['resourceType']
-
-            if resourceType == "MessageHeader":
-                # Extract request message code
-                requestMessageCode = resource['eventCoding']["code"]
-                requestCodeNumber = requestMessageCode[-3:]
-                
-                # Create a message code for the response
-                responseCode = "ACK"
-                newMessageCode = f"{responseCode}^{requestCodeNumber}"
-                newDisplayCode = f"{responseCode}^{requestCodeNumber}^{responseCode}_{requestCodeNumber}"
-
-                # Create a MessageHeader object
-                messageHeader = MessageHeader(newMessageCode, newDisplayCode)
-
-                # Extract information from the resource and assign it to the object
-                messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 0)
-                # Add the resource to the list of headers
-                resourcesList.append(messageHeader)
-
-            else:
-                continue
-
-        # Create a Bundle object with the headers
-        bundle = Bundle(resourcesList)
-
-        # Convert the object to a JSON string and return it
-        return json.loads(bundle.to_json())  
+        # Process the message and create a bundle
+        self.process_message(data)
+        return self.create_bundle_object()

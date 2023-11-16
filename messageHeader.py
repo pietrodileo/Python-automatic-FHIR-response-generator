@@ -32,8 +32,8 @@ class MessageHeader(GenericFHIRresource):
 
     def ExtractMessageHeaderInfo(self, resource, initFocus):
         # Extract the source code
-        print(resource['destination'])
-        codiceApplicativoSorgente = resource['destination']['name']
+        #print(resource['destination'])
+        codiceApplicativoDestinazione = resource['destination']['name']
 
         # Open a json containing the data of all the laboratories
         my_dir = os.path.dirname(__file__)
@@ -42,7 +42,9 @@ class MessageHeader(GenericFHIRresource):
             json_censimento = json.load(file)
 
         # Find the information about the filler laboratory
-        destinationLab = next((lab for lab in json_censimento if lab["CodiceApplicativo"] == codiceApplicativoSorgente), 0)
+        destinationLab = next((lab for lab in json_censimento if lab["CodiceApplicativo"] == codiceApplicativoDestinazione), 0)
+        if destinationLab == 0:
+            raise ValueError("Destination Laboratory wasn't recognized by its application code")
 
         # Assign the extracted parameters to the object
         self.resource['source'] = {
