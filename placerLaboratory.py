@@ -22,7 +22,7 @@ class PlacerLaboratory:
                 
                 # Create a message code for the response
                 responseCode = "ACK"
-                newMessageCode = f"{responseCode}_{requestCodeNumber}"
+                newMessageCode = f"{responseCode}^{requestCodeNumber}"
                 newDisplayCode = f"{responseCode}^{requestCodeNumber}^{responseCode}_{requestCodeNumber}"
 
                 # Create a MessageHeader object
@@ -63,7 +63,7 @@ class PlacerLaboratory:
                 # Create a message code for the response
                 responseCodeNumber = f"{requestCodeNumber[0]}{int(requestCodeNumber[1:])+1}"
                 responseCode = "ORL"
-                newMessageCode = f"{responseCode}_{responseCodeNumber}"
+                newMessageCode = f"{responseCode}^{responseCodeNumber}"
                 newDisplayCode = f"{responseCode}^{responseCodeNumber}^{responseCode}_{responseCodeNumber}"
 
                 # Create a MessageHeader object
