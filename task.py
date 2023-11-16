@@ -26,4 +26,11 @@ class Task(GenericFHIRresource):
             #    "reference": encounterReference
             #}
         }
-                
+    
+    def add_notes(self, note_text):
+        # Add a property to the task resource
+        self.resource['note'] = [ 
+            {
+                "text": note_text
+            }
+        ]

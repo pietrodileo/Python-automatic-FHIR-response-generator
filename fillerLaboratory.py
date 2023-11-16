@@ -167,6 +167,9 @@ class FillerLaboratory:
         taskStatus = "rejected"
         for serviceRequestFullUrl in serviceRequestReferenceList:
             task = Task(taskStatus, serviceRequestFullUrl, encounterReference)
+            # Add a rejection note to the Task resource
+            rejeNote = "This is an example to demonstrate using task for actioning a servicerequest and to illustrate how to populate many of the task elements - this is the parent task that will be broken into subtask to grab the specimen and a sendout lab test "
+            task.add_notes(rejeNote)
             # insert the Task Url inside the focus property of the Message Header
             taskReference = {
                 "reference": task.fullUrl
