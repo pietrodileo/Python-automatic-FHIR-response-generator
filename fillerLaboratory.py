@@ -16,6 +16,7 @@ class FillerLaboratory:
         self.organizationResourcesWereCreated = False
         self.encounterReference = None
         self.fillerLab = None
+        self.performerReference = None
         self.orgL1 = None
         self.orgL2 = None
 
@@ -65,17 +66,17 @@ class FillerLaboratory:
         # Process ServiceRequest resource
         self.serviceRequestReferenceList.append(full_url)
         service_request = ServiceRequest(fullUrl=full_url, resourceContent=resource)
-        
+
         # Create and link OrganizationL1 and OrganizationL2 if not created before
         if not self.organizationResourcesWereCreated:
             self.orgL1 = OrganizationL1(self.fillerLab['L1'])
             orgL1FillerReference = self.orgL1.fullUrl
             self.orgL2 = OrganizationL2(self.fillerLab['L2'], orgL1FillerReference)
-            performerReference = self.orgL2.fullUrl
+            self.performerReference = self.orgL2.fullUrl
             self.organizationResourcesWereCreated = True
 
         # Link performer in the service request and add to resources list
-        service_request.addPerformer(performerReference)
+        service_request.addPerformer(self.performerReference)
         self.resourcesList.append(service_request)
 
     def process_specimen(self, resource, full_url):
@@ -85,16 +86,23 @@ class FillerLaboratory:
             specimen.addLabels()
             self.resourcesList.append(specimen)
 
-    def generate_task_resources(self, task_status):
+    def generate_task_resources(self, task_statuses):
         # Generate Task resources for each accepted service request and add to resources list
-        for service_request_full_url in self.serviceRequestReferenceList:
+        for idx, service_request_full_url in enumerate(self.serviceRequestReferenceList):
+            # Extract task status
+            if type(task_statuses) is list:
+                task_status = task_statuses[idx]
+            elif type(task_statuses) is str:
+                task_status = task_statuses
+
+            # initialize task resource
             task = Task(task_status, service_request_full_url, self.encounterReference)
             
             # Add a rejection note
             if task_status == "rejected":
-                reje_note = "This is an example of rejection note"
-                task.addNotes(reje_note)
-            
+                rejection_note = "This is an example of rejection note"
+                task.addNotes(rejection_note)
+            # Add a reference to the new Task resource in MessageHeader.focus
             task_reference = {"reference": task.fullUrl}
             self.resourcesList[0].resource['focus'].append(task_reference)
             self.resourcesList.insert(1, task)
@@ -128,8 +136,11 @@ class FillerLaboratory:
         # Process the message, generate tasks with a randomly chosen task_status,
         # append organization resources, and create a bundle
         self.process_message(data)
-        random_status = random.choice(["accepted", "rejected"])  # Randomly choose between "accepted" and "rejected"
-        self.generate_task_resources(random_status)
+        nReq = len(self.serviceRequestReferenceList)
+        # Randomly choose between "accepted" and "rejected" status
+        random_statuses = [random.choice(["accepted", "rejected"]) for _ in range(nReq)]
+        # generate task resources
+        self.generate_task_resources(random_statuses)
         self.append_organization_resources()
         return self.create_bundle_object()
 
