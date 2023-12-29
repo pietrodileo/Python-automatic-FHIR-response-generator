@@ -5,11 +5,42 @@ from genericFHIRresource import GenericFHIRresource
 class Specimen(GenericFHIRresource):
     def __init__(self, fullUrl, resourceContent):
         self.fullUrl = fullUrl
-        # Update the service request object with an existing resource
+        # Update the object with an existing resource
         self.resource = resourceContent
+        # il profile va corretto con "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampioneDaPrelevareIstruzioniEtichette
+    
+    def addPDF(self):
+        pdfIdentifier = str(uuid.uuid4())
+        self.resource['note'] = [
+            {
+                "text": "campione fragile"
+            }
+        ]
+        self.resource['extension'] = [
+            {
+                "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenEtichettaPDF",
+                "valueReference": {
+                    "reference": "Binary/"+pdfIdentifier
+                }
+            }
+        ]
         
+        return pdfIdentifier
+    
     def addLabels(self):
-        # Modify the identifier
+        specimenIdentifier = str(uuid.uuid4())
+        # Add label and label information
+        self.resource['identifier'] = [
+            {
+                "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
+                "value": specimenIdentifier
+            }
+        ]
+        self.resource['note'] = [
+            {
+                "text": "campione fragile"
+            }
+        ]
         self.resource['extension'] = []
         self.resource['extension'].append(                
             {

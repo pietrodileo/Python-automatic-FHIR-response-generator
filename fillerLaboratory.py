@@ -7,6 +7,7 @@ from task import Task
 from serviceRequest import ServiceRequest
 from organization import OrganizationL1, OrganizationL2
 from specimen import Specimen
+from binary import BinaryData
 
 class FillerLaboratory:
     def __init__(self):
@@ -42,6 +43,10 @@ class FillerLaboratory:
 
             elif resource_type == "Specimen":
                 self.process_specimen(resource, full_url)
+            
+            elif resource_type == "AllergyIntolerance":
+                # Go on, this resource is not necessary in the response messages
+                continue
 
             else:
                 # Generic FHIR resource
@@ -83,8 +88,23 @@ class FillerLaboratory:
         # Process Specimen resource
         if self.serviceRequestReferenceList:
             specimen = Specimen(fullUrl=full_url, resourceContent=resource)
-            specimen.addLabels()
-            self.resourcesList.append(specimen)
+            
+            # Add a random decision for pdfLabel with 50% chance
+            pdfLabel = random.choice([True, False])
+
+            # Add pdf label or structured data label
+            if pdfLabel:
+                pdfIdentifier = specimen.addPDF()
+            else: 
+                specimen.addLabels()
+    
+            # Append Speciment to the resource list
+            self.resourcesList.append(specimen) 
+            
+            # If the label is a pdf, append BinaryData to the resource list
+            if pdfLabel: 
+                binary = BinaryData(pdfIdentifier)
+                self.resourcesList.append(binary)
 
     def generate_task_resources(self, task_statuses):
         # Generate Task resources for each accepted service request and add to resources list
@@ -113,26 +133,29 @@ class FillerLaboratory:
             self.resourcesList.append(self.orgL1)
             self.resourcesList.append(self.orgL2)
 
-    def create_bundle_object(self):
+    def create_bundle_object(self, profile):
         # Create a Bundle object with the headers
-        bundle = Bundle(self.resourcesList)
+        bundle = Bundle(self.resourcesList, profile)
         return json.loads(bundle.to_json())
 
     def fillerLabAcceptsAllRequest(self, data):
+        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNuovaRichiesta"
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_message(data)
         self.generate_task_resources("accepted")  # Set task_status to "accepted"
         self.append_organization_resources()
-        return self.create_bundle_object()
+        return self.create_bundle_object(profile)
 
     def fillerLabRejectsAllRequest(self, data):
+        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNuovaRichiesta"
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_message(data)
         self.generate_task_resources("rejected")  # Set task_status to "rejected"
         self.append_organization_resources()
-        return self.create_bundle_object()
+        return self.create_bundle_object(profile)
 
     def fillerLabAcceptsRandomRequests(self, data):
+        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNuovaRichiesta"
         # Process the message, generate tasks with a randomly chosen task_status,
         # append organization resources, and create a bundle
         self.process_message(data)
@@ -142,7 +165,7 @@ class FillerLaboratory:
         # generate task resources
         self.generate_task_resources(random_statuses)
         self.append_organization_resources()
-        return self.create_bundle_object()
+        return self.create_bundle_object(profile)
 
     def fillerSendsPositiveACK(self, data):
         # Process the message and create a bundle

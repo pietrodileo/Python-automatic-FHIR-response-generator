@@ -4,7 +4,7 @@ import json
 from genericFHIRresource import GenericFHIRresource
 
 class Bundle(GenericFHIRresource):
-    def __init__(self, resources):
+    def __init__(self, resources, profile):
         # Create an UUID for the resource
         bundle_uid = str(uuid.uuid4())
         # Get the current UTC time
@@ -16,6 +16,12 @@ class Bundle(GenericFHIRresource):
         self.id = bundle_uid
         self.type = "message"
         self.timestamp = timestamp
+        self.meta = {
+            "versionId": "1",
+            "profile":  [
+                profile
+            ]
+        }
         self.entry = []
         for resource in resources:
             self.entry.append({
@@ -29,6 +35,7 @@ class Bundle(GenericFHIRresource):
             "id": self.id,
             "type": self.type,
             "timestamp": self.timestamp,
+            "meta": self.meta,
             "entry": self.entry
         }
 

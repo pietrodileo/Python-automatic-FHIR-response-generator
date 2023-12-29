@@ -2,12 +2,18 @@ import json
 import uuid
 from genericFHIRresource import GenericFHIRresource
 import os
+import datetime
 
 class MessageHeader(GenericFHIRresource):
     def __init__(self, codiceMH, displayMH):
         # Create an UUID for the resource
         mh_uid = str(uuid.uuid4())
         fullUrl = "MessageHeader/" + mh_uid
+        # Get the current UTC time
+        now = datetime.datetime.utcnow()
+        # Format the timestamp in ISO 8601 format
+        timestamp = now.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+        # Define JSON message
         self.fullUrl = fullUrl
         self.resource = {
             "resourceType": "MessageHeader",
@@ -16,7 +22,8 @@ class MessageHeader(GenericFHIRresource):
                 "profile": [
                     "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
                 ],
-                "versionId": "1"
+                "versionId": "1",
+                "lastUpdated": timestamp
             },
             "eventCoding": {
                 "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
