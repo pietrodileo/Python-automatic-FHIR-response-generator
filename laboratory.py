@@ -57,7 +57,10 @@ class Laboratory:
         request_message_code = resource['eventCoding']["code"]
         request_code_number = request_message_code[-3:]
         
-        response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
+        if response_code == "ACK":  
+            response_code_number = f"{request_code_number[0]}{int(request_code_number[1:])}"
+        else:
+            response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
         #response_code = "ORL" #This is set as an argument
         new_message_code = f"{response_code}^{response_code_number}"
         new_display_code = f"{response_code}^{response_code_number}^{response_code}_{response_code_number}"
