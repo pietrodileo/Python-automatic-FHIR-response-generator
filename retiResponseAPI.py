@@ -138,7 +138,7 @@ def handle_checkIn_notification():
 
     # Extract the data from the prettified JSON
     request_data = json.loads(prettified_data)
-    return process_request(request_data, placer_lab.sendsCheckInConfirmation)
+    return process_request(request_data, placer_lab.placerSendsCheckInConfirmation)
 
 @app.route('/generateError', methods=['POST'])
 def generate_error():

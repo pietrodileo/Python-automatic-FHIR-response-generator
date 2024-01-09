@@ -1,48 +1,16 @@
-import json
-from messageHeader import MessageHeader
-from bundle import Bundle
-from genericFHIRresource import GenericFHIRresource
-from task import Task
+from laboratory import Laboratory
 
-class PlacerLaboratory:
+class PlacerLaboratory(Laboratory):
+    def __init__(self):
+        super().__init__()
+
     def placerSendsPositiveACK(self, data):
-        # Extract resources from the data
-        resourcesList = []
-
-        # Process incoming message
-        for entry in data['entry']:
-            resource = entry['resource']
-            #fullUrl = entry['fullUrl']
-            resourceType = resource['resourceType']
-
-            if resourceType == "MessageHeader":
-                # Extract request message code
-                requestMessageCode = resource['eventCoding']["code"]
-                requestCodeNumber = requestMessageCode[-3:]
-                
-                # Create a message code for the response
-                responseCode = "ACK"
-                newMessageCode = f"{responseCode}^{requestCodeNumber}"
-                newDisplayCode = f"{responseCode}^{requestCodeNumber}^{responseCode}_{requestCodeNumber}"
-
-                # Create a MessageHeader object
-                messageHeader = MessageHeader(newMessageCode, newDisplayCode)
-
-                # Extract information from the resource and assign it to the object
-                messageHeader.ExtractMessageHeaderInfo(resource, initFocus = 0)
-                # Add the resource to the list of headers
-                resourcesList.append(messageHeader)
-
-            else:
-                continue
-
-        # Create a Bundle object with the headers
-        bundle = Bundle(resourcesList)
-
-        # Convert the object to a JSON string and return it
-        return json.loads(bundle.to_json())  # Convert to dict for compatibility with Flask jsonify
-
-    def sendsCheckInResponse(self, data, responseTaskStatus = "accepted"):
+        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabACK"
+        # Send back a positive ACK
+        self.process_message_for_ack(data)
+        return self.create_bundle_object(profile)
+    
+    def placerSendsCheckInResponse(self, data, responseTaskStatus = "accepted"):
         # Extract resources from the data
         resourcesList = []
         serviceRequestReferenceList = []
@@ -95,8 +63,8 @@ class PlacerLaboratory:
         # Convert the object to a JSON string and return it
         return json.loads(bundle.to_json())  
 
-    def sendsCheckInConfirmation(self, data):
-        return self.sendsCheckInResponse(data, "accepted")
+    def placerSendsCheckInConfirmation(self, data):
+        return self.placerSendsCheckInRejection(data, "accepted")
         
-    def sendsCheckInRejection(self, data):
-        return self.sendsCheckInResponse(data, "rejected")
+    def placerSendsCheckInRejection(self, data):
+        return self.placerSendsCheckInRejection(data, "rejected")
