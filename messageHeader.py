@@ -40,7 +40,7 @@ class MessageHeader(GenericFHIRresource):
     def ExtractMessageHeaderInfo(self, resource, initFocus):
         # Extract the source code
         #print(resource['destination'])
-        codiceApplicativoDestinazione = resource['destination']['name']
+        codiceApplicativoDestinazione = resource['destination'][0]['name']
 
         # Open a json containing the data of all the laboratories
         my_dir = os.path.dirname(__file__)
