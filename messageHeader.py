@@ -30,11 +30,13 @@ class MessageHeader(GenericFHIRresource):
                 "code": codiceMH,
                 "display": displayMH
             },
-            "destination": {
-                "name": "OMR",
-                "software": "Reti di laboratori",
-                "endpoint": "localhost:52773/fhir/retilab/Omr"
-            }
+            "destination": [
+                    {
+                    "name": "OMR",
+                    "software": "Reti di laboratori",
+                    "endpoint": "localhost:52773/fhir/retilab/Omr"
+                }
+            ]
         }
 
     def ExtractMessageHeaderInfo(self, resource, initFocus):
