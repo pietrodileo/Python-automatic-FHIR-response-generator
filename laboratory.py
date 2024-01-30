@@ -15,13 +15,14 @@ class Laboratory:
         self.resourcesList = []
         self.serviceRequestReferenceList = []
         self.organizationResourcesWereCreated = False
-        self.encounterReference = None
+        #self.encounterReference = None
         self.fillerLab = None
         self.performerReference = None
         self.orgL1 = None
         self.orgL2 = None
 
-    def process_message(self, data):
+    # This is the main method for processing a new request message
+    def process_new_request(self, data):
         # Reset instance variables for each new message
         self.__init__()
         
@@ -34,15 +35,15 @@ class Laboratory:
             if resource_type == "MessageHeader":
                 self.process_message_header(resource, full_url)
 
-            elif resource_type == "Encounter":
-                self.encounterReference = full_url
-                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+            #elif resource_type == "Encounter":
+            #    self.encounterReference = full_url
+            #    self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
             elif resource_type == "ServiceRequest":
-                self.process_service_request(resource, full_url)
+                self.process_service_request_for_new_request(resource, full_url)
 
             elif resource_type == "Specimen":
-                self.process_specimen(resource, full_url)
+                self.process_specimen_add_label(resource, full_url)
             
             elif resource_type == "AllergyIntolerance":
                 # Go on, this resource is not necessary in the response messages
@@ -51,6 +52,36 @@ class Laboratory:
             else:
                 # Generic FHIR resource
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+
+    # This is the main method for processing a check-in/out message
+    def process_check_in_out(self, data, responseTaskStatus = "accepted"):
+        # Reset instance variables for each new message
+        self.__init__()
+        
+        for entry in data['entry']:
+            resource = entry['resource']
+            full_url = entry['fullUrl']
+            resource_type = resource['resourceType']
+
+            # Process different resource types
+            if resource_type == "MessageHeader":
+                self.process_message_header(resource, full_url)
+            #elif resource_type == "Encounter": # Deprecated 30/01/2024
+            #    self.encounterReference = full_url
+            #    self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+            elif resource_type == "ServiceRequest":
+                # Add the current full_url to the list of the service request 
+                self.serviceRequestReferenceList.append(full_url)
+                # Add the current ServiceRequest resource to the message
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+            elif resource_type == "Task":
+                # Go on, this resource will be replaced with a new Task resource
+                continue
+            else:
+                # Generic FHIR resource
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+        # Add new Task resources
+        self.generate_task_resources(responseTaskStatus)  
 
     def process_message_header(self, resource, full_url, response_code = "ORL"):
         # Extract information from MessageHeader resource
@@ -70,7 +101,7 @@ class Laboratory:
         self.fillerLab = message_header.ExtractMessageHeaderInfo(resource, initFocus=1)
         self.resourcesList.append(message_header)
 
-    def process_service_request(self, resource, full_url):
+    def process_service_request_for_new_request(self, resource, full_url):
         # Process ServiceRequest resource
         self.serviceRequestReferenceList.append(full_url)
         service_request = ServiceRequest(fullUrl=full_url, resourceContent=resource)
@@ -87,7 +118,7 @@ class Laboratory:
         service_request.addPerformer(self.performerReference)
         self.resourcesList.append(service_request)
 
-    def process_specimen(self, resource, full_url):
+    def process_specimen_add_label(self, resource, full_url):
         # Process Specimen resource
         if self.serviceRequestReferenceList:
             specimen = Specimen(fullUrl=full_url, resourceContent=resource)
@@ -119,7 +150,7 @@ class Laboratory:
                 task_status = task_statuses
 
             # initialize task resource
-            task = Task(task_status, service_request_full_url, self.encounterReference)
+            task = Task(task_status, service_request_full_url) #, self.encounterReference) Deprecated encounterReference 30/01/2024
             
             # Add a rejection note
             if task_status == "rejected":
