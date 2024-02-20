@@ -15,7 +15,7 @@ class Laboratory:
         self.resourcesList = []
         self.serviceRequestReferenceList = []
         self.organizationResourcesWereCreated = False
-        #self.encounterReference = None
+        self.encounterReference = None
         self.fillerLab = None
         self.performerReference = None
         self.orgL1 = None
@@ -34,10 +34,15 @@ class Laboratory:
             # Process different resource types
             if resource_type == "MessageHeader":
                 self.process_message_header(resource, full_url)
+                # Extract the link to the Encounter resource
+                for ref in resource['focus']:
+                    if 'Encounter' in ref['reference']:
+                        self.encounterReference = ref['reference']
+                        continue
 
-            #elif resource_type == "Encounter":
-            #    self.encounterReference = full_url
-            #    self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+            elif resource_type == "Encounter": # Save EncounterReference in order to link it to the ServiceRequest
+                self.encounterReference = full_url
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
             elif resource_type == "ServiceRequest":
                 self.process_service_request_for_new_request(resource, full_url)
@@ -118,9 +123,18 @@ class Laboratory:
         service_request.addPerformer(self.performerReference)
         self.resourcesList.append(service_request)
 
+        # If the Encounter is not linked, create a reference
+        if 'encounter' not in service_request.resource.keys():
+            if self.encounterReference: 
+                # If a reference to the Encounter was previously found
+                service_request.resource['encounter'] = {
+                    "reference": f"{self.encounterReference}",
+                    "display": "Informazioni Richiesta Lab"
+                }
+
     def process_specimen_add_label(self, resource, full_url):
         # Process Specimen resource
-        if self.serviceRequestReferenceList:
+        #if self.serviceRequestReferenceList:
             specimen = Specimen(fullUrl=full_url, resourceContent=resource)
             
             # Add a random decision for pdfLabel with 50% chance
