@@ -126,7 +126,7 @@ def handle_cancellation_request():
 
     # Extract the data from the prettified JSON
     request_data = json.loads(prettified_data)
-    return process_request(request_data, filler_lab.fillerSendsPositiveACK)
+    return process_request(request_data, filler_lab.fillerSendsCancellationResponse)
 
 @app.route('/ERreceivesNotification', methods=['POST'])
 def handle_checkIn_notification():

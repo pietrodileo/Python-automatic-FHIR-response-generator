@@ -11,7 +11,7 @@ with open('test_input.json', 'r') as file:
     request_data = json.load(file)
 
 # Process the data using the logic from FillerLaboratory
-result = filler_lab.fillerLabAcceptsAllRequest(request_data)
+result = filler_lab.fillerSendsCancellationResponse(request_data)
 
 # Save the processed result as prettified JSON
 output_file = 'test_output.json'
