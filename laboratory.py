@@ -89,7 +89,7 @@ class Laboratory:
         self.generate_task_resources(responseTaskStatus)  
     
     # This is the main method for processing a cancellation message
-    def process_cancellation_request(self, data):
+    def process_cancellation_and_modification_request(self, data):
         # Reset instance variables for each new message
         self.__init__()
         
