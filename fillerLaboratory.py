@@ -39,10 +39,18 @@ class FillerLaboratory(Laboratory):
         self.process_message_for_ack(data)
         return self.create_bundle_object(profile)
     
-    def fillerSendsCancellationModificationResponse(self,data):
+    def fillerSendsCancellationResponse(self,data):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNotifica"
         # Process the message, generate tasks, append organization resources, and create a bundle
-        self.process_cancellation_and_modification_request(data)
+        self.process_cancellation_request(data)
+        self.generate_task_resources("accepted")  # Set task_status to "accepted"
+        #self.append_organization_resources()
+        return self.create_bundle_object(profile)
+
+    def fillerSendsModificationResponse(self,data):
+        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNotifica"
+        # Process the message, generate tasks, append organization resources, and create a bundle
+        self.process_modification_request(data)
         self.generate_task_resources("accepted")  # Set task_status to "accepted"
         #self.append_organization_resources()
         return self.create_bundle_object(profile)

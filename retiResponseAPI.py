@@ -126,7 +126,7 @@ def handle_cancellation_request():
 
     # Extract the data from the prettified JSON
     request_data = json.loads(prettified_data)
-    return process_request(request_data, filler_lab.fillerSendsCancellationModificationResponse)
+    return process_request(request_data, filler_lab.fillerSendsCancellationResponse)
 
 @app.route('/ESreceivesModificationReq', methods=['POST'])
 def handle_modification_request():
@@ -138,7 +138,7 @@ def handle_modification_request():
 
     # Extract the data from the prettified JSON
     request_data = json.loads(prettified_data)
-    return process_request(request_data, filler_lab.fillerSendsCancellationModificationResponse)
+    return process_request(request_data, filler_lab.fillerSendsModificationResponse)
 
 @app.route('/ERreceivesNotification', methods=['POST'])
 def handle_checkIn_notification():

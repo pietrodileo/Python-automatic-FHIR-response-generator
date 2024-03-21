@@ -89,7 +89,7 @@ class Laboratory:
         self.generate_task_resources(responseTaskStatus)  
     
     # This is the main method for processing a cancellation message
-    def process_cancellation_and_modification_request(self, data):
+    def process_cancellation_request(self, data):
         # Reset instance variables for each new message
         self.__init__()
         
@@ -113,6 +113,47 @@ class Laboratory:
 
             elif resource_type == "ServiceRequest":
                 self.serviceRequestReferenceList.append(full_url)
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+
+            #elif resource_type == "Specimen":
+                # self.process_specimen_add_label(resource, full_url)
+            
+            elif resource_type == "AllergyIntolerance":
+                # Go on, this resource is not necessary in the response messages
+                continue
+
+            else:
+                # Generic FHIR resource
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+
+    # This is the main method for processing a cancellation message
+    def process_modification_request(self, data):
+        # Reset instance variables for each new message
+        self.__init__()
+        
+        for entry in data['entry']:
+            resource = entry['resource']
+            full_url = entry['fullUrl']
+            resource_type = resource['resourceType']
+
+            # Process different resource types
+            if resource_type == "MessageHeader":
+                self.process_message_header(resource, full_url)
+                # Extract the link to the Encounter resource
+                for ref in resource['focus']:
+                    if 'Encounter' in ref['reference']:
+                        self.encounterReference = ref['reference']
+                        continue
+
+            #elif resource_type == "Encounter": # Save EncounterReference in order to link it to the ServiceRequest
+            #    self.encounterReference = full_url
+            #    self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+
+            elif resource_type == "ServiceRequest":
+                # add to the list just the modified service requests and not the older one, referred in the replaces property
+                if 'replaces' in resource.keys():
+                    self.serviceRequestReferenceList.append(full_url)
+                # However, add both the resources to the bundle
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
             #elif resource_type == "Specimen":

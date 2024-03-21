@@ -1,8 +1,8 @@
 {
     "resourceType": "Bundle",
-    "id": "1e38d589-c4e7-4808-88e0-304cfced7730",
+    "id": "bc80f28e-b5b6-478c-aa1c-38b98377ea51",
     "type": "message",
-    "timestamp": "2024-03-21T15:15:03.095Z",
+    "timestamp": "2024-03-21T15:48:15.883Z",
     "meta": {
         "versionId": "1",
         "profile": [
@@ -11,16 +11,16 @@
     },
     "entry": [
         {
-            "fullUrl": "MessageHeader/558d0120-b04f-4ffb-9f58-44c4a892c45d",
+            "fullUrl": "MessageHeader/7d9f8124-aae7-4388-9eda-9e8eddae3316",
             "resource": {
                 "resourceType": "MessageHeader",
-                "id": "558d0120-b04f-4ffb-9f58-44c4a892c45d",
+                "id": "7d9f8124-aae7-4388-9eda-9e8eddae3316",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
                     ],
                     "versionId": "1",
-                    "lastUpdated": "2024-03-21T15:15:03.095Z"
+                    "lastUpdated": "2024-03-21T15:47:57.161Z"
                 },
                 "eventCoding": {
                     "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
@@ -45,37 +45,16 @@
                 },
                 "focus": [
                     {
-                        "reference": "Task/2e0cbe37-6e07-4009-a1d7-fa879a1ddaea"
-                    },
-                    {
-                        "reference": "Task/dc06bbfa-4689-49b4-b45c-63cf3a0ca424"
+                        "reference": "Task/de56496d-3ebb-479b-94f2-9f61b56f95f5"
                     }
                 ]
             }
         },
         {
-            "fullUrl": "Task/dc06bbfa-4689-49b4-b45c-63cf3a0ca424",
+            "fullUrl": "Task/de56496d-3ebb-479b-94f2-9f61b56f95f5",
             "resource": {
                 "resourceType": "Task",
-                "id": "dc06bbfa-4689-49b4-b45c-63cf3a0ca424",
-                "meta": {
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabTaskStatoRichiesta"
-                    ],
-                    "versionId": "1"
-                },
-                "focus": {
-                    "reference": "ServiceRequest/a2gbe11s-2235-4465-8b9c-944e337elk99"
-                },
-                "status": "accepted",
-                "intent": "order"
-            }
-        },
-        {
-            "fullUrl": "Task/2e0cbe37-6e07-4009-a1d7-fa879a1ddaea",
-            "resource": {
-                "resourceType": "Task",
-                "id": "2e0cbe37-6e07-4009-a1d7-fa879a1ddaea",
+                "id": "de56496d-3ebb-479b-94f2-9f61b56f95f5",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabTaskStatoRichiesta"
