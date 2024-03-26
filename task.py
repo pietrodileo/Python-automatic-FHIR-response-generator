@@ -3,7 +3,7 @@ import uuid
 from genericFHIRresource import GenericFHIRresource
 
 class Task(GenericFHIRresource):
-    def __init__(self, taskStatus, serviceRequestReference): #, encounterReference):
+    def __init__(self, taskStatus, serviceRequestReference, intent = "order"): #, encounterReference):
         # Create a Task resource associated to the linked service request  
         task_uid = str(uuid.uuid4()) 
         fullUrl = "Task/" + task_uid
@@ -21,7 +21,7 @@ class Task(GenericFHIRresource):
                 "reference": serviceRequestReference
             },
             "status": taskStatus,
-            "intent": "order",
+            "intent": intent
             #"encounter": {
             #    "reference": encounterReference
             #}

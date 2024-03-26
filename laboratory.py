@@ -20,6 +20,7 @@ class Laboratory:
         self.performerReference = None
         self.orgL1 = None
         self.orgL2 = None
+        self.serviceRequestIntent = []
 
     # This is the main method for processing a new request message
     def process_new_request(self, data):
@@ -45,6 +46,8 @@ class Laboratory:
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
             elif resource_type == "ServiceRequest":
+                # Save the current intent to the list  
+                self.serviceRequestIntent.append(resource['intent'])
                 self.process_service_request_for_new_request(resource, full_url)
 
             elif resource_type == "Specimen":
@@ -58,7 +61,7 @@ class Laboratory:
                 # Generic FHIR resource
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
-    # This is the main method for processing a check-in/out message
+    # This is the main method for processing a check-in/out message and the other notification messages
     def process_check_in_out(self, data, responseTaskStatus = "accepted"):
         # Reset instance variables for each new message
         self.__init__()
@@ -77,6 +80,8 @@ class Laboratory:
             elif resource_type == "ServiceRequest":
                 # Add the current full_url to the list of the service request 
                 self.serviceRequestReferenceList.append(full_url)
+                # Save the current intent to the list  
+                self.serviceRequestIntent.append(resource['intent'])
                 # Add the current ServiceRequest resource to the message
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
             elif resource_type == "Task":
@@ -112,6 +117,8 @@ class Laboratory:
             #    self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
             elif resource_type == "ServiceRequest":
+                # Save the current intent to the list  
+                self.serviceRequestIntent.append(resource['intent'])
                 self.serviceRequestReferenceList.append(full_url)
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
@@ -153,6 +160,7 @@ class Laboratory:
                 # add to the list just the modified service requests and not the older one, referred in the replaces property
                 if 'replaces' in resource.keys():
                     self.serviceRequestReferenceList.append(full_url)
+                    self.serviceRequestIntent.append(resource['intent'])
                 # However, add both the resources to the bundle
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
@@ -242,8 +250,11 @@ class Laboratory:
             elif type(task_statuses) is str:
                 task_status = task_statuses
 
+            # extract current service request intent
+            curr_intent = self.serviceRequestIntent[idx]
+            
             # initialize task resource
-            task = Task(task_status, service_request_full_url) #, self.encounterReference) Deprecated encounterReference 30/01/2024
+            task = Task(task_status, service_request_full_url, curr_intent) #, self.encounterReference) Deprecated encounterReference 30/01/2024
             
             # Add a rejection note
             if task_status == "rejected":
