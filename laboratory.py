@@ -1,5 +1,6 @@
 import json
 import random  # Import the random module
+import uuid
 from messageHeader import MessageHeader
 from bundle import Bundle
 from genericFHIRresource import GenericFHIRresource
@@ -82,6 +83,9 @@ class Laboratory:
                 self.serviceRequestReferenceList.append(full_url)
                 # Save the current intent to the list  
                 self.serviceRequestIntent.append(resource['intent'])
+                # Check if the current service request was added by the filler. If that's the case, add the PlacerOrderNumber ID to the response
+                if resource['intent'] == 'order-filler' or resource['intent'] == 'filler-order':
+                    self.add_placer_identifier(resource)                
                 # Add the current ServiceRequest resource to the message
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
             elif resource_type == "Task":
@@ -264,6 +268,22 @@ class Laboratory:
             task_reference = {"reference": task.fullUrl}
             self.resourcesList[0].resource['focus'].append(task_reference)
             self.resourcesList.insert(1, task)
+
+    def add_placer_identifier(self, resource):
+        placer_order_number_assigned = False
+
+        # Check if the placer order number is defined
+        for identifier in resource.get('identifier', []):
+            if identifier.get('system') == 'https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber':
+                placer_order_number_assigned = True
+                break
+
+        # If not, assign a new placer order number
+        if not placer_order_number_assigned:
+            placer_order_number = str(uuid.uuid4())
+            new_identifier = {'value': placer_order_number,
+                                'system': 'https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber'}
+            resource.setdefault('identifier', []).append(new_identifier)
 
     def append_organization_resources(self):
         # Append Organization resources at the end of the list if created
