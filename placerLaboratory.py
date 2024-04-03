@@ -14,3 +14,8 @@ class PlacerLaboratory(Laboratory):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaCheckInOut"
         self.process_check_in_out(data, responseTaskStatus)
         return self.create_bundle_object(profile)
+    
+    def placerManageResultsAndReports(self, data, responseTaskStatus = "accepted"):
+        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaACK"
+        self.process_results_and_reports(data, responseTaskStatus)
+        return self.create_bundle_object(profile)

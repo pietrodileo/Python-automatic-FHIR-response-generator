@@ -152,6 +152,18 @@ def handle_checkIn_notification():
     request_data = json.loads(prettified_data)
     return process_request(request_data, placer_lab.placerSendsCheckInOutResponse)
 
+@app.route('/ERreceivesResultsOrReport', methods=['POST'])
+def handle_results():
+    # Get the raw JSON data from the request
+    request_data_raw = request.data.decode('latin-1')
+
+    # Prettify the incoming POST bodies for improved readability and to avoid potential errors
+    prettified_data = json.dumps(json.loads(request_data_raw), indent=4)
+
+    # Extract the data from the prettified JSON
+    request_data = json.loads(prettified_data)
+    return process_request(request_data, placer_lab.placerManageResultsAndReports)
+
 @app.route('/generateError', methods=['POST'])
 def generate_error():
     # Return an HTTP error

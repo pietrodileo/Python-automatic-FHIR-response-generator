@@ -15,6 +15,7 @@ class Laboratory:
         # Initialize instance variables
         self.resourcesList = []
         self.serviceRequestReferenceList = []
+        self.diagnostic_report_reference_list = []
         self.organizationResourcesWereCreated = False
         self.encounterReference = None
         self.fillerLab = None
@@ -179,20 +180,47 @@ class Laboratory:
                 # Generic FHIR resource
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
-    def process_message_header(self, resource, full_url, response_code = "ORL"):
+    # This is the main method for processing the results
+    def process_results_and_reports(self, data, responseTaskStatus = "accepted"):
+        # Reset instance variables for each new message
+        self.__init__()
+        
+        for entry in data['entry']:
+            resource = entry['resource']
+            full_url = entry['fullUrl']
+            resource_type = resource['resourceType']
+
+            # Process different resource types
+            if resource_type == "MessageHeader":
+                self.process_message_header(resource, full_url, "OUL", "R22")
+            elif resource_type == "DiagnosticReport":
+                # Add the current full_url to the list of the service request
+                self.diagnostic_report_reference_list.append(full_url)
+                # Add the current ServiceRequest resource to the message
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+            elif resource_type == "Task":
+                # Go on, this resource will be replaced with a new Task resource
+                continue
+            else:
+                # Generic FHIR resource
+                self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
+        # Add new Task resources
+        self.generate_task_for_report(responseTaskStatus)  
+
+    def process_message_header(self, resource, full_url, response_code = "ORL", response_code_number = ""):
         # Extract information from MessageHeader resource
         request_message_code = resource['eventCoding']["code"]
         request_code_number = request_message_code[-3:]
-        
-        if response_code == "ACK":  
-            response_code_number = f"{request_code_number[0]}{int(request_code_number[1:])}"
-        else:
-            response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
-        #response_code = "ORL" #This is set as an argument
+        # Calculate response_code_number
+        if response_code_number == "":
+            if response_code == "ACK":  
+                response_code_number = f"{request_code_number[0]}{int(request_code_number[1:])}"
+            else:
+                response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
+        # Calculate new message code
         new_message_code = f"{response_code}^{response_code_number}"
         new_display_code = f"{response_code}^{response_code_number}^{response_code}_{response_code_number}"
         message_header = MessageHeader(new_message_code, new_display_code)
-        
         # Extract filler lab information and add MessageHeader to resources list
         self.fillerLab = message_header.ExtractMessageHeaderInfo(resource, initFocus=1)
         self.resourcesList.append(message_header)
@@ -264,6 +292,28 @@ class Laboratory:
             if task_status == "rejected":
                 rejection_note = "This is an example of rejection note"
                 task.addNotes(rejection_note)
+            # Add a reference to the new Task resource in MessageHeader.focus
+            task_reference = {"reference": task.fullUrl}
+            self.resourcesList[0].resource['focus'].append(task_reference)
+            self.resourcesList.insert(1, task)
+
+    def generate_task_for_report(self, task_statuses):
+        # Generate Task resources for each accepted service request and add to resources list
+        for idx, full_url in enumerate(self.diagnostic_report_reference_list):
+            # Extract task status
+            if type(task_statuses) is list:
+                task_status = task_statuses[idx]
+            elif type(task_statuses) is str:
+                task_status = task_statuses
+            
+            # initialize task resource
+            task = Task(task_status, full_url)
+            
+            # Add a rejection note
+            if task_status == "rejected":
+                rejection_note = "This is an example of rejection note"
+                task.addNotes(rejection_note)
+                
             # Add a reference to the new Task resource in MessageHeader.focus
             task_reference = {"reference": task.fullUrl}
             self.resourcesList[0].resource['focus'].append(task_reference)
