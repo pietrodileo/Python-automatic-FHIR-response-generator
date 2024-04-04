@@ -192,7 +192,14 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource, full_url, "OUL", "R22")
+                # Identify the message code to send back the correct one
+                message_code = resource['eventCoding']['code']
+                parts = message_code.split('^')
+                message_code_prefix = parts[0]
+                message_code_suffix = parts[1]
+                if message_code_suffix == "T02":
+                    message_code_suffix = "T06"
+                self.process_message_header(resource, full_url, message_code_prefix, message_code_suffix)
             elif resource_type == "DiagnosticReport":
                 # Add the current full_url to the list of the service request
                 self.diagnostic_report_reference_list.append(full_url)
@@ -214,7 +221,7 @@ class Laboratory:
         # Calculate response_code_number
         if response_code_number == "":
             if response_code == "ACK":  
-                response_code_number = f"{request_code_number[0]}{int(request_code_number[1:])}"
+                response_code_number = f"{request_code_number[0:]}"
             else:
                 response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
         # Calculate new message code
