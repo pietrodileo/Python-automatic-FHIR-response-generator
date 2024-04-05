@@ -271,7 +271,12 @@ class Laboratory:
                 pdfIdentifier = specimen.addPDF()
             else: 
                 specimen.addLabels()
-    
+                for service_URL in self.serviceRequestReferenceList:
+                    for curr_resource in self.resourcesList:
+                        # Look for a service request
+                        if curr_resource.fullUrl == service_URL:
+                            curr_resource.addServiceTypeLabels()
+                
             # Append Speciment to the resource list
             self.resourcesList.append(specimen) 
             

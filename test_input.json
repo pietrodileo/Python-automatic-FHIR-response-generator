@@ -1,170 +1,537 @@
 {
+  "richiesta":"New Request",
   "resourceType":"Bundle",
-  "id":"506ca675-3f15-4a76-ad59-616698e8d56c",
+  "id":"14dc6468-f334-11ee-8320-020017048457",
   "type":"message",
-  "timestamp":"2024-04-04T09:13:16.875Z",
   "meta":{
     "versionId":"1",
     "profile":[
-      "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaACK"
+      "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleNuovaRichiesta"
     ]
   },
+  "timestamp":"2024-04-05T10:05:49.491Z",
   "entry":[
     {
-      "fullUrl":"MessageHeader/25e02e2d-9e76-44d3-878f-2188de16bb61",
+      "fullUrl":"MessageHeader/14dc647a-f334-11ee-8320-020017048457",
       "resource":{
         "resourceType":"MessageHeader",
-        "id":"25e02e2d-9e76-44d3-878f-2188de16bb61",
+        "id":"14dc647a-f334-11ee-8320-020017048457",
         "meta":{
           "profile":[
             "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
           ],
           "versionId":"1",
-          "lastUpdated":"2024-04-04T09:13:16.874Z"
+          "lastUpdated":"2022-11-16T15:00:51+01:00"
         },
         "eventCoding":{
           "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
-          "code":"MDM^T02",
-          "display":"MDM^T02^MDM_T02"
+          "code":"OML^O21",
+          "display":"OML^O21^OML_O21"
         },
         "destination":[
           {
             "name":"3",
-            "software":"Postman Galaxy Hospital - Orbit Lab",
-            "endpoint":"https://pietrodileo.pythonanywhere.com"
+            "endpoint":"https://pietrodileo.pythonanywhere.com",
+            "software":"Postman Galaxy Hospital - Orbit Lab"
           }
         ],
         "source":{
           "name":"OMR",
-          "software":"Reti di Laboratorio",
+          "software":"Order Manager Regionale",
           "endpoint":"localhost:52773/fhir/retilab/Omr"
-        },
-        "response":{
-          "identifier":"507db12c-c582-42ef-ac5b-6d1e779e6d90",
-          "code":"ok"
         },
         "focus":[
           {
-            "reference":"Task/e1d4f0f9-286d-4e12-809b-406eb00b6fd7"
+            "reference":"Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb"
+          },
+          {
+            "reference":"AllergyIntolerance/31220ea7-39a8-4a90-a37f-9d93b63160ff"
           }
         ]
       }
     },
     {
-      "fullUrl":"Task/e1d4f0f9-286d-4e12-809b-406eb00b6fd7",
+      "fullUrl":"AllergyIntolerance/31220ea7-39a8-4a90-a37f-9d93b63160ff",
       "resource":{
-        "resourceType":"Task",
-        "id":"e1d4f0f9-286d-4e12-809b-406eb00b6fd7",
-        "meta":{
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabTaskStatoRichiesta"
-          ],
-          "versionId":"1"
-        },
-        "focus":{
-          "reference":"DiagnosticReport/cdf48597-f0f8-11ee-b9c7-020017048457"
-        },
-        "status":"accepted",
-        "intent":"order"
-      }
-    },
-    {
-      "fullUrl":"DiagnosticReport/cdf48597-f0f8-11ee-b9c7-020017048457",
-      "resource":{
-        "resourceType":"DiagnosticReport",
-        "id":"cdf48597-f0f8-11ee-b9c7-020017048457",
+        "resourceType":"AllergyIntolerance",
+        "id":"31220ea7-39a8-4a90-a37f-9d93b63160ff",
         "meta":{
           "versionId":"1",
           "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabDiagnosticReportRefertato"
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAllergyIntoleranceAllergie"
           ]
         },
-        "status":"final",
+        "code":{
+          "coding":[
+            {
+              "display":"Pelo di gatto",
+              "code":"123",
+              "system":"TabellaSISS#0394"
+            }
+          ]
+        },
+        "onsetDateTime":"2016",
+        "reaction":[
+          {
+            "manifestation":[
+              {
+                "text":"Infiammazione cutanea"
+              }
+            ]
+          }
+        ],
+        "patient":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7"
+        }
+      }
+    },
+    {
+      "fullUrl":"Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
+      "resource":{
+        "resourceType":"Encounter",
+        "id":"ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
+        "meta":{
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterInformazioniRichiestaLab"
+          ],
+          "versionId":"1"
+        },
         "identifier":[
           {
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoDocumentoTestuale",
-            "value":"123456"
-          },
+            "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/numeroRicovero",
+            "type":{
+              "coding":[
+                {
+                  "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/numeroRicovero",
+                  "code":"NR"
+                }
+              ]
+            },
+            "value":"202300001",
+            "assigner":{
+              "reference":"Organization/37d47b20-fbe0-11ed-99f7-02001700b287",
+              "display":"Laboratorio richiedente"
+            }
+          }
+        ],
+        "status":"planned",
+        "class":{
+          "system":"http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code":"IMP",
+          "display":"Impatient"
+        },
+        "subject":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7"
+        },
+        "basedOn":[
           {
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoDocumentoStrutturato",
-            "value":"1234596"
+            "reference":"ServiceRequest/e2bdf00d-2235-4465-8b9c-944e337efd47"
+          }
+        ],
+        "diagnosis":[
+          {
+            "condition":{
+              "reference":"Condition/25bc970c-d45c-11ed-afa1-0242ac120002"
+            },
+            "rank":1
           }
         ],
         "extension":[
           {
-            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabDiagnosticReportTipologiaDCE",
-            "valueCodeableConcept":{
-              "coding":[
-                {
-                  "system":"https://fhir.siss.regione.lombardia.it/ValueSet/TipologiaDCE",
-                  "display":"Referto Firmato",
-                  "code":"RefertoFirmato"
-                }
-              ]
+            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterNotaDiAccompagnamento",
+            "valueReference":{
+              "reference":"Binary/a8d5502e-02df-4a15-a433-aa6ce2f9fa50"
             }
           },
           {
-            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabDiagnosticReportRefertatoNaturaDCE",
-            "valueCodeableConcept":{
-              "coding":[
-                {
-                  "display":"Standard",
-                  "code":"01",
-                  "system":"https://fhir.siss.regione.lombardia.it/ValueSet/NaturaDCE"
-                }
-              ]
+            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterServiceRequester",
+            "valueReference":{
+              "reference":"Organization/72c10akc-9d02-34df-cina-01945719a018"
             }
-          }
-        ],
-        "code":{
-          "coding":[
-            {
-              "code":"11502-2",
-              "display":"Laboratory Report",
-              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC"
-            }
-          ]
-        },
-        "effectiveDateTime":"1971-10-28",
-        "issued":"2023-11-02T15:09:00+01:00",
-        "subject":{
-          "reference":"Patient/esempio-paziente-cittadino"
-        },
-        "basedOn":[
-          {
-            "reference":"ServiceRequest/esempio-servicerequest1-completato"
-          }
-        ],
-        "resultsInterpreter":[
-          {
-            "reference":"PractitionerRole/esempio-practitionerrole-responsabile-1"
           },
           {
-            "reference":"PractitionerRole/esempio-practitionerrole-responsabile-2"
-          }
-        ],
-        "specimen":[
+            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterAnamnesi",
+            "valueString":"Il paziente ha riferito di avere avuto episodi di vertigini negli ultimi mesi"
+          },
           {
-            "reference":"Specimen/esempio-specimen-campione-di-sangue"
-          }
-        ],
-        "encounter":{
-          "reference":"Encounter/esempio-encounter-completato"
-        },
-        "presentedForm":[
+            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterDettaglioOperatore",
+            "valueString":"Si è provveduto alla raccolta dei campioni biologoci del paziente"
+          },
           {
-            "contentType":"application/pdf",
-            "data":"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IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgMjI2IDMyNiA0MzggNDk4IDUwNyA3MjkKNzA1IDIzMyAzMTIgMzEyIDQ5OCA0OTggMjU4IDMwNiAyNjcgNDMwIDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3CjUwNyAyNzYgMjc2IDQ5OCA0OTggNDk4IDQ2MyA4OTggNjA2IDU2MSA1MjkgNjMwIDQ4OCA0NTkgNjM3IDYzMSAyNjcgMzMxIDU0Nwo0MjMgODc0IDY1OSA2NzYgNTMyIDY4NiA1NjMgNDczIDQ5NSA2NTMgNTkxIDkwNiA1NTEgNTIwIDQ3OCAzMjUgNDMwIDMyNSA0OTgKNDk4IDMwMCA0OTQgNTM3IDQxOCA1MzcgNTAzIDMxNiA0NzQgNTM3IDI0NiAyNTUgNDgwIDI0NiA4MTMgNTM3IDUzOCA1MzcgNTM3CjM1NSAzOTkgMzQ3IDUzNyA0NzMgNzQ1IDQ1OSA0NzQgMzk3IDM0NCA0NzUgMzQ0IDQ5OCA1MDcgNTA3IDUwNyAyNTggMzE2IDQzNQo3MTEgNDk4IDQ5OCA0MDEgMTA2MiA0NzMgMzQ0IDg3NCA1MDcgNDc4IDUwNyA1MDcgMjU4IDI1OCA0MzUgNDM1IDQ5OCA0OTggOTA1CjQ0NCA3MjAgMzk5IDM0NCA4NDMgNTA3IDM5NyA1MjAgMjI2IDMyNiA0OTggNTA3IDQ5OCA1MDcgNDk4IDQ5OCA0MTUgODM0IDQxNgo1MzkgNDk4IDMwNiA1MDcgMzkwIDM0MiA0OTggMzM4IDMzNiAzMDEgNTYzIDU5OCAyNjggMzAzIDI1MiA0MzUgNTM5IDY1OCA2OTEKNzAyIDQ2MyA2MDYgNjA2IDYwNiA2MDYgNjA2IDYwNiA3NzUgNTI5IDQ4OCA0ODggNDg4IDQ4OCAyNjcgMjY3IDI2NyAyNjcgNjM5CjY1OSA2NzYgNjc2IDY3NiA2NzYgNjc2IDQ5OCA2ODEgNjUzIDY1MyA2NTMgNjUzIDUyMCA1MzIgNTU1IDQ5NCA0OTQgNDk0IDQ5NAo0OTQgNDk0IDc3NSA0MTggNTAzIDUwMyA1MDMgNTAzIDI0NiAyNDYgMjQ2IDI0NiA1MzcgNTM3IDUzOCA1MzggNTM4IDUzOCA1MzgKNDk4IDU0NCA1MzcgNTM3IDUzNyA1MzcgNDc0IDUzNyA0NzQgXQ0KZW5kb2JqDQoxMSAwIG9iaiANPDwNCi9UeXBlL0ZvbnREZXNjcmlwdG9yCi9Gb250TmFtZS9DYWxpYnJpLEJvbGQKL0FzY2VudCA3NTAKL0NhcEhlaWdodCA1MDAKL0Rlc2NlbnQgLTI1MAovRmxhZ3MgMzIKL0ZvbnRCQm94IFstNTE5IC0zMDYgMTI0MCA5NzFdCi9JdGFsaWNBbmdsZSAwCi9TdGVtViAwCi9BdmdXaWR0aCA1MzYKL0xlYWRpbmcgMjIxCi9NYXhXaWR0aCAwCi9YSGVpZ2h0IDI1MA0KPj4gDWVuZG9iag0KMTIgMCBvYmogDTw8DQovVHlwZS9Gb250Ci9TdWJ0eXBlL1RydWVUeXBlCi9CYXNlRm9udC9DYWxpYnJpLEJvbGQKL0VuY29kaW5nIDMgMCBSCi9GaXJzdENoYXIgMA0KL0xhc3RDaGFyIDI1NQ0KL1dpZHRocyAxMCAwIFINCi9Gb250RGVzY3JpcHRvciAxMSAwIFINCj4+IA1lbmRvYmoNCjEzIDAgb2JqDQpbIDc1MCA3NTAgMjc4IDI3OCAzNTUgNTU2IDU1NiA4ODkgNjY3IDE5MSAzMzMgMzMzIDM4OSA1ODQgMjc4IDMzMyAyNzggMjc4IDU1Ngo1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiAyNzggMjc4IDU4NCA1ODQgNTg0IDU1NiAxMDE1IDY2NyA2NjcgNzIyCjcyMiA2NjcgNjExIDc3OCA3MjIgMjc4IDUwMCA2NjcgNTU2IDgzMyA3MjIgNzc4IDY2NyA3NzggNzIyIDY2NyA2MTEgNzIyIDY2Nwo5NDQgNjY3IDY2NyA2MTEgMjc4IDI3OCAyNzggNDY5IDU1NiAzMzMgNTU2IDU1NiA1MDAgNTU2IDU1NiAyNzggNTU2IDU1NiAyMjIKMjIyIDUwMCAyMjIgODMzIDU1NiA1NTYgNTU2IDU1NiAzMzMgNTAwIDI3OCA1NTYgNTAwIDcyMiA1MDAgNTAwIDUwMCAzMzQgMjYwCjMzNCA1ODQgNzUwIDU1NiA3NTAgMjIyIDU1NiAzMzMgMTAwMCA1NTYgNTU2IDMzMyAxMDAwIDY2NyAzMzMgMTAwMCA3NTAgNjExIDc1MAo3NTAgMjIyIDIyMiAzMzMgMzMzIDM1MCA1NTYgMTAwMCAzMzMgMTAwMCA1MDAgMzMzIDk0NCA3NTAgNTAwIDY2NyAyNzggMzMzIDU1Ngo1NTYgNTU2IDU1NiAyNjAgNTU2IDMzMyA3MzcgMzcwIDU1NiA1ODQgMzMzIDczNyA1NTIgNDAwIDU0OSAzMzMgMzMzIDMzMyA1NzYKNTM3IDMzMyAzMzMgMzMzIDM2NSA1NTYgODM0IDgzNCA4MzQgNjExIDY2NyA2NjcgNjY3IDY2NyA2NjcgNjY3IDEwMDAgNzIyIDY2Nwo2NjcgNjY3IDY2NyAyNzggMjc4IDI3OCAyNzggNzIyIDcyMiA3NzggNzc4IDc3OCA3NzggNzc4IDU4NCA3NzggNzIyIDcyMiA3MjIKNzIyIDY2NyA2NjcgNjExIDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDg4OSA1MDAgNTU2IDU1NiA1NTYgNTU2IDI3OCAyNzggMjc4CjI3OCA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTQ5IDYxMSA1NTYgNTU2IDU1NiA1NTYgNTAwIDU1NiA1MDAgXQ0KZW5kb2JqDQoxNCAwIG9iaiANPDwNCi9UeXBlL0ZvbnREZXNjcmlwdG9yCi9Gb250TmFtZS9BcmlhbAovQXNjZW50IDcyOAovQ2FwSGVpZ2h0IDUwMAovRGVzY2VudCAtMjEwCi9GbGFncyAzMgovRm9udEJCb3ggWy02NjUgLTMyNSAyMDAwIDEwMDZdCi9JdGFsaWNBbmdsZSAwCi9TdGVtViAwCi9BdmdXaWR0aCA0NDEKL0xlYWRpbmcgMTUwCi9NYXhXaWR0aCAwCi9YSGVpZ2h0IDI1MA0KPj4gDWVuZG9iag0KMTUgMCBvYmogDTw8DQovVHlwZS9Gb250Ci9TdWJ0eXBlL1RydWVUeXBlCi9CYXNlRm9udC9BcmlhbAovRW5jb2RpbmcgMyAwIFIKL0ZpcnN0Q2hhciAzMA0KL0xhc3RDaGFyIDI1NQ0KL1dpZHRocyAxMyAwIFINCi9Gb250RGVzY3JpcHRvciAxNCAwIFINCj4+IA1lbmRvYmoNCjE2IDAgb2JqDQpbIDAgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgMCA1MDcgNTA3IDUwNyA1MDcgNTA3CjUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyAyMjYgMzI2IDQwMSA0OTggNTA3IDcxNQo2ODIgMjIxIDMwMyAzMDMgNDk4IDQ5OCAyNTAgMzA2IDI1MiAzODYgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcgNTA3IDUwNyA1MDcKNTA3IDI2OCAyNjggNDk4IDQ5OCA0OTggNDYzIDg5NCA1NzkgNTQ0IDUzMyA2MTUgNDg4IDQ1OSA2MzEgNjIzIDI1MiAzMTkgNTIwCjQyMCA4NTUgNjQ2IDY2MiA1MTcgNjczIDU0MyA0NTkgNDg3IDY0MiA1NjcgODkwIDUxOSA0ODcgNDY4IDMwNyAzODYgMzA3IDQ5OAo0OTggMjkxIDQ3OSA1MjUgNDIzIDUyNSA0OTggMzA1IDQ3MSA1MjUgMjMwIDIzOSA0NTUgMjMwIDc5OSA1MjUgNTI3IDUyNSA1MjUKMzQ5IDM5MSAzMzUgNTI1IDQ1MiA3MTUgNDMzIDQ1MyAzOTUgMzE0IDQ2MCAzMTQgNDk4IDUwNyA1MDcgNTA3IDI1MCAzMDUgNDE4CjY5MCA0OTggNDk4IDM5NSAxMDM4IDQ1OSAzMzkgODY3IDUwNyA0NjggNTA3IDUwNyAyNTAgMjUwIDQxOCA0MTggNDk4IDQ5OCA5MDUKNDUwIDcwNSAzOTEgMzM5IDg1MCA1MDcgMzk1IDQ4NyAyMjYgMzI2IDQ5OCA1MDcgNDk4IDUwNyA0OTggNDk4IDM5MyA4MzQgNDAyCjUxMiA0OTggMzA2IDUwNyAzOTQgMzM5IDQ5OCAzMzYgMzM0IDI5MiA1NTAgNTg2IDI1MiAzMDcgMjQ2IDQyMiA1MTIgNjM2IDY3MQo2NzUgNDYzIDU3OSA1NzkgNTc5IDU3OSA1NzkgNTc5IDc2MyA1MzMgNDg4IDQ4OCA0ODggNDg4IDI1MiAyNTIgMjUyIDI1MiA2MjUKNjQ2IDY2MiA2NjIgNjYyIDY2MiA2NjIgNDk4IDY2NCA2NDIgNjQyIDY0MiA2NDIgNDg3IDUxNyA1MjcgNDc5IDQ3OSA0NzkgNDc5CjQ3OSA0NzkgNzczIDQyMyA0OTggNDk4IDQ5OCA0OTggMjMwIDIzMCAyMzAgMjMwIDUyNSA1MjUgNTI3IDUyNyA1MjcgNTI3IDUyNwo0OTggNTI5IDUyNSA1MjUgNTI1IDUyNSA0NTMgNTI1IDQ1MyBdDQplbmRvYmoNCjE3IDAgb2JqIA08PA0KL1R5cGUvRm9udERlc2NyaXB0b3IKL0ZvbnROYW1lL0NhbGlicmkKL0FzY2VudCA3NTAKL0NhcEhlaWdodCA1MDAKL0Rlc2NlbnQgLTI1MAovRmxhZ3MgMzIKL0ZvbnRCQm94IFstNTAzIC0zMDcgMTI0MCA5NjRdCi9JdGFsaWNBbmdsZSAwCi9TdGVtViAwCi9BdmdXaWR0aCA1MjEKL0xlYWRpbmcgMjIxCi9NYXhXaWR0aCAwCi9YSGVpZ2h0IDI1MA0KPj4gDWVuZG9iag0KMTggMCBvYmogDTw8DQovVHlwZS9Gb250Ci9TdWJ0eXBlL1RydWVUeXBlCi9CYXNlRm9udC9DYWxpYnJpCi9FbmNvZGluZyAzIDAgUgovRmlyc3RDaGFyIDANCi9MYXN0Q2hhciAyNTUNCi9XaWR0aHMgMTYgMCBSDQovRm9udERlc2NyaXB0b3IgMTcgMCBSDQo+PiANZW5kb2JqDQoxOSAwIG9iag0KWyA3NTAgNzUwIDI3OCAzMzMgNDc0IDU1NiA1NTYgODg5IDcyMiAyMzggMzMzIDMzMyAzODkgNTg0IDI3OCAzMzMgMjc4IDI3OCA1NTYKNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgMzMzIDMzMyA1ODQgNTg0IDU4NCA2MTEgOTc1IDcyMiA3MjIgNzIyCjcyMiA2NjcgNjExIDc3OCA3MjIgMjc4IDU1NiA3MjIgNjExIDgzMyA3MjIgNzc4IDY2NyA3NzggNzIyIDY2NyA2MTEgNzIyIDY2Nwo5NDQgNjY3IDY2NyA2MTEgMzMzIDI3OCAzMzMgNTg0IDU1NiAzMzMgNTU2IDYxMSA1NTYgNjExIDU1NiAzMzMgNjExIDYxMSAyNzgKMjc4IDU1NiAyNzggODg5IDYxMSA2MTEgNjExIDYxMSAzODkgNTU2IDMzMyA2MTEgNTU2IDc3OCA1NTYgNTU2IDUwMCAzODkgMjgwCjM4OSA1ODQgNzUwIDU1NiA3NTAgMjc4IDU1NiA1MDAgMTAwMCA1NTYgNTU2IDMzMyAxMDAwIDY2NyAzMzMgMTAwMCA3NTAgNjExIDc1MAo3NTAgMjc4IDI3OCA1MDAgNTAwIDM1MCA1NTYgMTAwMCAzMzMgMTAwMCA1NTYgMzMzIDk0NCA3NTAgNTAwIDY2NyAyNzggMzMzIDU1Ngo1NTYgNTU2IDU1NiAyODAgNTU2IDMzMyA3MzcgMzcwIDU1NiA1ODQgMzMzIDczNyA1NTIgNDAwIDU0OSAzMzMgMzMzIDMzMyA1NzYKNTU2IDMzMyAzMzMgMzMzIDM2NSA1NTYgODM0IDgzNCA4MzQgNjExIDcyMiA3MjIgNzIyIDcyMiA3MjIgNzIyIDEwMDAgNzIyIDY2Nwo2NjcgNjY3IDY2NyAyNzggMjc4IDI3OCAyNzggNzIyIDcyMiA3NzggNzc4IDc3OCA3NzggNzc4IDU4NCA3NzggNzIyIDcyMiA3MjIKNzIyIDY2NyA2NjcgNjExIDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDg4OSA1NTYgNTU2IDU1NiA1NTYgNTU2IDI3OCAyNzggMjc4CjI3OCA2MTEgNjExIDYxMSA2MTEgNjExIDYxMSA2MTEgNTQ5IDYxMSA2MTEgNjExIDYxMSA2MTEgNTU2IDYxMSA1NTYgXQ0KZW5kb2JqDQoyMCAwIG9iaiANPDwNCi9UeXBlL0ZvbnREZXNjcmlwdG9yCi9Gb250TmFtZS9BcmlhbCxCb2xkSXRhbGljCi9Bc2NlbnQgNzI4Ci9DYXBIZWlnaHQgNTAwCi9EZXNjZW50IC0yMTAKL0ZsYWdzIDMyCi9Gb250QkJveCBbLTU2MCAtMzc2IDEzOTAgMTAxOF0KL0l0YWxpY0FuZ2xlIC0xMjAKL1N0ZW1WIDAKL0F2Z1dpZHRoIDQ3OQovTGVhZGluZyAxNTAKL01heFdpZHRoIDAKL1hIZWlnaHQgMjUwDQo+PiANZW5kb2JqDQoyMSAwIG9iaiANPDwNCi9UeXBlL0ZvbnQKL1N1YnR5cGUvVHJ1ZVR5cGUKL0Jhc2VGb250L0FyaWFsLEJvbGRJdGFsaWMKL0VuY29kaW5nIDMgMCBSCi9GaXJzdENoYXIgMzANCi9MYXN0Q2hhciAyNTUNCi9XaWR0aHMgMTkgMCBSDQovRm9udERlc2NyaXB0b3IgMjAgMCBSDQo+PiANZW5kb2JqDQoyMiAwIG9iag0KWyA3NTAgNzUwIDI3OCAyNzggMzU1IDU1NiA1NTYgODg5IDY2NyAxOTEgMzMzIDMzMyAzODkgNTg0IDI3OCAzMzMgMjc4IDI3OCA1NTYKNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgMjc4IDI3OCA1ODQgNTg0IDU4NCA1NTYgMTAxNSA2NjcgNjY3IDcyMgo3MjIgNjY3IDYxMSA3NzggNzIyIDI3OCA1MDAgNjY3IDU1NiA4MzMgNzIyIDc3OCA2NjcgNzc4IDcyMiA2NjcgNjExIDcyMiA2NjcKOTQ0IDY2NyA2NjcgNjExIDI3OCAyNzggMjc4IDQ2OSA1NTYgMzMzIDU1NiA1NTYgNTAwIDU1NiA1NTYgMjc4IDU1NiA1NTYgMjIyCjIyMiA1MDAgMjIyIDgzMyA1NTYgNTU2IDU1NiA1NTYgMzMzIDUwMCAyNzggNTU2IDUwMCA3MjIgNTAwIDUwMCA1MDAgMzM0IDI2MAozMzQgNTg0IDc1MCA1NTYgNzUwIDIyMiA1NTYgMzMzIDEwMDAgNTU2IDU1NiAzMzMgMTAwMCA2NjcgMzMzIDEwMDAgNzUwIDYxMSA3NTAKNzUwIDIyMiAyMjIgMzMzIDMzMyAzNTAgNTU2IDEwMDAgMzMzIDEwMDAgNTAwIDMzMyA5NDQgNzUwIDUwMCA2NjcgMjc4IDMzMyA1NTYKNTU2IDU1NiA1NTYgMjYwIDU1NiAzMzMgNzM3IDM3MCA1NTYgNTg0IDMzMyA3MzcgNTUyIDQwMCA1NDkgMzMzIDMzMyAzMzMgNTc2CjUzNyAzMzMgMzMzIDMzMyAzNjUgNTU2IDgzNCA4MzQgODM0IDYxMSA2NjcgNjY3IDY2NyA2NjcgNjY3IDY2NyAxMDAwIDcyMiA2NjcKNjY3IDY2NyA2NjcgMjc4IDI3OCAyNzggMjc4IDcyMiA3MjIgNzc4IDc3OCA3NzggNzc4IDc3OCA1ODQgNzc4IDcyMiA3MjIgNzIyCjcyMiA2NjcgNjY3IDYxMSA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA4ODkgNTAwIDU1NiA1NTYgNTU2IDU1NiAyNzggMjc4IDI3OAoyNzggNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU0OSA2MTEgNTU2IDU1NiA1NTYgNTU2IDUwMCA1NTYgNTAwIF0NCmVuZG9iag0KMjMgMCBvYmogDTw8DQovVHlwZS9Gb250RGVzY3JpcHRvcgovRm9udE5hbWUvQXJpYWwsSXRhbGljCi9Bc2NlbnQgNzI4Ci9DYXBIZWlnaHQgNTAwCi9EZXNjZW50IC0yMDgKL0ZsYWdzIDMyCi9Gb250QkJveCBbLTUxNyAtMzI1IDEzNTkgOTk4XQovSXRhbGljQW5nbGUgLTEyMAovU3RlbVYgMAovQXZnV2lkdGggNDQxCi9MZWFkaW5nIDE1MAovTWF4V2lkdGggMAovWEhlaWdodCAyNTANCj4+IA1lbmRvYmoNCjI0IDAgb2JqIA08PA0KL1R5cGUvRm9udAovU3VidHlwZS9UcnVlVHlwZQovQmFzZUZvbnQvQXJpYWwsSXRhbGljCi9FbmNvZGluZyAzIDAgUgovRmlyc3RDaGFyIDMwDQovTGFzdENoYXIgMjU1DQovV2lkdGhzIDIyIDAgUg0KL0ZvbnREZXNjcmlwdG9yIDIzIDAgUg0KPj4gDWVuZG9iag0KMjUgMCBvYmoNClsgMTAwMCAxMDAwIDMxMyAzMzIgNDAxIDcyOCA1NDYgOTc3IDY3NCAyMTEgMzgzIDM4MyA1NDYgNzI4IDMwMyAzNjMgMzAzIDM4MiA1NDYKNTQ2IDU0NiA1NDYgNTQ2IDU0NiA1NDYgNTQ2IDU0NiA1NDYgMzU0IDM1NCA3MjggNzI4IDcyOCA0NzQgOTA5IDYwMCA1ODkgNjAxCjY3OCA1NjEgNTIxIDY2NyA2NzUgMzczIDQxNyA1ODggNDk4IDc3MSA2NjcgNzA4IDU1MSA3MDggNjIxIDU1NyA1ODQgNjU2IDU5Nwo5MDIgNTgxIDU3NiA1NTkgMzgzIDM4MiAzODMgNzI4IDU0NiA1NDYgNTI1IDU1MyA0NjEgNTUzIDUyNiAzMTggNTUzIDU1OCAyMjkKMjgyIDQ5OCAyMjkgODQwIDU1OCA1NDMgNTUzIDU1MyAzNjAgNDQ2IDMzNCA1NTggNDk4IDc0MiA0OTUgNDk4IDQ0NCA0ODAgMzgyCjQ4MCA3MjggNTAwIDU0NiAxMDAwIDIxMSA1NDYgMzk3IDgxNyA1NDYgNTQ2IDU0NiAxMzkxIDU1NyAzODMgOTc3IDEwMDAgNTU5IDEwMDAKMTAwMCAyMTEgMjExIDQwMSA0MDEgNDU1IDU0NiA5MDkgNTQ2IDg3NiA0NDYgMzgzIDkwOSAxMDAwIDQ0NCA1NzYgMzEzIDMzMiA1NDYKNTQ2IDU0NiA1NDYgMzgyIDU0NiA1NDYgOTI5IDQ5MyA1NzMgNzI4IDM2MyA5MjkgNTQ2IDQ3MSA3MjggNDkzIDQ5MyA1NDYgNTY4CjU0NiAzNTQgNTQ2IDQ5MyA0OTMgNTczIDEwMDAgMTAwMCAxMDAwIDQ3NCA2MDAgNjAwIDYwMCA2MDAgNjAwIDYwMCA5MTMgNjAxIDU2MQo1NjEgNTYxIDU2MSAzNzMgMzczIDM3MyAzNzMgNjk4IDY2NyA3MDggNzA4IDcwOCA3MDggNzA4IDcyOCA3MDggNjU2IDY1NiA2NTYKNjU2IDU3NiA1NjUgNTQ4IDUyNSA1MjUgNTI1IDUyNSA1MjUgNTI1IDg4MCA0NjEgNTI2IDUyNiA1MjYgNTI2IDIyOSAyMjkgMjI5CjIyOSA1NDYgNTU4IDU0MyA1NDMgNTQzIDU0MyA1NDMgNzI4IDU0MyA1NTggNTU4IDU1OCA1NTggNDk4IDU1MyA0OTggXQ0KZW5kb2JqDQoyNiAwIG9iaiANPDwNCi9UeXBlL0ZvbnREZXNjcmlwdG9yCi9Gb250TmFtZS9UYWhvbWEsSXRhbGljCi9Bc2NlbnQgNzY1Ci9DYXBIZWlnaHQgNTAwCi9EZXNjZW50IC0yMDcKL0ZsYWdzIDMyCi9Gb250QkJveCBbLTYwMCAtMjE2IDE1MTYgMTAzNF0KL0l0YWxpY0FuZ2xlIDAKL1N0ZW1WIDAKL0F2Z1dpZHRoIDQ0NAovTGVhZGluZyAyMDcKL01heFdpZHRoIDAKL1hIZWlnaHQgMjUwDQo+PiANZW5kb2JqDQoyNyAwIG9iaiANPDwNCi9UeXBlL0ZvbnQKL1N1YnR5cGUvVHJ1ZVR5cGUKL0Jhc2VGb250L1RhaG9tYSxJdGFsaWMKL0VuY29kaW5nIDMgMCBSCi9GaXJzdENoYXIgMzANCi9MYXN0Q2hhciAyNTUNCi9XaWR0aHMgMjUgMCBSDQovRm9udERlc2NyaXB0b3IgMjYgMCBSDQo+PiANZW5kb2JqDQoyOCAwIG9iag0KWyAxMDAwIDEwMDAgMzEzIDMzMiA0MDEgNzI4IDU0NiA5NzcgNjc0IDIxMSAzODMgMzgzIDU0NiA3MjggMzAzIDM2MyAzMDMgMzgyIDU0Ngo1NDYgNTQ2IDU0NiA1NDYgNTQ2IDU0NiA1NDYgNTQ2IDU0NiAzNTQgMzU0IDcyOCA3MjggNzI4IDQ3NCA5MDkgNjAwIDU4OSA2MDEKNjc4IDU2MSA1MjEgNjY3IDY3NSAzNzMgNDE3IDU4OCA0OTggNzcxIDY2NyA3MDggNTUxIDcwOCA2MjEgNTU3IDU4NCA2NTYgNTk3CjkwMiA1ODEgNTc2IDU1OSAzODMgMzgyIDM4MyA3MjggNTQ2IDU0NiA1MjUgNTUzIDQ2MSA1NTMgNTI2IDMxOCA1NTMgNTU4IDIyOQoyODIgNDk4IDIyOSA4NDAgNTU4IDU0MyA1NTMgNTUzIDM2MCA0NDYgMzM0IDU1OCA0OTggNzQyIDQ5NSA0OTggNDQ0IDQ4MCAzODIKNDgwIDcyOCA1MDAgNTQ2IDEwMDAgMjExIDU0NiAzOTcgODE3IDU0NiA1NDYgNTQ2IDEzOTEgNTU3IDM4MyA5NzcgMTAwMCA1NTkgMTAwMAoxMDAwIDIxMSAyMTEgNDAxIDQwMSA0NTUgNTQ2IDkwOSA1NDYgODc2IDQ0NiAzODMgOTA5IDEwMDAgNDQ0IDU3NiAzMTMgMzMyIDU0Ngo1NDYgNTQ2IDU0NiAzODIgNTQ2IDU0NiA5MjkgNDkzIDU3MyA3MjggMzYzIDkyOSA1NDYgNDcxIDcyOCA0OTMgNDkzIDU0NiA1NjgKNTQ2IDM1NCA1NDYgNDkzIDQ5MyA1NzMgMTAwMCAxMDAwIDEwMDAgNDc0IDYwMCA2MDAgNjAwIDYwMCA2MDAgNjAwIDkxMyA2MDEgNTYxCjU2MSA1NjEgNTYxIDM3MyAzNzMgMzczIDM3MyA2OTggNjY3IDcwOCA3MDggNzA4IDcwOCA3MDggNzI4IDcwOCA2NTYgNjU2IDY1Ngo2NTYgNTc2IDU2NSA1NDggNTI1IDUyNSA1MjUgNTI1IDUyNSA1MjUgODgwIDQ2MSA1MjYgNTI2IDUyNiA1MjYgMjI5IDIyOSAyMjkKMjI5IDU0NiA1NTggNTQzIDU0MyA1NDMgNTQzIDU0MyA3MjggNTQzIDU1OCA1NTggNTU4IDU1OCA0OTggNTUzIDQ5OCBdDQplbmRvYmoNCjI5IDAgb2JqIA08PA0KL1R5cGUvRm9udERlc2NyaXB0b3IKL0ZvbnROYW1lL1RhaG9tYQovQXNjZW50IDc2NQovQ2FwSGVpZ2h0IDUwMAovRGVzY2VudCAtMjA3Ci9GbGFncyAzMgovRm9udEJCb3ggWy02MDAgLTIxNiAxNTE2IDEwMzRdCi9JdGFsaWNBbmdsZSAwCi9TdGVtViAwCi9BdmdXaWR0aCA0NDQKL0xlYWRpbmcgMjA3Ci9NYXhXaWR0aCAwCi9YSGVpZ2h0IDI1MA0KPj4gDWVuZG9iag0KMzAgMCBvYmogDTw8DQovVHlwZS9Gb250Ci9TdWJ0eXBlL1RydWVUeXBlCi9CYXNlRm9udC9UYWhvbWEKL0VuY29kaW5nIDMgMCBSCi9GaXJzdENoYXIgMzANCi9MYXN0Q2hhciAyNTUNCi9XaWR0aHMgMjggMCBSDQovRm9udERlc2NyaXB0b3IgMjkgMCBSDQo+PiANZW5kb2JqDQozIDAgb2JqIA08PA0KL1R5cGUvRW5jb2RpbmcvRGlmZmVyZW5jZXMKWzEyOCAvRXVyb10vQmFzZUVuY29kaW5nL1dpbkFuc2lFbmNvZGluZw0KPj4gDWVuZG9iag0KOSAwIG9iaiANPDwNCi9Qcm9jU2V0IFsvUERGL1RleHQvSW1hZ2VDXQ0KL0ZvbnQgPDwgL0YxIDEyIDAgUg0KL0YyIDE1IDAgUg0KL0YzIDE4IDAgUg0KL0Y0IDIxIDAgUg0KL0Y1IDI0IDAgUg0KL0Y2IDI3IDAgUg0KL0Y3IDMwIDAgUiA+Pg0KL1hPYmplY3QgPDwgL3dwdDEgMiAwIFINCi93cHQyIDQgMCBSDQovd3B0MyA1IDAgUiA+Pg0KPj4gDWVuZG9iag0KOCAwIG9iaiANPDwNCi9UeXBlL1BhZ2VzDQovS2lkcyBbIDcgMCBSIF0NCi9Db3VudCAxDQo+PiANZW5kb2JqDQozMSAwIG9iaiANPDwNCi9UeXBlL0NhdGFsb2cNCi9QYWdlcyA4IDAgUg0KL1BhZ2VNb2RlL1VzZU5vbmUNCj4+IA1lbmRvYmoNCnhyZWYNCjAgMzINCjAwMDAwMDAwMDAgNjU1MzUgZg0KMDAwMDAwMDA0MyAwMDAwMCBuDQowMDAwMDAwMjQxIDAwMDAwIG4NCjAwMDAwMzU1MjIgMDAwMDAgbg0KMDAwMDAwOTA3NyAwMDAwMCBuDQowMDAwMDIyODc3IDAwMDAwIG4NCjAwMDAwMjMwOTMgMDAwMDAgbg0KMDAwMDAyNTkxMiAwMDAwMCBuDQowMDAwMDM1ODIwIDAwMDAwIG4NCjAwMDAwMzU2MTYgMDAwMDAgbg0KMDAwMDAyNjAyNCAwMDAwMCBuDQowMDAwMDI3MDY4IDAwMDAwIG4NCjAwMDAwMjcyOTcgMDAwMDAgbg0KMDAwMDAyNzQ2MCAwMDAwMCBuDQowMDAwMDI4Mzk0IDAwMDAwIG4NCjAwMDAwMjg2MTcgMDAwMDAgbg0KMDAwMDAyODc3NCAwMDAwMCBuDQowMDAwMDI5ODE4IDAwMDAwIG4NCjAwMDAwMzAwNDIgMDAwMDAgbg0KMDAwMDAzMDIwMCAwMDAwMCBuDQowMDAwMDMxMTMzIDAwMDAwIG4NCjAwMDAwMzEzNzAgMDAwMDAgbg0KMDAwMDAzMTUzOCAwMDAwMCBuDQowMDAwMDMyNDcyIDAwMDAwIG4NCjAwMDAwMzI3MDQgMDAwMDAgbg0KMDAwMDAzMjg2OCAwMDAwMCBuDQowMDAwMDMzODA2IDAwMDAwIG4NCjAwMDAwMzQwMzcgMDAwMDAgbg0KMDAwMDAzNDIwMiAwMDAwMCBuDQowMDAwMDM1MTQwIDAwMDAwIG4NCjAwMDAwMzUzNjQgMDAwMDAgbg0KMDAwMDAzNTg4NSAwMDAwMCBuDQp0cmFpbGVyCjw8Ci9TaXplIDMyDQovUm9vdCAzMSAwIFINCi9JRFs8NTI0YjQ4NGM0NjQ2NTM1NTUzNGQ0NDQ2NTM0ZjU3NDI+PDUyNGI0ODRjNDY0NjUzNTU1MzRkNDQ0NjUzNGY1NzQyPl0NCi9JbmZvIDEgMCBSDQo+Pg0Kc3RhcnR4cmVmDQozNTk1OQ0KJSVFT0YNCg==",
-            "creation":"2023-02-27T11:58:01+01:00"
+            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterNotePaziente",
+            "valueString":"Sono stati prelevati campioni di sangue dal paziente per l'esecuzione degli esami di laboratorio prescritti."
           }
         ]
       }
     },
     {
-      "fullUrl":"Patient/esempio-paziente-cittadino",
+      "fullUrl":"Binary/a8d5502e-02df-4a15-a433-aa6ce2f9fa50",
+      "resource":{
+        "resourceType":"Binary",
+        "id":"a8d5502e-02df-4a15-a433-aa6ce2f9fa50",
+        "meta":{
+          "versionId":"1",
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBinaryDocumentoPDFEncodedBase64"
+          ]
+        },
+        "data":"MIAGCSqGSp1mcdl5PCRUrdikw4dk2oAAAAAAAA=",
+        "contentType":"application/pdf"
+      }
+    },
+    {
+      "fullUrl":"Condition/25bc970c-d45c-11ed-afa1-0242ac120002",
+      "resource":{
+        "resourceType":"Condition",
+        "id":"25bc970c-d45c-11ed-afa1-0242ac120002",
+        "meta":{
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabConditionDiagnosi"
+          ],
+          "versionId":"1"
+        },
+        "identifier":[
+          {
+            "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/IdentificativoDiagnosi",
+            "value":"012345"
+          }
+        ],
+        "category":[
+          {
+            "coding":[
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/TipoDiagnosiPatologia",
+                "code":"A",
+                "display":"Diagnosi di accettazione"
+              },
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/TipoDiagnosiPatologia",
+                "code":"P",
+                "display":"Patologia principale"
+              }
+            ]
+          }
+        ],
+        "severity":{
+          "coding":[
+            {
+              "system":"http://snomed.info/sct",
+              "code":"24484000",
+              "display":"Severe"
+            }
+          ]
+        },
+        "code":{
+          "coding":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceDiagnosi",
+              "code":"39065001",
+              "display":"Ustione dell'orecchio"
+            }
+          ]
+        },
+        "subject":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7",
+          "display":"Mario Rossi"
+        },
+        "recordedDate":"2013-03-11T23:45:32Z",
+        "asserter":{
+          "reference":"PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287",
+          "display":"Stefano Neva"
+        },
+        "note":[
+          {
+            "text":"Note aggiuntive sulla diagnosi"
+          }
+        ],
+        "extension":[
+          {
+            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabConditionConfidenzialitaDiagnosi",
+            "valueString":"Diagnosi confidenziale"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl":"ServiceRequest/e2bdf00d-2235-4465-8b9c-944e337efd47",
+      "resource":{
+        "resourceType":"ServiceRequest",
+        "id":"e2bdf00d-2235-4465-8b9c-944e337efd47",
+        "meta":{
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabServiceRequestRichiestaEsamiLab"
+          ],
+          "versionId":"1"
+        },
+        "identifier":[
+          {
+            "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
+            "value":"1-0035"
+          },
+          {
+            "system":"https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
+            "value":"14dacd72-f334-11ee-8e15-020017048457"
+          }
+        ],
+        "requisition":{
+          "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
+          "value":"0000-0018-"
+        },
+        "status":"active",
+        "category":[
+          {
+            "coding":[
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/Valueset/CategoriaOrdine",
+                "code":"1",
+                "display":"Richiesta"
+              }
+            ]
+          }
+        ],
+        "intent":"order",
+        "priority":"urgent",
+        "code":{
+          "coding":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+              "code":"90325",
+              "display":"Magnesio totale nelle urine"
+            }
+          ]
+        },
+        "orderDetail":[
+          {
+            "coding":[
+              {
+                "code":"0002",
+                "system":"https://fhir.siss.regione.lombardia.it/sid/identificativoInternoUnitaErogante"
+              }
+            ]
+          },
+          {
+            "coding":[
+              {
+                "code":"0801",
+                "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto"
+              }
+            ]
+          },
+          {
+            "coding":[
+              {
+                "code":"03091300",
+                "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio"
+              }
+            ]
+          },
+          {
+            "coding":[
+              {
+                "code":"LAB",
+                "system":"https://fhir.siss.regione.lombardia.it/sid/identificativoInternoSalaErogatrice"
+              }
+            ]
+          }
+        ],
+        "quantityQuantity":{
+          "value":1
+        },
+        "subject":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7",
+          "display":"Centoottantatre Prodsiss"
+        },
+        "encounter":{
+          "reference":"Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
+          "display":"Informazioni Richiesta Lab"
+        },
+        "authoredOn":"2022-11-16T14:59:37Z",
+        "requester":{
+          "reference":"PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287",
+          "display":"Medico"
+        },
+        "supportingInfo":[
+          {
+            "reference":"Observation/d52a9b60-d45e-11ed-afa1-0242ac120002",
+            "display":"Info Cliniche"
+          }
+        ],
+        "specimen":[
+          {
+            "reference":"Specimen/4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
+            "display":"Campione da analizzare"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl":"Observation/d52a9b60-d45e-11ed-afa1-0242ac120002",
+      "resource":{
+        "resourceType":"Observation",
+        "id":"d52a9b60-d45e-11ed-afa1-0242ac120002",
+        "meta":{
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabObservationInfoCliniche"
+          ],
+          "versionId":"1"
+        },
+        "status":"final",
+        "code":{
+          "coding":[
+            {
+              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+              "code":"15074-8",
+              "display":"Glucose [Moles/volume] in Blood"
+            }
+          ]
+        },
+        "valueQuantity":{
+          "value":6.3,
+          "unit":"mmol/l"
+        },
+        "note":{
+          "text":"note aggiuntive"
+        },
+        "subject":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7"
+        }
+      }
+    },
+    {
+      "fullUrl":"Specimen/4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
+      "resource":{
+        "resourceType":"Specimen",
+        "id":"4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
+        "meta":{
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampioneDaAnalizzare"
+          ],
+          "versionId":1
+        },
+        "type":{
+          "coding":[
+            {
+              "code":"119297000",
+              "display":"Blood specimen (specimen)",
+              "system":"SNOMED"
+            }
+          ]
+        },
+        "subject":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7"
+        },
+        "receivedTime":"2022-11-16T14:59:37Z",
+        "collection":{
+          "collectedDateTime":"2022-11-16T14:59:37Z",
+          "quantity":{
+            "value":0
+          },
+          "bodySite":{
+            "coding":[
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+                "code":"TBD",
+                "display":"TBD"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fullUrl":"Organization/7195779b-9c43-4074-a2d4-7e34e18b1ae4",
+      "resource":{
+        "resourceType":"Organization",
+        "id":"7195779b-9c43-4074-a2d4-7e34e18b1ae4",
+        "meta":{
+          "versionId":"1",
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
+          ]
+        },
+        "identifier":[
+          {
+            "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceStruttura",
+            "value":"309672"
+          }
+        ],
+        "name":"Denominazione dell'ente L1"
+      }
+    },
+    {
+      "fullUrl":"Organization/37d47b20-fbe0-11ed-99f7-02001700b287",
+      "resource":{
+        "resourceType":"Organization",
+        "id":"37d47b20-fbe0-11ed-99f7-02001700b287",
+        "meta":{
+          "versionId":"1",
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
+          ]
+        },
+        "identifier":[
+          {
+            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio",
+            "value":"1234"
+          }
+        ],
+        "partOf":{
+          "reference":"Organization/7195779b-9c43-4074-a2d4-7e34e18b1ae4"
+        },
+        "name":"Descrizione del presidio L2"
+      }
+    },
+    {
+      "fullUrl":"Organization/65a05dcc-6f57-11ee-adbe-02001700b287",
+      "resource":{
+        "resourceType":"Organization",
+        "id":"65a05dcc-6f57-11ee-adbe-02001700b287",
+        "meta":{
+          "versionId":"1",
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL3"
+          ]
+        },
+        "identifier":[
+          {
+            "value":"0801",
+            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto"
+          }
+        ],
+        "name":"CARDIOLOGIA",
+        "partOf":{
+          "reference":"Organization/37d47b20-fbe0-11ed-99f7-02001700b287"
+        }
+      }
+    },
+    {
+      "fullUrl":"Organization/72c10akc-9d02-34df-cina-01945719a018",
+      "resource":{
+        "resourceType":"Organization",
+        "id":"72c10akc-9d02-34df-cina-01945719a018",
+        "meta":{
+          "versionId":"1",
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL4"
+          ]
+        },
+        "identifier":[
+          {
+            "value":"121314",
+            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeAmbulatorio"
+          }
+        ],
+        "name":"CARDIOLOGIA",
+        "partOf":{
+          "reference":"Organization/65a05dcc-6f57-11ee-adbe-02001700b287"
+        }
+      }
+    },
+    {
+      "fullUrl":"Patient/6686199c-f386-4345-a178-5e98023575f7",
       "resource":{
         "resourceType":"Patient",
-        "id":"esempio-paziente-cittadino",
+        "id":"6686199c-f386-4345-a178-5e98023575f7",
         "meta":{
           "versionId":"1",
           "profile":[
@@ -175,29 +542,29 @@
           {
             "url":"http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
             "valueAddress":{
+              "city":"FRANCIA",
               "extension":[
                 {
                   "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
                   "valueString":"999215"
                 }
-              ],
-              "city":"FRANCIA"
+              ]
             }
           }
         ],
         "identifier":[
           {
+            "value":"CODTEAM",
+            "system":"https://fhir.siss.regione.lombardia.it/Valueset/TesseraTEAM",
             "type":{
               "coding":[
                 {
-                  "system":"https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente",
+                  "display":"Tessera TEAM",
                   "code":"NPI",
-                  "display":"Tessera TEAM"
+                  "system":"https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente"
                 }
               ]
             },
-            "system":"https://fhir.siss.regione.lombardia.it/Valueset/TesseraTEAM",
-            "value":"p12332876455",
             "period":{
               "end":"2021-05-21T00:00:00+01:00"
             },
@@ -212,163 +579,6 @@
                 "value":"COD"
               },
               "display":"DESC"
-            }
-          }
-        ],
-        "name":[
-          {
-            "family":"Rossi",
-            "given":[
-              "Francesco"
-            ]
-          }
-        ],
-        "gender":"male",
-        "birthDate":"2000-07-02",
-        "address":[
-          {
-            "extension":[
-              {
-                "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                "valueString":"015146"
-              }
-            ],
-            "use":"home",
-            "text":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24",
-            "_line":[
-              {
-                "extension":[
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
-                    "valueString":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI"
-                  },
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineNumeroCivico",
-                    "valueString":"24"
-                  }
-                ]
-              }
-            ],
-            "city":"MILANO",
-            "state":"MI",
-            "postalCode":"20158"
-          },
-          {
-            "extension":[
-              {
-                "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                "valueString":"015146"
-              }
-            ],
-            "use":"temp",
-            "text":"V. C/O LOMBARDIA INFORMATICA VIA, MINZONI24",
-            "_line":[
-              {
-                "extension":[
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineNumeroCivico",
-                    "valueString":"MINZONI24"
-                  },
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
-                    "valueString":"V. C/O LOMBARDIA INFORMATICA VIA"
-                  }
-                ]
-              }
-            ],
-            "city":"MILANO",
-            "state":"MI",
-            "postalCode":"20158"
-          },
-          {
-            "extension":[
-              {
-                "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                "valueString":"015146"
-              }
-            ],
-            "use":"home",
-            "text":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24",
-            "_line":[
-              {
-                "extension":[
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
-                    "valueString":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24"
-                  }
-                ]
-              }
-            ],
-            "city":"MILANO",
-            "state":"MI",
-            "postalCode":"20158"
-          },
-          {
-            "extension":[
-              {
-                "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                "valueString":"015146"
-              }
-            ],
-            "use":"home",
-            "text":"V. C/O LOMBARDIA INFORMATICA VIA, MINZONI24",
-            "_line":[
-              {
-                "extension":[
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineNumeroCivico",
-                    "valueString":"MINZONI24"
-                  },
-                  {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
-                    "valueString":"V. C/O LOMBARDIA INFORMATICA VIA"
-                  }
-                ]
-              }
-            ],
-            "city":"MILANO",
-            "state":"MI",
-            "postalCode":"20158"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl":"Patient/esempio-paziente-cittadino",
-      "resource":{
-        "resourceType":"Patient",
-        "id":"esempio-paziente-cittadino",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPatientCittadino"
-          ]
-        },
-        "identifier":[
-          {
-            "value":"PRDCTT00L02L219G",
-            "system":"https://fhir.siss.regione.lombardia.it/Valueset/CodiceFiscale",
-            "type":{
-              "coding":[
-                {
-                  "display":"Codice fiscale",
-                  "code":"NN",
-                  "system":"https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente"
-                }
-              ]
-            }
-          },
-          {
-            "value":"999FJ645",
-            "system":"https://fhir.siss.regione.lombardia.it/Valueset/TesseraSanitaria",
-            "type":{
-              "coding":[
-                {
-                  "display":"Tessera sanitaria",
-                  "code":"SS",
-                  "system":"https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente"
-                }
-              ]
             }
           }
         ],
@@ -391,7 +601,7 @@
               {
                 "extension":[
                   {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
+                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
                     "valueString":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24"
                   }
                 ]
@@ -418,7 +628,7 @@
                     "valueString":"MINZONI24"
                   },
                   {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
+                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
                     "valueString":"V. C/O LOMBARDIA INFORMATICA VIA"
                   }
                 ]
@@ -441,7 +651,7 @@
               {
                 "extension":[
                   {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
+                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
                     "valueString":"V. C/O LOMBARDIA INFORMATICA VIA MINZONI 24"
                   }
                 ]
@@ -468,7 +678,7 @@
                     "valueString":"MINZONI24"
                   },
                   {
-                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressLineVia",
+                    "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabLineVia",
                     "valueString":"V. C/O LOMBARDIA INFORMATICA VIA"
                   }
                 ]
@@ -484,443 +694,117 @@
         ],
         "birthDate":"2000-07-02",
         "gender":"male",
-        "extension":[
+        "generalPractitioner":{
+          "reference":"PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287"
+        },
+        "link":[
           {
-            "url":"http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
-            "valueAddress":{
-              "city":"TORINO",
-              "state":"TO",
-              "extension":[
-                {
-                  "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
-                  "valueString":"001272"
-                }
-              ]
-            }
+            "other":{
+              "reference":"RelatedPerson/1928379c-f234-2874-a178-5e98109982f7"
+            },
+            "type":"refer"
           }
         ]
       }
     },
     {
-      "fullUrl":"Specimen/esempio-specimen-campione-di-sangue",
+      "fullUrl":"RelatedPerson/1928379c-f234-2874-a178-5e98109982f7",
       "resource":{
-        "resourceType":"Specimen",
-        "id":"esempio-specimen-campione-di-sangue",
+        "resourceType":"RelatedPerson",
+        "id":"1928379c-f234-2874-a178-5e98109982f7",
         "meta":{
           "versionId":"1",
           "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampioneLaboratorio"
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabRelatedPerson"
           ]
         },
-        "type":{
-          "coding":[
-            {
-              "code":"121222",
-              "display":"Sangue"
-            }
-          ]
-        },
-        "collection":{
-          "bodySite":{
-            "coding":[
-              {
-                "code":"BR",
-                "display":"braccio",
-                "system":"LN"
-              }
-            ]
-          },
-          "quantity":{
-            "value":60,
-            "unit":"ml"
-          },
-          "collectedDateTime":"2022-11-16T15:00:51+01:00"
-        },
-        "subject":{
-          "reference":"Patient/esempio-paziente-cittadino"
-        }
-      }
-    },
-    {
-      "fullUrl":"ServiceRequest/esempio-servicerequest1-completato",
-      "resource":{
-        "resourceType":"ServiceRequest",
-        "id":"esempio-servicerequest1-completato",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabServiceRequestRichiestaEsamiLab"
-          ]
-        },
-        "intent":"order",
-        "requisition":{
-          "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
-          "value":"Placer Requisition Value"
-        },
-        "status":"completed",
-        "category":[
-          {
-            "coding":[
-              {
-                "system":"https://fhir.siss.regione.lombardia.it/Valueset/CategoriaOrdine",
-                "code":"1",
-                "display":"Richiesta"
-              }
-            ]
-          }
-        ],
-        "occurrenceDateTime":"2022-11-16T14:59:37+01:00",
-        "priority":"urgent",
-        "quantityQuantity":{
-          "value":1
-        },
-        "authoredOn":"2022-11-16T14:59:37+01:00",
-        "code":{
-          "coding":[
-            {
-              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
-              "code":"90325",
-              "display":"Magnesio totale nelle urine"
-            }
-          ]
-        },
-        "identifier":[
-          {
-            "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
-            "value":"Placer Order Number"
-          },
-          {
-            "system":"https://fhir.siss.regione.lombardia.it/sid/FillerOrderNumber",
-            "value":"Filler Order Number"
-          },
-          {
-            "system":"https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
-            "value":"6cf5ca2a-f263-11ee-b302-020017048457"
-          }
-        ],
-        "subject":{
-          "reference":"Patient/esempio-paziente-cittadino"
-        },
-        "specimen":[
-          {
-            "reference":"Specimen/esempio-specimen-campione-di-sangue"
-          }
-        ],
-        "encounter":{
-          "reference":"Encounter/esempio-encounter-completato"
-        },
-        "performer":[
-          {
-            "reference":"Organization/esempio-2-organization-l4"
-          }
-        ],
-        "orderDetail":[
-          {
-            "text":"in-service"
-          }
-        ],
-        "requester":{
-          "reference":"PractitionerRole/esempio-practitionerrole-responsabile-1"
-        }
-      }
-    },
-    {
-      "fullUrl":"PractitionerRole/esempio-practitionerrole-responsabile-1",
-      "resource":{
-        "resourceType":"PractitionerRole",
-        "id":"esempio-practitionerrole-responsabile-1",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerRoleMedico"
-          ]
-        },
-        "code":[
-          {
-            "coding":[
-              {
-                "code":"RESPONSABILE RISULTATI",
-                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/QualificaMedico",
-                "display":"Medico responsabile dei risultati degli esami"
-              }
-            ]
-          }
-        ],
-        "practitioner":{
-          "reference":"Practitioner/esempio-practitioner-verdi"
-        }
-      }
-    },
-    {
-      "fullUrl":"Practitioner/esempio-practitioner-verdi",
-      "resource":{
-        "resourceType":"Practitioner",
-        "id":"esempio-practitioner-verdi",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerMedico"
-          ]
-        },
-        "identifier":[
-          {
-            "value":"VRDPLA77E09H264L"
-          }
-        ],
         "name":[
           {
-            "family":"Verdi",
+            "family":"Rossi",
             "given":[
-              "Paola"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl":"PractitionerRole/esempio-practitionerrole-responsabile-2",
-      "resource":{
-        "resourceType":"PractitionerRole",
-        "id":"esempio-practitionerrole-responsabile-2",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerRoleMedico"
-          ]
-        },
-        "code":[
-          {
-            "coding":[
-              {
-                "code":"RESPONSABILE RISULTATI",
-                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/QualificaMedico",
-                "display":"Medico responsabile dei risultati degli esami"
-              }
+              "Marcella"
             ]
           }
         ],
-        "practitioner":{
-          "reference":"Practitioner/esempio-practitioner-biasi"
-        }
-      }
-    },
-    {
-      "fullUrl":"Practitioner/esempio-practitioner-biasi",
-      "resource":{
-        "resourceType":"Practitioner",
-        "id":"esempio-practitioner-biasi",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerMedico"
-          ]
-        },
         "identifier":[
           {
-            "value":"BSINTL55E09H264L"
-          }
-        ],
-        "name":[
-          {
-            "family":"Biasi",
-            "given":[
-              "Antonella"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl":"Encounter/esempio-encounter-completato",
-      "resource":{
-        "resourceType":"Encounter",
-        "id":"esempio-encounter-completato",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterInformazioniRichiestaLab"
-          ]
-        },
-        "extension":[
-          {
-            "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterServiceRequester",
-            "valueReference":{
-              "reference":"Organization/esempio-organization-l3"
-            }
-          }
-        ],
-        "status":"finished",
-        "identifier":[
-          {
-            "system":"https://fhir.siss.regione.lombardia.it/Valueset/numeroRicovero",
+            "value":"RSSMRC66P09N656M",
+            "system":"https://fhir.siss.regione.lombardia.it/Valueset/CodiceFiscale",
             "type":{
               "coding":[
                 {
-                  "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/TipologiaIdentificativoEncounter",
-                  "code":"NR",
-                  "display":"Numero Ricovero"
+                  "display":"Codice fiscale",
+                  "code":"NN",
+                  "system":"https://fhir.siss.regione.lombardia.it/Valueset/TipologiaIdentificativoPaziente"
                 }
               ]
-            },
-            "value":"1",
-            "assigner":{
-              "reference":"Organization/esempio-organization-l3",
-              "display":"Laboratorio Richiedente"
             }
           }
         ],
-        "class":{
-          "code":"IMP",
-          "display":"inpatient encounter",
-          "system":"http://terminology.hl7.org/CodeSystem/v3-ActCode"
+        "patient":{
+          "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7"
         }
       }
     },
     {
-      "fullUrl":"Organization/esempio-organization-l1",
+      "fullUrl":"PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287",
       "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-organization-l1",
+        "resourceType":"PractitionerRole",
+        "id":"65a0765e-6f57-11ee-adbe-02001700b287",
         "meta":{
           "versionId":"1",
           "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerRoleMedico"
           ]
         },
-        "identifier":[
+        "code":[
           {
-            "value":"309672",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl":"Organization/esempio-organization-l2",
-      "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-organization-l2",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
-          ]
-        },
-        "identifier":[
-          {
-            "value":"309672",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio"
+            "coding":[
+              {
+                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/QualificaMedico",
+                "code":"2",
+                "display":"Specialista"
+              }
+            ]
           }
         ],
-        "partOf":{
-          "reference":"Organization/esempio-organization-l1"
+        "practitioner":{
+          "reference":"Practitioner/660cecf8-d45c-11ed-afa1-0242ac120002"
         }
       }
     },
     {
-      "fullUrl":"Organization/esempio-organization-l3",
+      "fullUrl":"Practitioner/660cecf8-d45c-11ed-afa1-0242ac120002",
       "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-organization-l3",
+        "resourceType":"Practitioner",
+        "id":"660cecf8-d45c-11ed-afa1-0242ac120002",
         "meta":{
-          "versionId":"1",
           "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL3"
-          ]
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerMedico"
+          ],
+          "versionId":"1"
         },
-        "name":"CARDIOLOGIA",
         "identifier":[
           {
-            "value":"12211",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto"
+            "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceFiscale",
+            "type":{
+              "coding":[
+                {
+                  "system":"https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceFiscale",
+                  "code":"NN",
+                  "display":"Codice fiscale"
+                }
+              ]
+            },
+            "value":"NVESFN77E09H264L"
           }
         ],
-        "partOf":{
-          "reference":"Organization/esempio-organization-l2"
-        }
-      }
-    },
-    {
-      "fullUrl":"Organization/esempio-2-organization-l4",
-      "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-2-organization-l4",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL4"
-          ]
-        },
-        "identifier":[
+        "name":[
           {
-            "value":"0002",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeAmbulatorio"
-          }
-        ],
-        "partOf":{
-          "reference":"Organization/esempio-2-organization-l3"
-        }
-      }
-    },
-    {
-      "fullUrl":"Organization/esempio-2-organization-l3",
-      "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-2-organization-l3",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL3"
-          ]
-        },
-        "identifier":[
-          {
-            "value":"0801",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto"
-          }
-        ],
-        "partOf":{
-          "reference":"Organization/esempio-2-organization-l2"
-        }
-      }
-    },
-    {
-      "fullUrl":"Organization/esempio-2-organization-l2",
-      "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-2-organization-l2",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
-          ]
-        },
-        "identifier":[
-          {
-            "value":"1996",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialePresidio"
-          }
-        ],
-        "partOf":{
-          "reference":"Organization/esempio-2-organization-l1"
-        }
-      }
-    },
-    {
-      "fullUrl":"Organization/esempio-2-organization-l1",
-      "resource":{
-        "resourceType":"Organization",
-        "id":"esempio-2-organization-l1",
-        "meta":{
-          "versionId":"1",
-          "profile":[
-            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
-          ]
-        },
-        "identifier":[
-          {
-            "value":"462801",
-            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte"
+            "family":"NEVA",
+            "given":[
+              "STEFANO"
+            ]
           }
         ]
       }

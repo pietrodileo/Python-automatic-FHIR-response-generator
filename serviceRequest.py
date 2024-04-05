@@ -22,4 +22,12 @@ class ServiceRequest(GenericFHIRresource):
             {
                 "reference": performerReference
             }
-        ]        
+        ]   
+        
+    def addServiceTypeLabels(self):
+        self.resource['extension'] =  [
+            {
+                "url": "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabServiceRequestTipoPrestazione",
+                "valueString": "LAB-TipoPrestazione"
+            }
+        ]   
