@@ -1,8 +1,8 @@
 {
     "resourceType": "Bundle",
-    "id": "39609d53-41be-49ca-8eab-344c691e4a2b",
+    "id": "50d0187a-7457-432e-9606-f42019ba7be3",
     "type": "message",
-    "timestamp": "2024-04-05T10:24:11.181Z",
+    "timestamp": "2024-04-08T15:10:04.542Z",
     "meta": {
         "versionId": "1",
         "profile": [
@@ -11,16 +11,16 @@
     },
     "entry": [
         {
-            "fullUrl": "MessageHeader/db6cd795-2395-45a2-a681-c1d90589f6dc",
+            "fullUrl": "MessageHeader/b51989d0-77ba-4105-a29f-6cf1d614c4c5",
             "resource": {
                 "resourceType": "MessageHeader",
-                "id": "db6cd795-2395-45a2-a681-c1d90589f6dc",
+                "id": "b51989d0-77ba-4105-a29f-6cf1d614c4c5",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
                     ],
                     "versionId": "1",
-                    "lastUpdated": "2024-04-05T10:23:16.866Z"
+                    "lastUpdated": "2024-04-08T15:10:04.535Z"
                 },
                 "eventCoding": {
                     "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodiceEventoMessageHeader",
@@ -40,21 +40,21 @@
                     "endpoint": "pietrodileo.pythonanywhere.com"
                 },
                 "response": {
-                    "identifier": "14dc647a-f334-11ee-8320-020017048457",
+                    "identifier": "c3bd714d-f5b9-11ee-ad2c-020017048457",
                     "code": "ok"
                 },
                 "focus": [
                     {
-                        "reference": "Task/f12d1c0c-8a29-4a79-ba2a-9f9d06596f76"
+                        "reference": "Task/b0865e13-abb0-45e7-a784-46ddfbeb8e0d"
                     }
                 ]
             }
         },
         {
-            "fullUrl": "Task/f12d1c0c-8a29-4a79-ba2a-9f9d06596f76",
+            "fullUrl": "Task/b0865e13-abb0-45e7-a784-46ddfbeb8e0d",
             "resource": {
                 "resourceType": "Task",
-                "id": "f12d1c0c-8a29-4a79-ba2a-9f9d06596f76",
+                "id": "b0865e13-abb0-45e7-a784-46ddfbeb8e0d",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabTaskStatoRichiesta"
@@ -249,20 +249,20 @@
                 "identifier": [
                     {
                         "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
-                        "value": "1-0035"
+                        "value": "1-0071"
                     },
                     {
                         "system": "https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
-                        "value": "14dacd72-f334-11ee-8e15-020017048457"
+                        "value": "c3b97d02-f5b9-11ee-87ea-020017048457"
                     },
                     {
                         "system": "https://fhir.siss.regione.lombardia.it/sid/FillerOrderNumber",
-                        "value": "a680e11f-033e-4f65-9d0e-258d1ebb73dc"
+                        "value": "70e89ddc-5afd-4425-8a56-d91abe9710b8"
                     }
                 ],
                 "requisition": {
                     "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
-                    "value": "0000-0018-"
+                    "value": "0000-0036-"
                 },
                 "status": "active",
                 "category": [
@@ -282,8 +282,8 @@
                     "coding": [
                         {
                             "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
-                            "code": "90325",
-                            "display": "Magnesio totale nelle urine"
+                            "code": "90291",
+                            "display": "Insulina a digiuno"
                         }
                     ]
                 },
@@ -351,7 +351,7 @@
                 ],
                 "performer": [
                     {
-                        "reference": "Organization/91c1bd3d-707a-4bfc-add3-1230dac7d6c3"
+                        "reference": "Organization/d1127254-467d-4677-b9fd-6610fb7fc720"
                     }
                 ],
                 "extension": [
@@ -437,7 +437,7 @@
                 "identifier": [
                     {
                         "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
-                        "value": "c698e7f4-30a1-4867-ad74-c2ca2ee6c406"
+                        "value": "1a79fc31-5beb-4270-862f-64542c418be5"
                     }
                 ],
                 "note": [
@@ -901,10 +901,10 @@
             }
         },
         {
-            "fullUrl": "Organization/8faf53f6-9bb8-4520-86a8-4116df6c340f",
+            "fullUrl": "Organization/2339b9ce-fc6a-4939-90c9-877b96be037f",
             "resource": {
                 "resourceType": "Organization",
-                "id": "8faf53f6-9bb8-4520-86a8-4116df6c340f",
+                "id": "2339b9ce-fc6a-4939-90c9-877b96be037f",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL1"
@@ -920,10 +920,10 @@
             }
         },
         {
-            "fullUrl": "Organization/91c1bd3d-707a-4bfc-add3-1230dac7d6c3",
+            "fullUrl": "Organization/d1127254-467d-4677-b9fd-6610fb7fc720",
             "resource": {
                 "resourceType": "Organization",
-                "id": "91c1bd3d-707a-4bfc-add3-1230dac7d6c3",
+                "id": "d1127254-467d-4677-b9fd-6610fb7fc720",
                 "meta": {
                     "profile": [
                         "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL2"
@@ -936,7 +936,7 @@
                     }
                 ],
                 "partOf": {
-                    "reference": "Organization/8faf53f6-9bb8-4520-86a8-4116df6c340f"
+                    "reference": "Organization/2339b9ce-fc6a-4939-90c9-877b96be037f"
                 },
                 "name": "Denominazione dell'ente L2"
             }

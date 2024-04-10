@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from fillerLaboratory import FillerLaboratory
 from placerLaboratory import PlacerLaboratory 
 import json
+import time
 
 # Create a new Flask application
 app = Flask(__name__)
@@ -11,6 +12,9 @@ app.config['JSON_SORT_KEYS'] = False
 filler_lab = FillerLaboratory()
 placer_lab = PlacerLaboratory()
 
+# Define a parameter to test the timeout
+test_timeout = True  # Set to True to enable timeout
+
 # Define the Error Handling procedure
 def handle_error(error_message, status_code=404):
     response = {"error": error_message}
@@ -19,6 +23,10 @@ def handle_error(error_message, status_code=404):
 # Define a method to process the incoming request with a custom processing function
 def process_request(data, processing_function):
     try:
+        response = None
+        if test_timeout:  # If timeout testing is enabled
+            time.sleep(20)  # Simulate a delay of 20 seconds
+            
         response = processing_function(data)
         status_code = 200
         return jsonify(response), status_code

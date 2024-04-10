@@ -1,7 +1,7 @@
 {
   "richiesta":"New Request",
   "resourceType":"Bundle",
-  "id":"14dc6468-f334-11ee-8320-020017048457",
+  "id":"c3bd7132-f5b9-11ee-ad2c-020017048457",
   "type":"message",
   "meta":{
     "versionId":"1",
@@ -9,13 +9,13 @@
       "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleNuovaRichiesta"
     ]
   },
-  "timestamp":"2024-04-05T10:05:49.491Z",
+  "timestamp":"2024-04-08T15:07:47.769Z",
   "entry":[
     {
-      "fullUrl":"MessageHeader/14dc647a-f334-11ee-8320-020017048457",
+      "fullUrl":"MessageHeader/c3bd714d-f5b9-11ee-ad2c-020017048457",
       "resource":{
         "resourceType":"MessageHeader",
-        "id":"14dc647a-f334-11ee-8320-020017048457",
+        "id":"c3bd714d-f5b9-11ee-ad2c-020017048457",
         "meta":{
           "profile":[
             "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
@@ -266,16 +266,16 @@
         "identifier":[
           {
             "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
-            "value":"1-0035"
+            "value":"1-0071"
           },
           {
             "system":"https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
-            "value":"14dacd72-f334-11ee-8e15-020017048457"
+            "value":"c3b97d02-f5b9-11ee-87ea-020017048457"
           }
         ],
         "requisition":{
           "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
-          "value":"0000-0018-"
+          "value":"0000-0036-"
         },
         "status":"active",
         "category":[
@@ -295,8 +295,8 @@
           "coding":[
             {
               "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
-              "code":"90325",
-              "display":"Magnesio totale nelle urine"
+              "code":"90291",
+              "display":"Insulina a digiuno"
             }
           ]
         },
