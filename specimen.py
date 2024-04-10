@@ -11,6 +11,7 @@ class Specimen(GenericFHIRresource):
     
     def addPDF(self):
         pdfIdentifier = str(uuid.uuid4())
+        specimenIdentifier = str(uuid.uuid4())
         self.resource['note'] = [
             {
                 "text": "campione fragile"
@@ -24,7 +25,12 @@ class Specimen(GenericFHIRresource):
                 }
             }
         ]
-        
+        self.resource['identifier'] = [
+            {
+                "system": "https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
+                "value": specimenIdentifier
+            }
+        ]
         return pdfIdentifier
     
     def addLabels(self):
