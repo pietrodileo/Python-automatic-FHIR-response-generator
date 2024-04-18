@@ -180,7 +180,7 @@ if __name__ == "__main__":
     # Remove the elements at the specified indices
     # Using reverse ensures that we start removing elements from the end of the list to avoid index shifting issues
     for idx in sorted(idx_to_remove, reverse=True): 
-        del data['entry'][idx]
+        del filtered_data['entry'][idx]
 
     # Save the processed result as prettified JSON
     output_file = 'test_remove_output.json'
