@@ -4,7 +4,7 @@ from genericFHIRresource import GenericFHIRresource
 
 class Organization(GenericFHIRresource):
     def __init__(self):
-        # Create a Task resource associated with the linked service request
+        # Create an Organization resource associated with the linked service request
         org_uid = str(uuid.uuid4())
         fullUrl = "Organization/" + org_uid
         self.fullUrl = fullUrl
