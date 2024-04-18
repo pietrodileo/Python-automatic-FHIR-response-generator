@@ -209,53 +209,6 @@
                 "requester": {
                     "reference": "PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287",
                     "display": "Medico"
-                },
-                "specimen": [
-                    {
-                        "reference": "Specimen/4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
-                        "display": "Campione da analizzare"
-                    }
-                ]
-            }
-        },
-        {
-            "fullUrl": "Specimen/4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
-            "resource": {
-                "resourceType": "Specimen",
-                "id": "4bbecc4b-60b4-4b4a-9b99-ce39b1f69876",
-                "meta": {
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabSpecimenCampioneDaAnalizzare"
-                    ],
-                    "versionId": 1
-                },
-                "type": {
-                    "coding": [
-                        {
-                            "code": "119297000",
-                            "display": "Blood specimen (specimen)",
-                            "system": "SNOMED"
-                        }
-                    ]
-                },
-                "subject": {
-                    "reference": "Patient/6686199c-f386-4345-a178-5e98023575f7"
-                },
-                "receivedTime": "2022-11-16T14:59:37Z",
-                "collection": {
-                    "collectedDateTime": "2022-11-16T14:59:37Z",
-                    "quantity": {
-                        "value": 0
-                    },
-                    "bodySite": {
-                        "coding": [
-                            {
-                                "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
-                                "code": "TBD",
-                                "display": "TBD"
-                            }
-                        ]
-                    }
                 }
             }
         },
@@ -544,45 +497,6 @@
                                 "code": "2",
                                 "display": "Specialista"
                             }
-                        ]
-                    }
-                ],
-                "practitioner": {
-                    "reference": "Practitioner/660cecf8-d45c-11ed-afa1-0242ac120002"
-                }
-            }
-        },
-        {
-            "fullUrl": "Practitioner/660cecf8-d45c-11ed-afa1-0242ac120002",
-            "resource": {
-                "resourceType": "Practitioner",
-                "id": "660cecf8-d45c-11ed-afa1-0242ac120002",
-                "meta": {
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerMedico"
-                    ],
-                    "versionId": "1"
-                },
-                "identifier": [
-                    {
-                        "system": "https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceFiscale",
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "https://fhir.siss.regione.lombardia.it/CodeSystem/CodiceFiscale",
-                                    "code": "NN",
-                                    "display": "Codice fiscale"
-                                }
-                            ]
-                        },
-                        "value": "NVESFN77E09H264L"
-                    }
-                ],
-                "name": [
-                    {
-                        "family": "NEVA",
-                        "given": [
-                            "STEFANO"
                         ]
                     }
                 ]

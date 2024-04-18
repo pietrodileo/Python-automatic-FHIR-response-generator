@@ -148,14 +148,14 @@ if __name__ == "__main__":
     idx_to_remove = []
 
     # Define a list of the resources that should be skipped 
-    resource_to_skip = ["Binary","Condition","AllergyIntolerance","RelatedPerson","Observation"]
+    resource_to_skip = ["Binary","Condition","AllergyIntolerance","RelatedPerson","Observation","Practitioner","Specimen"]
     for idx, entry in enumerate(data['entry']):
         resource = entry['resource']
         full_url = entry['fullUrl']
         resource_type = resource['resourceType']
         
         # Process different resource types
-        if resource_type in resource_to_skip and 1:
+        if resource_type in resource_to_skip:
             # remove the reference to this resource from each part of the dictionary
             idx_to_remove.append(idx)
             full_url_to_remove.append(full_url)
@@ -163,7 +163,8 @@ if __name__ == "__main__":
     # find all reference paths contained in the message
     ref_paths = find_reference_paths(data)
     # Filter the reference paths
-    filtered_ref_paths = [item for item in ref_paths if any(resource in item['value'] for resource in resource_to_skip)]
+    filtered_ref_paths = [item for item in ref_paths if any(resource == item['value'].split('/')[0] for resource in resource_to_skip)]
+
     # Remove filtered paths from the JSON data
     filtered_data = remove_element_at_paths(data, filtered_ref_paths)
     # define a list of the single properties that has been left after cleaning the references to be removed
