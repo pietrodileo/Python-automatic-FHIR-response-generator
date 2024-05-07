@@ -205,11 +205,7 @@
                     "reference": "Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
                     "display": "Informazioni Richiesta Lab"
                 },
-                "authoredOn": "2022-11-16T14:59:37Z",
-                "requester": {
-                    "reference": "PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287",
-                    "display": "Medico"
-                }
+                "authoredOn": "2022-11-16T14:59:37Z"
             }
         },
         {
@@ -468,36 +464,9 @@
                 ],
                 "birthDate": "2000-07-02",
                 "gender": "male",
-                "generalPractitioner": {
-                    "reference": "PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287"
-                },
                 "link": [
                     {
                         "type": "refer"
-                    }
-                ]
-            }
-        },
-        {
-            "fullUrl": "PractitionerRole/65a0765e-6f57-11ee-adbe-02001700b287",
-            "resource": {
-                "resourceType": "PractitionerRole",
-                "id": "65a0765e-6f57-11ee-adbe-02001700b287",
-                "meta": {
-                    "versionId": "1",
-                    "profile": [
-                        "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabPractitionerRoleMedico"
-                    ]
-                },
-                "code": [
-                    {
-                        "coding": [
-                            {
-                                "system": "https://fhir.siss.regione.lombardia.it/ValueSet/QualificaMedico",
-                                "code": "2",
-                                "display": "Specialista"
-                            }
-                        ]
                     }
                 ]
             }

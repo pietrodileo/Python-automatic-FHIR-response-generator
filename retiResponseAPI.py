@@ -14,6 +14,7 @@ placer_lab = PlacerLaboratory()
 
 # Define a parameter to test the timeout
 test_timeout = True  # Set to True to enable timeout
+timeout = 5
 
 # Define the Error Handling procedure
 def handle_error(error_message, status_code=404):
@@ -22,10 +23,24 @@ def handle_error(error_message, status_code=404):
 
 # Define a method to process the incoming request with a custom processing function
 def process_request(data, processing_function):
+    """
+    Process a request by calling the specified processing function.
+
+    Args:
+        data: The data to be processed.
+        processing_function: The function to be called for processing the data.
+
+    Returns:
+        A tuple containing the response and status code.
+
+    Raises:
+        ValueError: If the JSON format is invalid.
+        Exception: If an error occurs during processing.
+    """
     try:
         response = None
         if test_timeout:  # If timeout testing is enabled
-            time.sleep(20)  # Simulate a delay of 20 seconds
+            time.sleep(timeout)  # Simulate a delay of 20 seconds
             
         response = processing_function(data)
         status_code = 200
@@ -114,6 +129,19 @@ def handle_new_request_accept_random():
 
 @app.route('/ERreceivesForward', methods=['POST'])
 def handle_forward_request():
+
+    # Retrieve HTTP headers
+    headers = request.headers
+    
+    # Check if a specific header was passed
+    if 'TestTimeout' in headers:
+        header_value = headers.get('TestTimeout')
+        print(f"TestTimeout': {header_value}")
+        global test_timeout  # Declare 'test_timeout' as a global variable
+        test_timeout = False  # Modify the global variable
+    else:
+        print("The 'TestTimeout' header was not passed in the request.")
+
     # Get the raw JSON data from the request
     request_data_raw = request.data.decode('latin-1')
 

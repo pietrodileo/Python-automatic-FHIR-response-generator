@@ -146,24 +146,41 @@ if __name__ == "__main__":
 
     full_url_to_remove = []
     idx_to_remove = []
+    full_url_to_remove_2 = []
+    idx_to_remove_2 = []
 
     # Define a list of the resources that should be skipped 
     resource_to_skip = ["Binary","Condition","AllergyIntolerance","RelatedPerson","Observation","Practitioner","Specimen"]
+    resource_to_include = ["MessageHeader","Task","ServiceRequest","Encounter","Organization","Patient"]
+
     for idx, entry in enumerate(data['entry']):
         resource = entry['resource']
         full_url = entry['fullUrl']
         resource_type = resource['resourceType']
         
-        # Process different resource types
-        if resource_type in resource_to_skip:
+        # Process resource to be removed
+        if resource_type not in resource_to_include:
             # remove the reference to this resource from each part of the dictionary
             idx_to_remove.append(idx)
             full_url_to_remove.append(full_url)
+
+        if resource_type in resource_to_skip:
+            # remove the reference to this resource from each part of the dictionary
+            idx_to_remove_2.append(idx)
+            full_url_to_remove_2.append(full_url)
 
     # find all reference paths contained in the message
     ref_paths = find_reference_paths(data)
     # Filter the reference paths
     filtered_ref_paths = [item for item in ref_paths if any(resource == item['value'].split('/')[0] for resource in resource_to_skip)]
+
+    # Filter the reference paths to be removed
+    filtered_ref_paths = [item for item in ref_paths if any(resource == item['value'].split('/')[0] for resource in resource_to_skip)]
+    print(filtered_ref_paths)
+    #@pdl modifica
+    filtered_ref_paths_2 = [item for item in ref_paths if item['value'].split('/')[0] not in resource_to_include]
+    print(filtered_ref_paths_2)
+
 
     # Remove filtered paths from the JSON data
     filtered_data = remove_element_at_paths(data, filtered_ref_paths)
