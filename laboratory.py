@@ -370,7 +370,13 @@ class Laboratory:
 
             # Process the MessageHeader resource
             if resource_type == "MessageHeader":
-                self.process_message_header(resource, full_url, "ACK")
+                # Identify the message code to send back the correct one
+                message_code = resource['eventCoding']['code']
+                parts = message_code.split('^')
+                message_code_prefix = parts[0]
+                message_code_suffix = parts[1]
+                    
+                self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
                 # Remove the 'focus' property from the MessageHeader resource
                 self.resourcesList[0].resource.pop('focus', None)
                 break

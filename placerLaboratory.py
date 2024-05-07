@@ -17,5 +17,5 @@ class PlacerLaboratory(Laboratory):
     
     def placerManageResultsAndReports(self, data, responseTaskStatus = "accepted"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaACK"
-        self.process_results_and_reports(data, responseTaskStatus)
+        self.process_message_for_ack(data)
         return self.create_bundle_object(profile)
