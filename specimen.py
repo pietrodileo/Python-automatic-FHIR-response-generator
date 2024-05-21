@@ -1,4 +1,5 @@
 import json
+import datetime
 import uuid
 from genericFHIRresource import GenericFHIRresource
 
@@ -130,3 +131,25 @@ class Specimen(GenericFHIRresource):
                 ]
             }
         )
+        # add collected date time value, like: 2022-11-16T14:59:37Z
+        now = datetime.datetime.utcnow()
+        # Format the timestamp in ISO 8601 format
+        collected_date_time = now.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+        # Add collection property
+        self.resource['collection'] = [ 
+            {
+                "collectedDateTime": collected_date_time,
+                "quantity": {
+                    "value": 0
+                },
+                "bodySite": {
+                    "coding": [
+                        {
+                            "system": "https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+                            "code": "TBD",
+                            "display": "TBD"
+                        }
+                    ]
+                }
+            }   
+        ]
