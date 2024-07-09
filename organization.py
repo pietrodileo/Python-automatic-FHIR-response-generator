@@ -26,7 +26,7 @@ class OrganizationL1(Organization):
             },
             "identifier": [
                 {
-                    "system": "https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
+                    "system": "https://fhir.siss.regione.lombardia.it/sid/CodiceStruttura",
                     "value": L1
                 }
             ],
@@ -57,6 +57,84 @@ class OrganizationL2(Organization):
                     "reference": OrgL1reference
             },
             "name": "Denominazione dell'ente L2"
+        }
+
+        # Update the resource
+        self.resource.update(resource)
+
+class OrganizationL3(Organization):
+    def __init__(self, L3, OrgL2reference):
+        # Call the method __init__ of the parent class (Organization)
+        super().__init__()
+
+        resource = {
+            "meta": {
+                "profile": [
+                    "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL3"
+                ]
+            },
+            "identifier": [
+                {
+                    "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeReparto",
+                    "value": L3
+                }
+            ],
+            "partOf": {
+                    "reference": OrgL2reference
+            },
+            "name": "Denominazione dell'ente L3"
+        }
+
+        # Update the resource
+        self.resource.update(resource)
+        
+class OrganizationL4(Organization):
+    def __init__(self, L4, OrgL3reference):
+        # Call the method __init__ of the parent class (Organization)
+        super().__init__()
+
+        resource = {
+            "meta": {
+                "profile": [
+                    "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationL4"
+                ]
+            },
+            "identifier": [
+                {
+                    "system": "https://fhir.siss.regione.lombardia.it/sid/codiceMinisterialeAmbulatorio",
+                    "value": L4
+                }
+            ],
+            "partOf": {
+                    "reference": OrgL3reference
+            },
+            "name": "Denominazione dell'ente L4"
+        }
+
+        # Update the resource
+        self.resource.update(resource)
+        
+class OrganizationCodiceLabOMR(Organization):
+    def __init__(self, CodiceLabOMR, OrgLReference):
+        # Call the method __init__ of the parent class (Organization)
+        super().__init__()
+
+        resource = {
+            "meta": {
+                "profile": [
+                    "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationLaboratorio"
+                ]
+            },
+            "identifier": [
+                {
+                    "system": "https://fhir.siss.regione.lombardia.it/sid/codiceLaboratorioOMR",
+                    "value": CodiceLabOMR
+                }
+            ],
+            "partOf": {
+                    "reference": OrgLReference
+            },
+            "name": "Laboratorio di analisi"
         }
 
         # Update the resource

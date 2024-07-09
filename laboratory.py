@@ -6,7 +6,7 @@ from bundle import Bundle
 from genericFHIRresource import GenericFHIRresource
 from task import Task
 from serviceRequest import ServiceRequest
-from organization import OrganizationL1, OrganizationL2
+from organization import OrganizationL1, OrganizationL2, OrganizationL3, OrganizationL4, OrganizationCodiceLabOMR
 from specimen import Specimen
 from binary import BinaryData
 
@@ -22,6 +22,9 @@ class Laboratory:
         self.performerReference = None
         self.orgL1 = None
         self.orgL2 = None
+        self.orgL3 = None
+        self.orgL4 = None
+        self.orgOMR = None
         self.serviceRequestIntent = []
 
     # This is the main method for processing a new request message
@@ -29,6 +32,10 @@ class Laboratory:
         # Reset instance variables for each new message
         self.__init__()
         
+        # Define a list containing all the Specimen resources that have already been assigned with a label
+        specimen_with_label = []
+        
+        # Process each entry in the bundle
         for entry in data['entry']:
             resource = entry['resource']
             full_url = entry['fullUrl']
@@ -51,9 +58,17 @@ class Laboratory:
                 # Save the current intent to the list  
                 self.serviceRequestIntent.append(resource['intent'])
                 self.process_service_request_for_new_request(resource, full_url)
-
-            elif resource_type == "Specimen":
-                self.process_specimen_add_label(resource, full_url)
+                # Identify the specimen resources referred by the current ServiceRequest through the specimen array 
+                # and add them labels, in structured or pdf format.    
+                specimen_array = resource['specimen']
+                for specimen in specimen_array:
+                    specimen_url = specimen['reference']
+                    specimen_idx = self.find_resource_idx(data['entry'], specimen_url)
+                    specimen = data['entry'][specimen_idx]['resource']
+                    if specimen_url not in specimen_with_label:
+                        self.process_specimen_add_label(specimen, specimen_url)
+            #elif resource_type == "Specimen":
+            #    self.process_specimen_add_label(resource, full_url)
             
             elif resource_type == "AllergyIntolerance":
                 # Go on, this resource is not necessary in the response messages
@@ -237,12 +252,18 @@ class Laboratory:
         self.serviceRequestReferenceList.append(full_url)
         service_request = ServiceRequest(fullUrl=full_url, resourceContent=resource)
 
-        # Create and link OrganizationL1 and OrganizationL2 if not created before
+        # Create and link the Organizations resources if not already done
         if not self.organizationResourcesWereCreated:
             self.orgL1 = OrganizationL1(self.fillerLab['L1'])
             orgL1FillerReference = self.orgL1.fullUrl
             self.orgL2 = OrganizationL2(self.fillerLab['L2'], orgL1FillerReference)
-            self.performerReference = self.orgL2.fullUrl
+            orgL2FillerReference = self.orgL2.fullUrl
+            self.orgL3 = OrganizationL3(self.fillerLab['L3'], orgL2FillerReference)
+            orgL3FillerReference = self.orgL3.fullUrl
+            self.orgL4 = OrganizationL4(self.fillerLab['L4'], orgL3FillerReference)
+            orgL4FillerReference = self.orgL4.fullUrl
+            self.orgOMR = OrganizationCodiceLabOMR(self.fillerLab['CodiceLaboratorioOMR'], orgL4FillerReference)
+            self.performerReference = self.orgOMR.fullUrl
             self.organizationResourcesWereCreated = True
 
         # Link performer in the service request and add to resources list
@@ -352,6 +373,9 @@ class Laboratory:
         if self.organizationResourcesWereCreated:
             self.resourcesList.append(self.orgL1)
             self.resourcesList.append(self.orgL2)
+            self.resourcesList.append(self.orgL3)
+            self.resourcesList.append(self.orgL4)
+            self.resourcesList.append(self.orgOMR)
 
     def create_bundle_object(self, profile):
         # Create a Bundle object with the headers
@@ -380,3 +404,18 @@ class Laboratory:
                 # Remove the 'focus' property from the MessageHeader resource
                 self.resourcesList[0].resource.pop('focus', None)
                 break
+            
+    def find_resource_idx(self, resources, full_url):
+        """
+        Find the index of a resource in a list of resources based on its full URL.
+
+        Parameters:
+            resources (List[Resource]): A list of resources to search through.
+            full_url (str): The full URL of the resource to find.
+
+        Returns:
+            int: The index of the resource in the list, or -1 if it is not found.
+        """
+        for idx, resource in enumerate(resources):
+            if resource['fullUrl'] == full_url:
+                return idx

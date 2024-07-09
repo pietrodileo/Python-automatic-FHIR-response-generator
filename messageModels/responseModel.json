@@ -498,7 +498,7 @@
                 },
                 "identifier": [
                     {
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
+                        "system": "https://fhir.siss.regione.lombardia.it/sid/CodiceStruttura",
                         "value": "{{$body 'entry.5.resource.identifier.0.value'}}"
                     }
                 ],
@@ -539,7 +539,7 @@
                 },
                 "identifier": [
                     {
-                        "system": "https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
+                        "system": "https://fhir.siss.regione.lombardia.it/sid/CodiceStruttura",
                         "value": "309672"
                     }
                 ],

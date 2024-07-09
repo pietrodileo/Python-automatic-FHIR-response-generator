@@ -1,7 +1,7 @@
 {
   "richiesta":"New Request",
   "resourceType":"Bundle",
-  "id":"c3bd7132-f5b9-11ee-ad2c-020017048457",
+  "id":"51de9bc4-3d3e-11ef-9108-020017048457",
   "type":"message",
   "meta":{
     "versionId":"1",
@@ -9,13 +9,13 @@
       "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleNuovaRichiesta"
     ]
   },
-  "timestamp":"2024-04-08T15:07:47.769Z",
+  "timestamp":"2024-07-08T15:25:18.647Z",
   "entry":[
     {
-      "fullUrl":"MessageHeader/c3bd714d-f5b9-11ee-ad2c-020017048457",
+      "fullUrl":"MessageHeader/51de9bd6-3d3e-11ef-9108-020017048457",
       "resource":{
         "resourceType":"MessageHeader",
-        "id":"c3bd714d-f5b9-11ee-ad2c-020017048457",
+        "id":"51de9bd6-3d3e-11ef-9108-020017048457",
         "meta":{
           "profile":[
             "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabMessageHeader"
@@ -30,9 +30,9 @@
         },
         "destination":[
           {
-            "name":"3",
+            "name":"4",
             "endpoint":"https://pietrodileo.pythonanywhere.com",
-            "software":"Postman Galaxy Hospital - Orbit Lab"
+            "software":"Postman Galaxy Hospital - Nebula Lab"
           }
         ],
         "source":{
@@ -109,7 +109,7 @@
             },
             "value":"202300001",
             "assigner":{
-              "reference":"Organization/37d47b20-fbe0-11ed-99f7-02001700b287",
+              "reference":"Organization/89ca2akc-9s82-34df-cfr4-01945719a987",
               "display":"Laboratorio richiedente"
             }
           }
@@ -146,7 +146,7 @@
           {
             "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabEncounterServiceRequester",
             "valueReference":{
-              "reference":"Organization/72c10akc-9d02-34df-cina-01945719a018"
+              "reference":"Organization/89ca2akc-9s82-34df-cfr4-01945719a987"
             }
           },
           {
@@ -266,16 +266,16 @@
         "identifier":[
           {
             "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerOrderNumber",
-            "value":"1-0071"
+            "value":"1-0095"
           },
           {
             "system":"https://fhir.siss.regione.lombardia.it/sid/OMROrderNumber",
-            "value":"c3b97d02-f5b9-11ee-87ea-020017048457"
+            "value":"51dd0704-3d3e-11ef-ba2d-020017048457"
           }
         ],
         "requisition":{
           "system":"https://fhir.siss.regione.lombardia.it/sid/PlacerRequisitionNumber",
-          "value":"0000-0036-"
+          "value":"0000-0048-"
         },
         "status":"active",
         "category":[
@@ -294,9 +294,9 @@
         "code":{
           "coding":[
             {
-              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
-              "code":"90291",
-              "display":"Insulina a digiuno"
+              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaPrestazioniLaboratorioRegionale",
+              "code":"90352",
+              "display":"Cortisolo nel sangue"
             }
           ]
         },
@@ -339,7 +339,7 @@
         },
         "subject":{
           "reference":"Patient/6686199c-f386-4345-a178-5e98023575f7",
-          "display":"Centoottantatre Prodsiss"
+          "display":"Nome Cognome Paziente"
         },
         "encounter":{
           "reference":"Encounter/ace5cde7-33f3-4d36-9d6b-9a837ed7fdcb",
@@ -379,7 +379,7 @@
         "code":{
           "coding":[
             {
-              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+              "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaPrestazioniLaboratorioRegionale",
               "code":"15074-8",
               "display":"Glucose [Moles/volume] in Blood"
             }
@@ -429,7 +429,7 @@
           "bodySite":{
             "coding":[
               {
-                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaLOINC",
+                "system":"https://fhir.siss.regione.lombardia.it/ValueSet/CodificaPrestazioniLaboratorioRegionale",
                 "code":"TBD",
                 "display":"TBD"
               }
@@ -505,6 +505,29 @@
       }
     },
     {
+      "fullUrl":"Organization/89ca2akc-9s82-34df-cfr4-01945719a987",
+      "resource":{
+        "resourceType":"Organization",
+        "id":"89ca2akc-9s82-34df-cfr4-01945719a987",
+        "meta":{
+          "versionId":"1",
+          "profile":[
+            "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabOrganizationLaboratorio"
+          ]
+        },
+        "identifier":[
+          {
+            "system":"https://fhir.siss.regione.lombardia.it/sid/codiceLaboratorioOMR",
+            "value":"5072024"
+          }
+        ],
+        "name":"Laboratorio di analisi",
+        "partOf":{
+          "reference":"Organization/72c10akc-9d02-34df-cina-01945719a018"
+        }
+      }
+    },
+    {
       "fullUrl":"Organization/72c10akc-9d02-34df-cina-01945719a018",
       "resource":{
         "resourceType":"Organization",
@@ -542,7 +565,7 @@
           {
             "url":"http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
             "valueAddress":{
-              "city":"FRANCIA",
+              "city":"South Maida",
               "extension":[
                 {
                   "url":"https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabAddressCodiceISTAT",
@@ -584,9 +607,9 @@
         ],
         "name":[
           {
-            "family":"PRODSISS",
+            "family":"Boehm",
             "given":[
-              "CENTOOTTANTATRE"
+              "Katlynn"
             ]
           }
         ],
