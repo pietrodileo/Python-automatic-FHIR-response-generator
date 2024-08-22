@@ -26,7 +26,7 @@ class OrganizationL1(Organization):
             },
             "identifier": [
                 {
-                    "system": "https://fhir.siss.regione.lombardia.it/sid/CodiceStruttura",
+                    "system": "https://fhir.siss.regione.lombardia.it/sid/codiceIdentificativoEnte",
                     "value": L1
                 }
             ],
