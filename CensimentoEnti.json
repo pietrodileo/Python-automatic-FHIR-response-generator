@@ -64,5 +64,49 @@
         "NomeStruttura": "Postman Cosmo Hospital",
         "CodiceApplicativo": "5",
         "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "TBL1_L1",
+        "L2": "TBL1_L2",
+        "L3": "TBL1_L3",
+        "L4": "TBL1_L4",
+        "CodiceLaboratorioOMR": "TBL1_OC",
+        "NomeLaboratorio": "TestBook Lab 1",
+        "NomeStruttura": "TestBook Hospital 1",
+        "CodiceApplicativo": "TBL1_AP",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "TBL2_L1",
+        "L2": "TBL2_L2",
+        "L3": "TBL2_L3",
+        "L4": "TBL2_L4_01",
+        "CodiceLaboratorioOMR": "TBL2_OC",
+        "NomeLaboratorio": "TestBook Lab 2",
+        "NomeStruttura": "TestBook Hospital 2",
+        "CodiceApplicativo": "TBL2_AP",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "TBL3_L1",
+        "L2": "TBL3_L2",
+        "L3": "TBL3_L3",
+        "L4": "TBL3_L4",
+        "CodiceLaboratorioOMR": "TBL3_OC",
+        "NomeLaboratorio": "TestBook Lab 3",
+        "NomeStruttura": "TestBook Hospital 3",
+        "CodiceApplicativo": "TBL3_AP",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "TBL2_L1",
+        "L2": "TBL2_L2",
+        "L3": "TBL2_L3",
+        "L4": "TBL2_L4_02",
+        "CodiceLaboratorioOMR": "TBL4_OC",
+        "NomeLaboratorio": "TestBook Lab 4",
+        "NomeStruttura": "TestBook Hospital 4",
+        "CodiceApplicativo": "TBL4_AP",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
     }
 ]
