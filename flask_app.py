@@ -17,6 +17,7 @@ def handle_error(error_message, status_code=400):
 # Define a method to process the incoming request with a custom processing function
 def process_request(data, processing_function):
     try:
+        # Call the processing function
         result = processing_function(data)
         return jsonify(result)
 
@@ -49,7 +50,7 @@ def hello_world():
 
 @app.route('/SendNewRequestToES', methods=['POST'])
 def handle_request():
-    request_data = request.json
+    request_data = request.json    
     return process_request(request_data, filler_lab.fillerLabAcceptsAllRequest)
 
 @app.route('/ERreceivesForward', methods=['POST'])

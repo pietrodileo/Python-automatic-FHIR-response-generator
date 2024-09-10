@@ -108,5 +108,27 @@
         "NomeStruttura": "TestBook Hospital 4",
         "CodiceApplicativo": "TBL4_AP",
         "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "309672",
+        "L2": "1234",
+        "L3": "0801",
+        "L4": "LAB",
+        "CodiceLaboratorioOMR": "900",
+        "NomeLaboratorio": "TestBook Fornitori Lab Richiedente 1",
+        "NomeStruttura": "TestBook Fornitori 1",
+        "CodiceApplicativo": "TBL1_AP",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "LAB",
+        "L2": "03091300",
+        "L3": "0801",
+        "L4": "0002",
+        "CodiceLaboratorioOMR": "CLOServente",
+        "NomeLaboratorio": "TestBook Fornitori Lab Richiedente 2",
+        "NomeStruttura": "TestBook Fornitori 2",
+        "CodiceApplicativo": "TBL1_AP",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
     }
 ]

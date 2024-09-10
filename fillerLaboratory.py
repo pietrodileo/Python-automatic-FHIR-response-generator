@@ -6,6 +6,7 @@ class FillerLaboratory(Laboratory):
 
     def fillerLabAcceptsAllRequest(self, data):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNuovaRichiesta"
+
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_new_request(data)
         self.generate_task_resources("accepted")  # Set task_status to "accepted"

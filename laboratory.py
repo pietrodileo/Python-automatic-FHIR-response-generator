@@ -114,7 +114,7 @@ class Laboratory:
         self.generate_task_resources(responseTaskStatus)  
     
     # This is the main method for processing a cancellation message
-    def process_cancellation_request(self, data):
+    def process_cancellation_request(self, data = None):
         # Reset instance variables for each new message
         self.__init__()
         
@@ -154,7 +154,7 @@ class Laboratory:
                 self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
 
     # This is the main method for processing a cancellation message
-    def process_modification_request(self, data):
+    def process_modification_request(self, data = None):
         # Reset instance variables for each new message
         self.__init__()
         
@@ -165,7 +165,7 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource, full_url)
+                self.process_message_header(resource)
                 # Extract the link to the Encounter resource
                 for ref in resource['focus']:
                     if 'Encounter' in ref['reference']:
