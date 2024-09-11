@@ -165,7 +165,7 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource)
+                self.process_message_header(resource,full_url)
                 # Extract the link to the Encounter resource
                 for ref in resource['focus']:
                     if 'Encounter' in ref['reference']:
