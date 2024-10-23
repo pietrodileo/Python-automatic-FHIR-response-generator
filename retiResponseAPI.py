@@ -13,7 +13,7 @@ filler_lab = FillerLaboratory()
 placer_lab = PlacerLaboratory()
 
 # Define a parameter to test the timeout
-test_timeout = True  # Set to True to enable timeout
+test_timeout = False  # Set to True to enable timeout
 timeout = 15
 
 # Define the Error Handling procedure

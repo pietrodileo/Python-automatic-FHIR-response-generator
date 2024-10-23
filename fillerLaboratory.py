@@ -3,21 +3,24 @@ from laboratory import Laboratory
 class FillerLaboratory(Laboratory):
     def __init__(self):
         super().__init__()
+        self.rejectRequest = False
 
-    def fillerLabAcceptsAllRequest(self, data):
+    # Filler lab methods
+    def fillerLabAcceptsAllRequest(self, data, responseTaskStatus = "accepted"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNuovaRichiesta"
-
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_new_request(data)
-        self.generate_task_resources("accepted")  # Set task_status to "accepted"
+        if self.rejectRequest:
+            responseTaskStatus = "rejected"
+        self.generate_task_resources(responseTaskStatus)  # Set task_status to "accepted"
         self.append_organization_resources()
         return self.create_bundle_object(profile)
 
-    def fillerLabRejectsAllRequest(self, data):
+    def fillerLabRejectsAllRequest(self, data, responseTaskStatus = "rejected"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNuovaRichiesta"
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_new_request(data)
-        self.generate_task_resources("rejected")  # Set task_status to "rejected"
+        self.generate_task_resources(responseTaskStatus)  # Set task_status to "rejected"
         self.append_organization_resources()
         return self.create_bundle_object(profile)
 
@@ -40,21 +43,27 @@ class FillerLaboratory(Laboratory):
         self.process_message_for_ack(data)
         return self.create_bundle_object(profile)
     
-    def fillerSendsCancellationResponse(self,data):
+    def fillerSendsCancellationResponse(self,data, responseTaskStatus = "accepted"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNotifica"
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_cancellation_request(data)
-        self.generate_task_resources("accepted")  # Set task_status to "accepted"
+        if self.rejectRequest:
+            responseTaskStatus = "rejected"
+        self.generate_task_resources(responseTaskStatus)  # Set task_status to "accepted"
         #self.append_organization_resources()
         return self.create_bundle_object(profile)
 
-    def fillerSendsModificationResponse(self,data):
+    def fillerSendsModificationResponse(self,data, responseTaskStatus = "accepted"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaNotifica"
         # Process the message, generate tasks, append organization resources, and create a bundle
         self.process_modification_request(data)
-        self.generate_task_resources("accepted")  # Set task_status to "accepted"
+        if self.rejectRequest:
+            responseTaskStatus = "rejected"
+        self.generate_task_resources(responseTaskStatus) 
         #self.append_organization_resources()
         return self.create_bundle_object(profile)
 
     def fillerSendsCheckInOutResponse(self, data, responseTaskStatus = "accepted"):
+        if self.rejectRequest:
+            responseTaskStatus = "rejected"
         return self.process_check_in_out(data, responseTaskStatus)
