@@ -22,7 +22,7 @@ class PlacerLaboratory(Laboratory):
     def placerManageResultsAndReports(self, data, responseTaskStatus = "accepted"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaACK"
         if self.rejectRequest:
-            responseTaskStatus = "rejected"
-            ### qui che bisogna fare???
-        self.process_message_for_ack(data)
+            self.process_message_for_nack(data)
+        else: 
+            self.process_message_for_ack(data)
         return self.create_bundle_object(profile)

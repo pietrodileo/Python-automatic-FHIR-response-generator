@@ -9,10 +9,28 @@ from serviceRequest import ServiceRequest
 from organization import OrganizationL1, OrganizationL2, OrganizationL3, OrganizationL4, OrganizationCodiceLabOMR
 from specimen import Specimen
 from binary import BinaryData
+from operation_outcome import OperationOutcome
 
 class Laboratory:
     def __init__(self):
         # Initialize instance variables
+        """
+        Initialize instance variables
+
+        self.resourcesList: list of resources
+        self.serviceRequestReferenceList: list of references to service request resources
+        self.diagnostic_report_reference_list: list of references to diagnostic report resources
+        self.organizationResourcesWereCreated: boolean indicating if organization resources were created
+        self.encounterReference: reference to the encounter resource
+        self.fillerLab: dictionary containing information about the laboratory
+        self.performerReference: reference to the performer resource
+        self.orgL1: OrganizationL1 instance
+        self.orgL2: OrganizationL2 instance
+        self.orgL3: OrganizationL3 instance
+        self.orgL4: OrganizationL4 instance
+        self.orgOMR: OrganizationCodiceLabOMR instance
+        self.serviceRequestIntent: list of strings representing the intent of the service request
+        """
         self.resourcesList = []
         self.serviceRequestReferenceList = []
         self.diagnostic_report_reference_list = []
@@ -30,6 +48,21 @@ class Laboratory:
     # This is the main method for processing a new request message
     def process_new_request(self, data):
         # Reset instance variables for each new message
+        """
+        Process a new request message.
+
+        This method processes a new request message, which is a message received from the placer that starts a new order.
+        The method resets the instance variables, processes each entry in the bundle, and adds labels to the Specimen resources referred by the ServiceRequest resources.
+
+        Parameters
+        ----------
+        data : dict
+            The JSON representation of the FHIR message received from the placer.
+
+        Returns
+        -------
+        None
+        """
         self.__init__()
         
         # Define a list containing all the Specimen resources that have already been assigned with a label
@@ -379,11 +412,45 @@ class Laboratory:
 
     def create_bundle_object(self, profile):
         # Create a Bundle object with the headers
+        """
+        Create a Bundle object with the headers.
+
+        This method takes a profile as an argument and creates a Bundle object with the
+        resources in the instance variable 'resourcesList'. The Bundle object is then
+        converted to JSON and returned.
+
+        Parameters
+        ----------
+        profile : str
+            The profile of the Bundle resource.
+
+        Returns
+        -------
+        dict
+            A dictionary representing the Bundle resource in JSON format.
+        """
         bundle = Bundle(self.resourcesList, profile)
         return json.loads(bundle.to_json())
 
     def process_message_for_ack(self, data):
         # Reset instance variables for each new message
+        """
+        Process a positive acknowledgment (ACK) message.
+
+        This method processes a given FHIR message to generate an ACK response. It
+        resets the instance variables, processes the MessageHeader resource to
+        update its response code, and adds an 'response' property indicating the
+        acceptance.
+
+        Parameters
+        ----------
+        data : dict
+            The JSON representation of the FHIR message to be processed.
+
+        Returns
+        -------
+        None
+        """
         self.__init__()
         
         # Loop all over the resources
@@ -399,12 +466,81 @@ class Laboratory:
                 parts = message_code.split('^')
                 message_code_prefix = parts[0]
                 message_code_suffix = parts[1]
-                    
+                message_header_id = resource['id']
+                # Update the MessageHeader resource
                 self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
                 # Remove the 'focus' property from the MessageHeader resource
                 self.resourcesList[0].resource.pop('focus', None)
+                # Add the response property to the MessageHeader resource
+                self.resourcesList[0].resource['response'] = {
+                    "identifier": message_header_id,
+                    "code": "ok"
+                }
                 break
-            
+
+    def process_message_for_nack(self, data, error_code = "fatal-error", diagnostics = "Generic Error Description"):
+        # Reset instance variables for each new message
+        """
+        Process a negative acknowledgment (NACK) message.
+
+        This method processes a given FHIR message to generate a NACK response. It
+        resets the instance variables, processes the MessageHeader resource to
+        update its response code, and adds an OperationOutcome resource indicating
+        the error detail.
+
+        Parameters
+        ----------
+        data : dict
+            The JSON representation of the FHIR message to be processed.
+        error_code : str, optional
+            The error code to be set in the MessageHeader response (default is "fatal-error").
+        diagnostics : str, optional
+            The diagnostics message to be included in the OperationOutcome resource 
+            (default is "Generic Error Description").
+
+        Returns
+        -------
+        None
+        """
+        self.__init__()
+        
+        # Loop all over the resources
+        for entry in data['entry']:
+            resource = entry['resource']
+            full_url = entry['fullUrl']
+            resource_type = resource['resourceType']
+
+            # Process the MessageHeader resource
+            if resource_type == "MessageHeader":
+                # Identify the message code to send back the correct one
+                message_code = resource['eventCoding']['code']
+                parts = message_code.split('^')
+                message_code_prefix = parts[0]
+                message_code_suffix = parts[1]
+                message_header_id = resource['id']
+                # Update the MessageHeader resource
+                self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
+                # Remove the 'focus' property from the MessageHeader resource
+                self.resourcesList[0].resource.pop('focus', None)
+                # Add the response property to the MessageHeader resource
+                self.resourcesList[0].resource['response'] = {
+                    "identifier": message_header_id,
+                    "code": error_code
+                }
+                break
+        
+        # Add an operation outcome resource
+        operation_outcome = OperationOutcome()
+        operation_outcome.addIssue(diagnostics)
+        # Add a reference to the OperationOutcome resource in MessageHeader.response
+        self.resourcesList[0].resource['response']['details'] = [
+            {
+                "reference": operation_outcome.fullUrl
+            }
+        ]
+        # Add the OperationOutcome resource at the end of the list of the response message
+        self.resourcesList.append(operation_outcome)
+        
     def find_resource_idx(self, resources, full_url):
         """
         Find the index of a resource in a list of resources based on its full URL.
