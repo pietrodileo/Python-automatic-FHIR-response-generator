@@ -17,7 +17,7 @@ test_timeout = False  # Set to True to enable timeout
 timeout = 15
 
 # Define the Error Handling procedure
-def handle_error(error_message, status_code=404):
+def handle_error(error_message, status_code=500):
     response = {"error": error_message}
     return jsonify(response), status_code
 
@@ -45,7 +45,7 @@ def process_request(data, processing_function):
         response = processing_function(data)
         status_code = 200
         if response == None:
-            status_code = 404
+            status_code = 500
             raise Exception("No response was generated.")
         
         return jsonify(response), status_code

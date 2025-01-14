@@ -39,30 +39,35 @@ class MessageHeader(GenericFHIRresource):
             ]
         }
 
-    def ExtractMessageHeaderInfo(self, resource, initFocus):
+    def ExtractMessageHeaderInfo(self, resource, initFocus, destination_omr_lab_code = ""):
         try: 
-            # Extract the source code
-            destination = resource.get('destination', None)
-            if destination == None:
-                raise KeyError("destination is missing in the MessageHeader.")
-            else: 
-                destination_name = destination[0].get('software', None)
-                if destination_name == None:
-                    raise KeyError("destination_name is missing in the destination.")
-            
-            # Open a json containing the data of all the laboratories
+            # Load a json containing the data of all the laboratories
             my_dir = os.path.dirname(__file__)
             json_file_path = os.path.join(my_dir, 'CensimentoEnti.json')
             with open(json_file_path, 'r') as file:
                 json_censimento = json.load(file)
 
-            # Find the information about the filler laboratory
-            destinationLab = [lab for lab in json_censimento if (lab["NomeStruttura"]+" - "+lab["NomeLaboratorio"]) == destination_name]
+            if destination_omr_lab_code != "":
+                # use the destination_omr_lab_code to extract the information from the CensimentoEnti.json file
+                destinationLab = [lab for lab in json_censimento if (lab["CodiceLaboratorioOMR"]) == destination_omr_lab_code]
+            else:
+                # Extract the source code
+                destination = resource.get('destination', None)
+                if destination == None:
+                    raise KeyError("destination is missing in the MessageHeader.")
+                else: 
+                    destination_name = destination[0].get('software', None)
+                    if destination_name == None:
+                        raise KeyError("destination_name is missing in the destination.")
+                # Find the information about the filler laboratory
+                destinationLab = [lab for lab in json_censimento if (lab["NomeStruttura"]+" - "+lab["NomeLaboratorio"]) == destination_name]
+
+            # Check if the destination laboratory was found
             if not destinationLab:
                 raise ValueError("It was impossible to find the destination laboratory in the CensimentoEnti.json file.")
             else:
                 destinationLab = destinationLab[0]
-                
+            
             # Assign the extracted parameters to the object
             self.resource['source'] = {
                 "name": destinationLab['CodiceApplicativo'],
