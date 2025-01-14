@@ -130,5 +130,61 @@
         "NomeStruttura": "TestBook Fornitori 2",
         "CodiceApplicativo": "TBL1_AP",
         "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "30709",
+        "L2": "30067",
+        "L3": "121",
+        "L4": "3508",
+        "CodiceLaboratorioOMR": "973",
+        "NomeLaboratorio": "PRESIDIO OSPEDALIERO DI LODI",
+        "NomeStruttura": "ASST DI LODI",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "30721",
+        "L2": "30906",
+        "L3": "125",
+        "L4": "3525",
+        "CodiceLaboratorioOMR": "812",
+        "NomeLaboratorio": "SPEDALI CIVILI DI BRESCIA",
+        "NomeStruttura": "ASST DEGLI SPEDALI CIVILI DI BRESCIA",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "30711",
+        "L2": "30004",
+        "L3": "122",
+        "L4": "3514",
+        "CodiceLaboratorioOMR": "886",
+        "NomeLaboratorio": "ASST DELLA VALLE OLONA",
+        "NomeStruttura": "ASST DELLA VALLE OLONA",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "30719",
+        "L2": "30131",
+        "L3": "121",
+        "L4": "3507",
+        "CodiceLaboratorioOMR": "975",
+        "NomeLaboratorio": "OSPEDALE TREVIGLIO CARAVAGGIO",
+        "NomeStruttura": "ASST DI BERGAMO OVEST",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "30704",
+        "L2": "30911",
+        "L3": "125",
+        "L4": "3524",
+        "CodiceLaboratorioOMR": "813",
+        "NomeLaboratorio": "ISTITUTO ORTOPEDICO GAETANO PINI",
+        "NomeStruttura": "ASST CENTRO SPECIALISTICO ORTOPEDICO TRAUMATOLOGICO GAETANO PINI/CTO",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
     }
+
 ]

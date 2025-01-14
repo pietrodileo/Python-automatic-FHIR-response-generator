@@ -7,10 +7,16 @@ class PlacerLaboratory(Laboratory):
 
     # Placer methods
     def placerSendsPositiveACK(self, data):
-        profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabACK"
-        # Send back a positive ACK
-        self.process_message_for_ack(data)
-        return self.create_bundle_object(profile)
+        try:
+            profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabACK"
+            # Send back a positive ACK
+            status = self.process_message_for_ack(data)
+            if not status:
+                raise Exception("Error processing the message.")
+            return self.create_bundle_object(profile)
+        except Exception as e:
+            print(f"{str(e)}")
+            return None
     
     def placerSendsCheckInOutResponse(self, data, responseTaskStatus = "accepted"):
         profile = "https://fhir.siss.regione.lombardia.it/StructureDefinition/ReteLabBundleRispostaCheckInOut"

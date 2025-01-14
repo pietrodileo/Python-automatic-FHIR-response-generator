@@ -44,10 +44,11 @@ def process_request(data, processing_function):
             
         response = processing_function(data)
         status_code = 200
+        if response == None:
+            status_code = 404
+            raise Exception("No response was generated.")
+        
         return jsonify(response), status_code
-
-    except ValueError as ve:
-        return handle_error(f"Invalid JSON format: {str(ve)}")
 
     except Exception as e:
         return handle_error(f"Error processing request: {str(e)}")

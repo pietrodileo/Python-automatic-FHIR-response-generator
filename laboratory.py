@@ -76,7 +76,9 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource, full_url)
+                status = self.process_message_header(resource, full_url)
+                if not status:
+                    raise ValueError("An error occurred while processing the MessageHeader resource")
                 # Extract the link to the Encounter resource
                 for ref in resource['focus']:
                     if 'Encounter' in ref['reference']:
@@ -123,7 +125,10 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource, full_url)
+                status = self.process_message_header(resource, full_url)
+                if not status:
+                    raise ValueError("An error occurred while processing the MessageHeader resource")
+
             #elif resource_type == "Encounter": # Deprecated 30/01/2024
             #    self.encounterReference = full_url
             #    self.resourcesList.append(GenericFHIRresource(fullUrl=full_url, resourceContent=resource))
@@ -158,7 +163,10 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource, full_url)
+                status = self.process_message_header(resource, full_url)
+                if not status:
+                    raise ValueError("An error occurred while processing the MessageHeader resource")
+
                 # Extract the link to the Encounter resource
                 for ref in resource['focus']:
                     if 'Encounter' in ref['reference']:
@@ -198,7 +206,10 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                self.process_message_header(resource,full_url)
+                status = self.process_message_header(resource,full_url)
+                if not status:
+                    raise ValueError("An error occurred while processing the MessageHeader resource")
+
                 # Extract the link to the Encounter resource
                 for ref in resource['focus']:
                     if 'Encounter' in ref['reference']:
@@ -247,7 +258,10 @@ class Laboratory:
                 message_code_suffix = parts[1]
                 if message_code_suffix == "T02":
                     message_code_suffix = "T06"
-                self.process_message_header(resource, full_url, message_code_prefix, message_code_suffix)
+                status = self.process_message_header(resource, full_url, message_code_prefix, message_code_suffix)
+                if not status:
+                    raise ValueError("An error occurred while processing the MessageHeader resource")
+
             elif resource_type == "DiagnosticReport":
                 # Add the current full_url to the list of the service request
                 self.diagnostic_report_reference_list.append(full_url)
@@ -263,22 +277,33 @@ class Laboratory:
         self.generate_task_for_report(responseTaskStatus)  
 
     def process_message_header(self, resource, full_url, response_code = "ORL", response_code_number = ""):
-        # Extract information from MessageHeader resource
-        request_message_code = resource['eventCoding']["code"]
-        request_code_number = request_message_code[-3:]
-        # Calculate response_code_number
-        if response_code_number == "":
-            if response_code == "ACK":  
-                response_code_number = f"{request_code_number[0:]}"
-            else:
-                response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
-        # Calculate new message code
-        new_message_code = f"{response_code}^{response_code_number}"
-        new_display_code = f"{response_code}^{response_code_number}^{response_code}_{response_code_number}"
-        message_header = MessageHeader(new_message_code, new_display_code)
-        # Extract filler lab information and add MessageHeader to resources list
-        self.fillerLab = message_header.ExtractMessageHeaderInfo(resource, initFocus=1)
-        self.resourcesList.append(message_header)
+        try:
+            # Extract information from MessageHeader resource
+            request_message_code = resource['eventCoding']["code"]
+            request_code_number = request_message_code[-3:]
+            # Calculate response_code_number
+            if response_code_number == "":
+                if response_code == "ACK":  
+                    response_code_number = f"{request_code_number[0:]}"
+                else:
+                    response_code_number = f"{request_code_number[0]}{int(request_code_number[1:]) + 1}"
+            # Calculate new message code
+            new_message_code = f"{response_code}^{response_code_number}"
+            new_display_code = f"{response_code}^{response_code_number}^{response_code}_{response_code_number}"
+            message_header = MessageHeader(new_message_code, new_display_code)
+            # Extract filler lab information and add MessageHeader to resources list
+            fillerLab = message_header.ExtractMessageHeaderInfo(resource, initFocus=1)
+            # check if the function returned an error
+            if fillerLab == None:
+                raise ValueError("Error in the extraction of the filler lab information")
+            else: 
+                self.fillerLab = fillerLab
+            self.resourcesList.append(message_header)
+            return True
+        except Exception as e:
+            print(f"Error processing MessageHeader: {str(e)}")
+            return False
+
 
     def process_service_request_for_new_request(self, resource, full_url):
         # Process ServiceRequest resource
@@ -451,32 +476,39 @@ class Laboratory:
         -------
         None
         """
-        self.__init__()
-        
-        # Loop all over the resources
-        for entry in data['entry']:
-            resource = entry['resource']
-            full_url = entry['fullUrl']
-            resource_type = resource['resourceType']
+        try: 
+            self.__init__()
+            
+            # Loop all over the resources
+            for entry in data['entry']:
+                resource = entry['resource']
+                full_url = entry['fullUrl']
+                resource_type = resource['resourceType']
 
-            # Process the MessageHeader resource
-            if resource_type == "MessageHeader":
-                # Identify the message code to send back the correct one
-                message_code = resource['eventCoding']['code']
-                parts = message_code.split('^')
-                message_code_prefix = parts[0]
-                message_code_suffix = parts[1]
-                message_header_id = resource['id']
-                # Update the MessageHeader resource
-                self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
-                # Remove the 'focus' property from the MessageHeader resource
-                self.resourcesList[0].resource.pop('focus', None)
-                # Add the response property to the MessageHeader resource
-                self.resourcesList[0].resource['response'] = {
-                    "identifier": message_header_id,
-                    "code": "ok"
-                }
-                break
+                # Process the MessageHeader resource
+                if resource_type == "MessageHeader":
+                    # Identify the message code to send back the correct one
+                    message_code = resource['eventCoding']['code']
+                    parts = message_code.split('^')
+                    message_code_prefix = parts[0]
+                    message_code_suffix = parts[1]
+                    message_header_id = resource['id']
+                    # Update the MessageHeader resource
+                    status = self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
+                    if not status:
+                        raise ValueError("An error occurred while processing the MessageHeader resource")
+                    # Remove the 'focus' property from the MessageHeader resource
+                    self.resourcesList[0].resource.pop('focus', None)
+                    # Add the response property to the MessageHeader resource
+                    self.resourcesList[0].resource['response'] = {
+                        "identifier": message_header_id,
+                        "code": "ok"
+                    }
+                    break
+            return True
+        except Exception as e:
+            print(f"Error processing the message: {str(e)}")
+            return False
 
     def process_message_for_nack(self, data, error_code = "fatal-error", diagnostics = "Generic Error Description"):
         # Reset instance variables for each new message
@@ -519,7 +551,10 @@ class Laboratory:
                 message_code_suffix = parts[1]
                 message_header_id = resource['id']
                 # Update the MessageHeader resource
-                self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
+                status = self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
+                if not status:
+                    raise ValueError("An error occurred while processing the MessageHeader resource")
+
                 # Remove the 'focus' property from the MessageHeader resource
                 self.resourcesList[0].resource.pop('focus', None)
                 # Add the response property to the MessageHeader resource
