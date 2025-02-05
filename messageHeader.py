@@ -39,7 +39,7 @@ class MessageHeader(GenericFHIRresource):
             ]
         }
 
-    def ExtractMessageHeaderInfo(self, resource, initFocus, destination_omr_lab_code = ""):
+    def set_source_lab_data(self, resource, initFocus, response_source_omr_lab_code = ""):
         try: 
             # Load a json containing the data of all the laboratories
             my_dir = os.path.dirname(__file__)
@@ -47,11 +47,11 @@ class MessageHeader(GenericFHIRresource):
             with open(json_file_path, 'r') as file:
                 json_censimento = json.load(file)
 
-            if destination_omr_lab_code != "":
-                # use the destination_omr_lab_code to extract the information from the CensimentoEnti.json file
-                destinationLab = [lab for lab in json_censimento if (lab["CodiceLaboratorioOMR"]) == destination_omr_lab_code]
+            if response_source_omr_lab_code != "":
+                # use the response_source_omr_lab_code to extract the information from the CensimentoEnti.json file about the source of the response message
+                source_lab = [lab for lab in json_censimento if (lab["CodiceLaboratorioOMR"]) == response_source_omr_lab_code]
             else:
-                # Extract the source code
+                # Extract the destination code of the present message. It will be used as the source laboratory of the response
                 destination = resource.get('destination', None)
                 if destination == None:
                     raise KeyError("destination is missing in the MessageHeader.")
@@ -60,20 +60,20 @@ class MessageHeader(GenericFHIRresource):
                     if destination_name == None:
                         raise KeyError("destination_name is missing in the destination.")
                 # Find the information about the filler laboratory
-                destinationLab = [lab for lab in json_censimento if (lab["NomeStruttura"]+" - "+lab["NomeLaboratorio"]) == destination_name]
+                source_lab = [lab for lab in json_censimento if (lab["NomeStruttura"]+" - "+lab["NomeLaboratorio"]) == destination_name]
 
             # Check if the destination laboratory was found
-            if not destinationLab:
+            if not source_lab:
                 raise ValueError("It was impossible to find the destination laboratory in the CensimentoEnti.json file.")
             else:
-                destinationLab = destinationLab[0]
+                source_lab = source_lab[0]
             
             # Assign the extracted parameters to the object
             self.resource['source'] = {
-                "name": destinationLab['CodiceApplicativo'],
-                "software": destinationLab['NomeStruttura'] + " - " + destinationLab['NomeLaboratorio'],
+                "name": source_lab['CodiceApplicativo'],
+                "software": source_lab['NomeStruttura'] + " - " + source_lab['NomeLaboratorio'],
                 #"endpoint": resource['destination']['endpoint']
-                "endpoint": destinationLab['Endpoint']
+                "endpoint": source_lab['Endpoint']
             }
             self.resource['response'] = {
                 "identifier": resource['id'],
@@ -84,7 +84,7 @@ class MessageHeader(GenericFHIRresource):
                 # Initialize the focus property
                 self.resource['focus'] = []
 
-            return destinationLab
+            return source_lab
         
         except Exception as e:
             print(f"Error while extracting info from MessageHeader: {str(e)}")

@@ -68,6 +68,10 @@ class Laboratory:
         # Define a list containing all the Specimen resources that have already been assigned with a label
         specimen_with_label = []
         
+        OMR_lab_code_filler = data['OMRLabCodeFiller']
+        OMR_lab_code_placer = data['OMRLabCodePlacer']
+        OMR_lab_code_destination = data['OMRLabCodeDestination']    
+        
         # Process each entry in the bundle
         for entry in data['entry']:
             resource = entry['resource']
@@ -76,7 +80,7 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                status = self.process_message_header(resource, full_url)
+                status = self.process_message_header(resource, full_url, OMR_lab_code_destination=OMR_lab_code_destination)
                 if not status:
                     raise ValueError("An error occurred while processing the MessageHeader resource")
                 # Extract the link to the Encounter resource
@@ -118,6 +122,10 @@ class Laboratory:
         # Reset instance variables for each new message
         self.__init__()
         
+        OMR_lab_code_filler = data['OMRLabCodeFiller']
+        OMR_lab_code_placer = data['OMRLabCodePlacer']
+        OMR_lab_code_destination = data['OMRLabCodeDestination']    
+        
         for entry in data['entry']:
             resource = entry['resource']
             full_url = entry['fullUrl']
@@ -125,7 +133,7 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                status = self.process_message_header(resource, full_url)
+                status = self.process_message_header(resource, full_url, OMR_lab_code_destination=OMR_lab_code_destination)
                 if not status:
                     raise ValueError("An error occurred while processing the MessageHeader resource")
 
@@ -156,6 +164,10 @@ class Laboratory:
         # Reset instance variables for each new message
         self.__init__()
         
+        OMR_lab_code_filler = data['OMRLabCodeFiller']
+        OMR_lab_code_placer = data['OMRLabCodePlacer']
+        OMR_lab_code_destination = data['OMRLabCodeDestination']    
+        
         for entry in data['entry']:
             resource = entry['resource']
             full_url = entry['fullUrl']
@@ -163,7 +175,7 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                status = self.process_message_header(resource, full_url)
+                status = self.process_message_header(resource, full_url, OMR_lab_code_destination=OMR_lab_code_destination)
                 if not status:
                     raise ValueError("An error occurred while processing the MessageHeader resource")
 
@@ -199,6 +211,10 @@ class Laboratory:
         # Reset instance variables for each new message
         self.__init__()
         
+        OMR_lab_code_filler = data['OMRLabCodeFiller']
+        OMR_lab_code_placer = data['OMRLabCodePlacer']
+        OMR_lab_code_destination = data['OMRLabCodeDestination']    
+        
         for entry in data['entry']:
             resource = entry['resource']
             full_url = entry['fullUrl']
@@ -206,7 +222,7 @@ class Laboratory:
 
             # Process different resource types
             if resource_type == "MessageHeader":
-                status = self.process_message_header(resource,full_url)
+                status = self.process_message_header(resource,full_url, OMR_lab_code_destination=OMR_lab_code_destination)
                 if not status:
                     raise ValueError("An error occurred while processing the MessageHeader resource")
 
@@ -244,6 +260,10 @@ class Laboratory:
         # Reset instance variables for each new message
         self.__init__()
         
+        OMR_lab_code_filler = data['OMRLabCodeFiller']
+        OMR_lab_code_placer = data['OMRLabCodePlacer']
+        OMR_lab_code_destination = data['OMRLabCodeDestination']    
+        
         for entry in data['entry']:
             resource = entry['resource']
             full_url = entry['fullUrl']
@@ -258,7 +278,7 @@ class Laboratory:
                 message_code_suffix = parts[1]
                 if message_code_suffix == "T02":
                     message_code_suffix = "T06"
-                status = self.process_message_header(resource, full_url, message_code_prefix, message_code_suffix)
+                status = self.process_message_header(resource, full_url, message_code_prefix, message_code_suffix, OMR_lab_code_destination=OMR_lab_code_destination)
                 if not status:
                     raise ValueError("An error occurred while processing the MessageHeader resource")
 
@@ -276,7 +296,7 @@ class Laboratory:
         # Add new Task resources
         self.generate_task_for_report(responseTaskStatus)  
 
-    def process_message_header(self, resource, full_url, response_code = "ORL", response_code_number = "", destination_omr_lab_code = ""):
+    def process_message_header(self, resource, full_url, response_code = "ORL", response_code_number = "", OMR_lab_code_destination = ""):
         try:
             # Extract information from MessageHeader resource
             request_message_code = resource['eventCoding']["code"]
@@ -291,8 +311,8 @@ class Laboratory:
             new_message_code = f"{response_code}^{response_code_number}"
             new_display_code = f"{response_code}^{response_code_number}^{response_code}_{response_code_number}"
             message_header = MessageHeader(new_message_code, new_display_code)
-            # Extract filler lab information and add MessageHeader to resources list
-            fillerLab = message_header.ExtractMessageHeaderInfo(resource, initFocus=1, destination_omr_lab_code = destination_omr_lab_code)
+            # Extract filler lab information and add MessageHeader to resources list (set the response source lab as the destination lab of the request)
+            fillerLab = message_header.set_source_lab_data(resource, initFocus=1, response_source_omr_lab_code = OMR_lab_code_destination)
             # check if the function returned an error
             if fillerLab == None:
                 raise ValueError("Error in the extraction of the filler lab information")
@@ -478,10 +498,11 @@ class Laboratory:
         """
         try: 
             self.__init__()
-            
-            # extract the assigner before the loop
-            assigner_omr_lab_code = self.find_assigner_OMR_lab_code(data['entry'])
-            
+                        
+            OMR_lab_code_filler = data['OMRLabCodeFiller']
+            OMR_lab_code_placer = data['OMRLabCodePlacer']
+            OMR_lab_code_destination = data['OMRLabCodeDestination']    
+                        
             # Loop all over the resources
             for entry in data['entry']:
                 resource = entry['resource']
@@ -497,7 +518,7 @@ class Laboratory:
                     message_code_suffix = parts[1]
                     message_header_id = resource['id']
                     # Update the MessageHeader resource
-                    status = self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix, destination_omr_lab_code = assigner_omr_lab_code)
+                    status = self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix, OMR_lab_code_destination=OMR_lab_code_destination)
                     if not status:
                         raise ValueError("An error occurred while processing the MessageHeader resource")
                     # Remove the 'focus' property from the MessageHeader resource
@@ -539,6 +560,10 @@ class Laboratory:
         """
         self.__init__()
         
+        OMR_lab_code_filler = data['OMRLabCodeFiller']
+        OMR_lab_code_placer = data['OMRLabCodePlacer']
+        OMR_lab_code_destination = data['OMRLabCodeDestination']    
+        
         # Loop all over the resources
         for entry in data['entry']:
             resource = entry['resource']
@@ -554,7 +579,7 @@ class Laboratory:
                 message_code_suffix = parts[1]
                 message_header_id = resource['id']
                 # Update the MessageHeader resource
-                status = self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix)
+                status = self.process_message_header(resource, full_url, response_code="ACK", response_code_number=message_code_suffix, OMR_lab_code_destination=OMR_lab_code_destination)
                 if not status:
                     raise ValueError("An error occurred while processing the MessageHeader resource")
 
