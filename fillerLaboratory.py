@@ -1,3 +1,4 @@
+import random
 from laboratory import Laboratory
 
 class FillerLaboratory(Laboratory):

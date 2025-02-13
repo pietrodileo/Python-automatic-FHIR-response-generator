@@ -185,6 +185,28 @@
         "NomeStruttura": "ASST CENTRO SPECIALISTICO ORTOPEDICO TRAUMATOLOGICO GAETANO PINI/CTO",
         "CodiceApplicativo": "TEST",
         "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "691492",
+        "L2": "19504",
+        "L3": "122",
+        "L4": "3517",
+        "CodiceLaboratorioOMR": "879",
+        "NomeLaboratorio": "Università degli studi di Milano",
+        "NomeStruttura": "SEZIONE DI TOSSICOLOGIA FORENSE ISTITUTO DI MEDICINA LEGALE E DELLE ASSICURAZIONI",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
+    },
+    {
+        "L1": "691494",
+        "L2": "019536",
+        "L3": "122",
+        "L4": "3517",
+        "CodiceLaboratorioOMR": "877",
+        "NomeLaboratorio": "UNIVERSITà DEGLI STUDI DI PAVIA",
+        "NomeStruttura": "LABORATORIO DI ANALISI CHIMICO-TOSSICOLOGICHE DEL DIPARTIMENTO DI MEDICINA LEGALE E SANITà PUBBLICA",
+        "CodiceApplicativo": "TEST",
+        "Endpoint": "pietrodileo.pythonanywhere.com"
     }
 
 ]
