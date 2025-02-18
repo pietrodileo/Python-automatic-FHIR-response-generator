@@ -1,6 +1,7 @@
 import json
 import uuid
 from genericFHIRresource import GenericFHIRresource
+from datetime import datetime
 
 class ServiceRequest(GenericFHIRresource):
     def __init__(self, fullUrl, resourceContent):
@@ -23,6 +24,14 @@ class ServiceRequest(GenericFHIRresource):
                 "reference": performerReference
             }
         ]   
+        
+    def addOccurrencePeriodStart(self):
+        # create a datetime string in format "2022-11-16T14:59:37+01:00"
+        dt = datetime.now()
+        # Formatta la stringa nel formato richiesto
+        datetime_string = dt.strftime("%Y-%m-%dT%H:%M:%S%z")
+        self.resource['authoredOn'] = datetime_string
+        self.resource['occurrencePeriod'] = { "start": datetime_string }        
         
     def addServiceTypeLabels(self):
         self.resource['extension'] =  [

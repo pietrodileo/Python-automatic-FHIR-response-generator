@@ -346,6 +346,7 @@ class Laboratory:
 
         # Link performer in the service request and add to resources list
         service_request.addPerformer(self.performerReference)
+        service_request.addOccurrencePeriodStart()
         self.resourcesList.append(service_request)
 
         # If the Encounter is not linked, create a reference
