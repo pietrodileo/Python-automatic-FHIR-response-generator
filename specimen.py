@@ -12,7 +12,7 @@ class Specimen(GenericFHIRresource):
     
     def addPDF(self):
         pdfIdentifier = str(uuid.uuid4())
-        specimenIdentifier = "SpecimenIdentifier" #str(uuid.uuid4())
+        specimenIdentifier = "Specimen Id - " + str(uuid.uuid4())
         self.resource['note'] = [
             {
                 "text": "campione fragile"
@@ -35,7 +35,7 @@ class Specimen(GenericFHIRresource):
         return pdfIdentifier
     
     def addLabels(self):
-        specimenIdentifier = "SpecimenIdentifier" #str(uuid.uuid4())
+        specimenIdentifier = "Specimen Id - " + str(uuid.uuid4())
         # Add label and label information
         self.resource['identifier'] = [
             {

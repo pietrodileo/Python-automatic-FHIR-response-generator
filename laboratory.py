@@ -105,9 +105,13 @@ class Laboratory:
                     specimen_idx = self.find_resource_idx(data['entry'], specimen_url)
                     specimen = data['entry'][specimen_idx]['resource']
                     if specimen_url not in specimen_with_label:
+                        # add an updated specimen resource containing the labels
                         self.process_specimen_add_label(specimen, specimen_url)
-            #elif resource_type == "Specimen":
-            #    self.process_specimen_add_label(resource, full_url)
+            
+            elif resource_type == "Specimen":
+                # skip specimens since they are added with service requests
+                continue
+                #self.process_specimen_add_label(resource, full_url)
             
             elif resource_type == "AllergyIntolerance":
                 # Go on, this resource is not necessary in the response messages
