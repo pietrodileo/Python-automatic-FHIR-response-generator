@@ -13,9 +13,13 @@ filler_lab = FillerLaboratory()
 placer_lab = PlacerLaboratory()
 
 # Define a parameter to test the timeout
-global test_timeout, timeout # Declare 'test_timeout' and 'timeout' as global variables
-test_timeout = False  # Set to True to enable timeout
+global timeout # Declare 'test_timeout' and 'timeout' as global variables
 timeout = 15 # default timeout before sending the response back if test_timeout == True
+
+def determine_filler_lab_OMRLabCode(headers: dict) -> str:
+    if headers.get('OMRLabCodeDestination') and headers.get('OMRLabCodePlacer'):
+        return headers['OMRLabCodeDestination'] if headers['OMRLabCodePlacer'] != headers['OMRLabCodeDestination'] else headers['OMRLabCodePlacer']
+    return ""  # Ensure a default value is returned
 
 # Define the Error Handling procedure
 def handle_error(error_message, status_code=500):
@@ -23,7 +27,7 @@ def handle_error(error_message, status_code=500):
     return jsonify(response), status_code
 
 # Define a method to process the incoming request with a custom processing function
-def process_request(data, processing_function):
+def process_request(data, test_timeout, processing_function):
     """
     Process a request by calling the specified processing function.
 
@@ -41,7 +45,7 @@ def process_request(data, processing_function):
     try:
         response = None
         if test_timeout:  # If timeout testing is enabled
-            time.sleep(timeout)  # Simulate a delay of 20 seconds
+            time.sleep(timeout)  # Simulate a delay of n seconds
         # generate the response by calling the processing function passed as an argument
         response = processing_function(data)
         status_code = 200
@@ -77,21 +81,21 @@ def extract_request_data(request):
     headers_list = ['OMRLabCodeDestination', 'OMRLabCodePlacer', 'TestTimeout']
     
     headers, request_data = extract_headers(request, request_data, headers_list)
-    
+
+    test_timeout = False
     # Check if a specific header was passed
     if request_data.get('TestTimeout') != None:
-        print(f"TestTimeout': {request_data.get('TestTimeout')}")
-        test_timeout = True  # Modify the global variable
-    else:
-        print("The 'TestTimeout' header was not passed in the request.")
-    
+        print(f"'TestTimeout': {request_data.get('TestTimeout')}")
+        # if the value is 0, the timeout is disabled, otherwise it is enabled if the value is equal to 1
+        test_timeout = bool(int(request_data.get('TestTimeout')))
+        
     # Determine the OMR lab code of the filler lab by the headers
     OMR_lab_code_filler = determine_filler_lab_OMRLabCode(headers)
     
     # insert the OMR lab code of the filler lab in the request data
     request_data['OMRLabCodeFiller'] = OMR_lab_code_filler
     
-    return request_data
+    return request_data, test_timeout
 
 def extract_headers(request, request_data, headers_list) -> dict:   
     """
@@ -123,13 +127,6 @@ def extract_headers(request, request_data, headers_list) -> dict:
         request_data[key]=value
     
     return extracted_headers, request_data
-
-def determine_filler_lab_OMRLabCode(headers:dict) -> str:    
-    # Check if a specific header was passed
-    if headers.get('OMRLabCodeDestination') != None and headers.get('OMRLabCodePlacer') != None:
-        OMR_lab_code_filler = headers.get('OMRLabCodeDestination') if headers.get('OMRLabCodePlacer') != headers.get('OMRLabCodeDestination') else headers.get('OMRLabCodePlacer')
-        
-    return OMR_lab_code_filler
 
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
@@ -182,35 +179,35 @@ def handle_new_request_accept():
     Returns:
         A JSON response with the processing result and status code.
     """
-    return process_request(extract_request_data(request), filler_lab.fillerLabAcceptsAllRequest)
+    return process_request(*extract_request_data(request), filler_lab.fillerLabAcceptsAllRequest)
 
 @app.route('/ESrejectsAllRequests', methods=['POST'])
 def handle_new_request_reject_all():
-    return process_request(extract_request_data(request), filler_lab.fillerLabRejectsAllRequest)
+    return process_request(*extract_request_data(request), filler_lab.fillerLabRejectsAllRequest)
 
 @app.route('/ESAcceptsRandomRequests', methods=['POST'])
 def handle_new_request_accept_random():
-    return process_request(extract_request_data(request), filler_lab.fillerLabAcceptsRandomRequests)
+    return process_request(*extract_request_data(request), filler_lab.fillerLabAcceptsRandomRequests)
 
 @app.route('/ERreceivesForward', methods=['POST'])
 def handle_forward_request():
-    return process_request(extract_request_data(request), placer_lab.placerSendsPositiveACK)
+    return process_request(*extract_request_data(request), placer_lab.placerSendsPositiveACK)
 
 @app.route('/ESreceivesCancellationReq', methods=['POST'])
 def handle_cancellation_request():
-    return process_request(extract_request_data(request), filler_lab.fillerSendsCancellationResponse)
+    return process_request(*extract_request_data(request), filler_lab.fillerSendsCancellationResponse)
 
 @app.route('/ESreceivesModificationReq', methods=['POST'])
 def handle_modification_request():
-    return process_request(extract_request_data(request), filler_lab.fillerSendsModificationResponse)
+    return process_request(*extract_request_data(request), filler_lab.fillerSendsModificationResponse)
 
 @app.route('/ERreceivesNotification', methods=['POST'])
 def handle_checkIn_notification():
-    return process_request(extract_request_data(request), placer_lab.placerSendsCheckInOutResponse)
+    return process_request(*extract_request_data(request), placer_lab.placerSendsCheckInOutResponse)
 
 @app.route('/ERreceivesResultsOrReport', methods=['POST'])
 def handle_results():
-    return process_request(extract_request_data(request), placer_lab.placerManageResultsAndReports)
+    return process_request(*extract_request_data(request), placer_lab.placerManageResultsAndReports)
 
 @app.route('/generateError', methods=['POST'])
 def generate_error():
