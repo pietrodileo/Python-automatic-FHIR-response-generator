@@ -78,24 +78,30 @@ def extract_request_data(request):
     request_data = json.loads(prettified_data)
     
     # Define a list of the HTTP headers to be retrieved
-    headers_list = ['OMRLabCodeDestination', 'OMRLabCodePlacer', 'TestTimeout']
+    headers_list = ['OMRLabCodeDestination', 'OMRLabCodePlacer', 'TestTimeout', 'SendRejection']
     
     headers, request_data = extract_headers(request, request_data, headers_list)
 
     test_timeout = False
+    send_rejection = False
     # Check if a specific header was passed
     if request_data.get('TestTimeout') != None:
         print(f"'TestTimeout': {request_data.get('TestTimeout')}")
         # if the value is 0, the timeout is disabled, otherwise it is enabled if the value is equal to 1
         test_timeout = bool(int(request_data.get('TestTimeout')))
         
+    if request_data.get('SendRejection') != None:
+        print(f"'SendRejection': {request_data.get('SendRejection')}")
+        # if the value is 0, the timeout is disabled, otherwise it is enabled if the value is equal to 1
+        send_rejection = bool(int(request_data.get('SendRejection')))
+
     # Determine the OMR lab code of the filler lab by the headers
     OMR_lab_code_filler = determine_filler_lab_OMRLabCode(headers)
     
     # insert the OMR lab code of the filler lab in the request data
     request_data['OMRLabCodeFiller'] = OMR_lab_code_filler
     
-    return request_data, test_timeout
+    return request_data, test_timeout, send_rejection
 
 def extract_headers(request, request_data, headers_list) -> dict:   
     """
@@ -179,35 +185,51 @@ def handle_new_request_accept():
     Returns:
         A JSON response with the processing result and status code.
     """
-    return process_request(*extract_request_data(request), filler_lab.fillerLabAcceptsAllRequest)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    filler_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, filler_lab.fillerLabAcceptsAllRequest)
 
 @app.route('/ESrejectsAllRequests', methods=['POST'])
 def handle_new_request_reject_all():
-    return process_request(*extract_request_data(request), filler_lab.fillerLabRejectsAllRequest)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    filler_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, filler_lab.fillerLabRejectsAllRequest)
 
 @app.route('/ESAcceptsRandomRequests', methods=['POST'])
 def handle_new_request_accept_random():
-    return process_request(*extract_request_data(request), filler_lab.fillerLabAcceptsRandomRequests)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    filler_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, filler_lab.fillerLabAcceptsRandomRequests)
 
 @app.route('/ERreceivesForward', methods=['POST'])
 def handle_forward_request():
-    return process_request(*extract_request_data(request), placer_lab.placerSendsPositiveACK)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    placer_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, placer_lab.placerSendsPositiveACK)
 
 @app.route('/ESreceivesCancellationReq', methods=['POST'])
 def handle_cancellation_request():
-    return process_request(*extract_request_data(request), filler_lab.fillerSendsCancellationResponse)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    filler_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, filler_lab.fillerSendsCancellationResponse)
 
 @app.route('/ESreceivesModificationReq', methods=['POST'])
 def handle_modification_request():
-    return process_request(*extract_request_data(request), filler_lab.fillerSendsModificationResponse)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    filler_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, filler_lab.fillerSendsModificationResponse)
 
 @app.route('/ERreceivesNotification', methods=['POST'])
 def handle_checkIn_notification():
-    return process_request(*extract_request_data(request), placer_lab.placerSendsCheckInOutResponse)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    placer_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, placer_lab.placerSendsCheckInOutResponse)
 
 @app.route('/ERreceivesResultsOrReport', methods=['POST'])
 def handle_results():
-    return process_request(*extract_request_data(request), placer_lab.placerManageResultsAndReports)
+    request_data, test_timeout, send_rejection = extract_request_data(request)
+    placer_lab.rejectRequest = send_rejection
+    return process_request(request_data, test_timeout, placer_lab.placerManageResultsAndReports)
 
 @app.route('/generateError', methods=['POST'])
 def generate_error():

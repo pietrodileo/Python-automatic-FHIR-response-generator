@@ -63,6 +63,7 @@ class Laboratory:
         -------
         None
         """
+        # Reset instance variables in order to process a new message
         self.__init__()
         
         # Define a list containing all the Specimen resources that have already been assigned with a label

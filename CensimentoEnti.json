@@ -132,8 +132,8 @@
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "30709",
-        "L2": "30067",
+        "L1": "030709",
+        "L2": "030067",
         "L3": "121",
         "L4": "3508",
         "CodiceLaboratorioOMR": "973",
@@ -143,8 +143,8 @@
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "30721",
-        "L2": "30906",
+        "L1": "030721",
+        "L2": "030906",
         "L3": "125",
         "L4": "3525",
         "CodiceLaboratorioOMR": "812",
@@ -154,8 +154,8 @@
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "30711",
-        "L2": "30004",
+        "L1": "030711",
+        "L2": "030004",
         "L3": "122",
         "L4": "3514",
         "CodiceLaboratorioOMR": "886",
@@ -165,8 +165,8 @@
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "30719",
-        "L2": "30131",
+        "L1": "030719",
+        "L2": "030131",
         "L3": "121",
         "L4": "3507",
         "CodiceLaboratorioOMR": "975",
@@ -176,8 +176,8 @@
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "30704",
-        "L2": "30911",
+        "L1": "030704",
+        "L2": "030911",
         "L3": "125",
         "L4": "3524",
         "CodiceLaboratorioOMR": "813",
@@ -187,22 +187,22 @@
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "691492",
-        "L2": "19504",
+        "L1": "691494",
+        "L2": "019536",
         "L3": "122",
         "L4": "3517",
-        "CodiceLaboratorioOMR": "879",
+        "CodiceLaboratorioOMR": "877",
         "NomeLaboratorio": "Università degli studi di Milano",
         "NomeStruttura": "SEZIONE DI TOSSICOLOGIA FORENSE ISTITUTO DI MEDICINA LEGALE E DELLE ASSICURAZIONI",
         "CodiceApplicativo": "TEST",
         "Endpoint": "pietrodileo.pythonanywhere.com"
     },
     {
-        "L1": "691494",
-        "L2": "019536",
+        "L1": "691492",
+        "L2": "000344",
         "L3": "122",
-        "L4": "3517",
-        "CodiceLaboratorioOMR": "877",
+        "L4": "3514",
+        "CodiceLaboratorioOMR": "878",
         "NomeLaboratorio": "UNIVERSITà DEGLI STUDI DI PAVIA",
         "NomeStruttura": "LABORATORIO DI ANALISI CHIMICO-TOSSICOLOGICHE DEL DIPARTIMENTO DI MEDICINA LEGALE E SANITà PUBBLICA",
         "CodiceApplicativo": "TEST",
